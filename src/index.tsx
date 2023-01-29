@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import Dashboard from './components/dashboard';
+import Dashboard from './pages/dashboard';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

@@ -1,6 +1,6 @@
-type Props = {
-    entityID: string,
-    friendlyName?: string,
+import BaseProps from "../base";
+
+type Props = BaseProps & {
     state: boolean,
     brightness?: number,
 }
@@ -8,7 +8,7 @@ type Props = {
 function Light(props: Props) {
     return(
         <div className="light" id={props.entityID}>
-            {props.friendlyName} | {props.state ? 'on' : 'off'} | {props.brightness ? props.brightness : ''}
+            {props.friendlyName} | {props.state ? 'on' : 'off'} {props.brightness || ''}
         </div>
     );
 }

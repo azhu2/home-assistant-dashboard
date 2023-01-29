@@ -1,0 +1,16 @@
+import BaseProps from "../base";
+
+type Props = BaseProps & {
+    state: string,
+    unit?: string,
+}
+
+function Gauge(props: Props) {
+    return(
+        <div className="gauge" id={props.entityID}>
+            {props.friendlyName} | {props.state} {props.unit || ''}
+        </div>
+    );
+}
+
+export default Gauge;

@@ -7,9 +7,11 @@ import {
     getAuthOptions,
     subscribeEntities,
 } from 'home-assistant-js-websocket';
-import Light from './light/light';
+import Light from '../components/light/light';
 import getType from '../mappings/types';
 import { fromHassEntity, HaEntity } from '../entities/ha-entity';
+import Type from '../entities/type';
+import Gauge from '../components/gauge/gauge';
 
 type State = {
     connection?: Connection,
@@ -39,19 +41,30 @@ class Dashboard extends React.Component<{}, State> {
     }
 
     render() {
-        const lightProps = Array.from(this.state.entities, ([entityID, entity]) => (
-            <Light
-                key={entityID}
-                entityID={entityID}
-                friendlyName={entity.friendlyName}
-                state={entity.state == 'on'}
-                brightness={entity.attributes['brightness']}
-            />)
-        );
+        const allProps = Array.from(this.state.entities, ([entityID, entity]) => {
+            switch (entity.type) {
+                case Type.Light:
+                    return (<Light
+                        key={entityID}
+                        entityID={entityID}
+                        friendlyName={entity.friendlyName}
+                        state={entity.state == 'on'}
+                        brightness={entity.attributes['brightness']}
+                    />);
+                case Type.Gauge:
+                    return (<Gauge
+                        key={entityID}
+                        entityID={entityID}
+                        friendlyName={entity.friendlyName}
+                        state={entity.state}
+                        unit={entity.attributes['unit_of_measurement']}
+                    />);
+            }
+        });
         return (<>
             <p>WIP Home Assistant Dashboard</p>
             <div className='lights'>
-                {lightProps}
+                {allProps}
             </div>
         </>);
     }
