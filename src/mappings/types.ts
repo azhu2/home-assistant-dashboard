@@ -19,6 +19,13 @@ const typeMapping: {[key: string]: Type} = {
     'sensor.online_devices': Type.Gauge,
     'sensor.1m_download_max': Type.Gauge,
     'sensor.1m_upload_max': Type.Gauge,
+    'camera.garage_cam_high': Type.Camera,
+    'camera.family_room_cam_high': Type.Camera,
+    'camera.bedroom_cam_high': Type.Camera,
+    // 'camera.front_door': Type.Camera,
+    // 'camera.front_yard_camera_2': Type.Camera,
+    // 'camera.backyard_cam': Type.Camera,
+    // 'camera.living_room_camera_2': Type.Camera,
 };
 
 function getType(entityID: string): Type | undefined {

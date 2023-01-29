@@ -12,14 +12,17 @@ import getType from '../mappings/types';
 import { fromHassEntity, HaEntity } from '../entities/ha-entity';
 import Type from '../entities/type';
 import Gauge from '../components/gauge/gauge';
+import Camera from '../components/camera/camera';
 
 type State = {
     connection?: Connection,
+    baseURL?: string,
     entities: Map<string, HaEntity>,
 };
 
 const initialState: State = {
     connection: undefined,
+    baseURL: 'http://localhost:8123',
     entities: new Map(),
 };
 
@@ -27,6 +30,7 @@ class Dashboard extends React.Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { ...initialState };
+        this.connectToHA = this.connectToHA.bind(this);
         this.setupSubscription = this.setupSubscription.bind(this);
     }
 
@@ -59,6 +63,15 @@ class Dashboard extends React.Component<{}, State> {
                         state={entity.state}
                         unit={entity.attributes['unit_of_measurement']}
                     />);
+                case Type.Camera:
+                    return (<Camera
+                        key={entityID}
+                        entityID={entityID}
+                        friendlyName={entity.friendlyName}
+                        snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}
+                    />);
+                default:
+                    console.warn(`Unrecognized entity type ${entity.type} for ${entityID}`)
             }
         });
         return (<>
@@ -72,7 +85,11 @@ class Dashboard extends React.Component<{}, State> {
     async connectToHA(): Promise<Connection> {
         const auth = await this.authenticate();
         const c = await createConnection({ auth });
-        this.setState({ ...this.state, connection: c });
+        this.setState({
+            ...this.state,
+            connection: c,
+            baseURL: auth.data.hassUrl,
+        });
         return c;
     }
 
@@ -93,9 +110,9 @@ class Dashboard extends React.Component<{}, State> {
         });
     }
 
-    async authenticate(hassUrl?: string | null): Promise<Auth> {
+    async authenticate(hassURL?: string | null): Promise<Auth> {
         const options: getAuthOptions = {
-            hassUrl: hassUrl == null ? undefined : hassUrl,
+            hassUrl: hassURL == null ? undefined : hassURL,
             saveTokens: (tokens) => {
                 localStorage.haTokens = JSON.stringify(tokens);
             },
@@ -109,14 +126,15 @@ class Dashboard extends React.Component<{}, State> {
         };
         try {
             // Try to pick up authentication after user logs in
-            return await getAuth(options);
+            const auth = await getAuth(options);
+            return auth;
         } catch (err) {
-            const hassUrl = prompt(
+            const hassURL = prompt(
                 `[Error ${err}] What host to connect to?`,
                 "http://localhost:8123"
             );
             // Spin until auth succeeds
-            return await this.authenticate(hassUrl);
+            return await this.authenticate(hassURL);
         }
     }
 }
