@@ -6,33 +6,24 @@ import {
     getAuth,
     getAuthOptions,
     subscribeEntities,
-    HassEntity,
 } from 'home-assistant-js-websocket';
-import Light from './components/light/light';
-
-const LIGHT_ENTITY_IDS = [
-    'switch.marble_lamp',
-    'switch.pendant_lamp',
-    'light.family_room_lights',
-    'light.family_room_chandelier',
-    'switch.cat_den',
-    'switch.kitchen_chandelier',
-    'switch.kitchen_lights',
-];
+import Light from './light/light';
+import getType from '../mappings/types';
+import { fromHassEntity, HaEntity } from '../entities/ha-entity';
 
 type State = {
     connection?: Connection,
-    lightEntities: Map<string, HassEntity>,
+    entities: Map<string, HaEntity>,
 };
 
 const initialState: State = {
     connection: undefined,
-    lightEntities: new Map(),
+    entities: new Map(),
 };
 
 class Dashboard extends React.Component<{}, State> {
-    constructor() {
-        super({});
+    constructor(props: {}) {
+        super(props);
         this.state = { ...initialState };
         this.setupSubscription = this.setupSubscription.bind(this);
     }
@@ -48,11 +39,11 @@ class Dashboard extends React.Component<{}, State> {
     }
 
     render() {
-        const lightProps = Array.from(this.state.lightEntities, ([entityID, entity]) => (
+        const lightProps = Array.from(this.state.entities, ([entityID, entity]) => (
             <Light
                 key={entityID}
                 entityID={entityID}
-                friendlyName={entity.attributes.friendly_name}
+                friendlyName={entity.friendlyName}
                 state={entity.state == 'on'}
                 brightness={entity.attributes['brightness']}
             />)
@@ -68,24 +59,24 @@ class Dashboard extends React.Component<{}, State> {
     async connectToHA(): Promise<Connection> {
         const auth = await this.authenticate();
         const c = await createConnection({ auth });
-        this.setState({...this.state, connection: c});
+        this.setState({ ...this.state, connection: c });
         return c;
     }
 
     async setupSubscription(connection: Connection) {
         subscribeEntities(connection, (entities) => {
-            const newLightEntities = new Map(this.state.lightEntities);
+            const newEntities = new Map(this.state.entities);
 
             Object.entries(entities).forEach(entry => {
                 const [entityID, entity] = entry;
-                if (LIGHT_ENTITY_IDS.includes(entityID)) {
-                    newLightEntities.set(entityID, entity);
+
+                const type = getType(entityID)
+                if (type) {
+                    newEntities.set(entityID, fromHassEntity(entity, type));
                 }
             })
 
-            this.setState({ ...this.state, lightEntities: newLightEntities });
-
-            console.log("Entities found:", Object.keys(entities));
+            this.setState({ ...this.state, entities: newEntities });
         });
     }
 
