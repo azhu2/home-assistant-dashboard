@@ -13,6 +13,7 @@ import { fromHassEntity, HaEntity } from '../entities/ha-entity';
 import Type from '../entities/type';
 import Gauge from '../components/gauge/gauge';
 import Camera from '../components/camera/camera';
+import { ConnectionContext } from '../services/websocket-service/context';
 
 type State = {
     connection?: Connection,
@@ -75,10 +76,12 @@ class Dashboard extends React.Component<{}, State> {
             }
         });
         return (<>
-            <p>WIP Home Assistant Dashboard</p>
-            <div className='lights'>
-                {allProps}
-            </div>
+            <ConnectionContext.Provider value={this.state.connection}>
+                <p>WIP Home Assistant Dashboard</p>
+                <div className='lights'>
+                    {allProps}
+                </div>
+            </ConnectionContext.Provider>
         </>);
     }
 
