@@ -1,9 +1,12 @@
+/** Represents a color and converts between rgb hex and 0-255 color values. */
 export class Color {
     red: number;
     green: number;
     blue: number;
 
+    /** Initializes from a #rrggbb or rrggbb string. */
     constructor(rgb: string);
+    /** Initializes from 3 0-255 color values. */
     constructor(r: number, g: number, b: number);
     constructor(rOrRGB: string | number, g?: number, b?: number) {
         if (typeof rOrRGB === 'string') {
@@ -35,10 +38,12 @@ export class Color {
         }
     }
 
+    /** #rrggbb representation of this color. */
     rgbString(): string {
         return `${toHexStr(this.red)}${toHexStr(this.green)}${toHexStr(this.blue)}`
     }
 
+    /** Returns a new Color with each color value scaled by scale factor. */
     scale(scale: number): Color {
         return new Color(Math.trunc(this.red * scale), Math.trunc(this.green * scale), Math.trunc(this.blue * scale));
     }

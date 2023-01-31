@@ -1,18 +1,15 @@
-import React from 'react';
 import {
-    Auth,
-    createConnection,
-    Connection,
-    getAuth,
+    Auth, Connection, createConnection, getAuth,
     getAuthOptions,
-    subscribeEntities,
+    subscribeEntities
 } from 'home-assistant-js-websocket';
+import React from 'react';
+import Camera from '../components/camera/camera';
+import Gauge from '../components/gauge/gauge';
 import Light from '../components/light/light';
-import getType from '../mappings/types';
 import { fromHassEntity, HaEntity } from '../entities/ha-entity';
 import Type from '../entities/type';
-import Gauge from '../components/gauge/gauge';
-import Camera from '../components/camera/camera';
+import getType from '../mappings/types';
 import { ConnectionContext } from '../services/websocket-service/context';
 
 type State = {

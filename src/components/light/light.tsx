@@ -6,9 +6,9 @@ import BaseProps from "../base";
 import Icon from "../icon/icon";
 
 type Props = BaseProps & {
-    // on(true) or off(false)
+    /** on(true) or off(false) */
     state: boolean,
-    // 0-255 if dimmer available
+    /** 0-255 if dimmer available */
     brightness?: number,
     icon?: string,
 }
