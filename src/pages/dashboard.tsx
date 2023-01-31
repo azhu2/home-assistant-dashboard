@@ -82,6 +82,10 @@ class Dashboard extends React.Component<{}, State> {
                     {allProps}
                 </div>
             </ConnectionContext.Provider>
+
+            <div>
+                TODO Footer: <a target="_blank" href="https://icons8.com/">Icons by Icons8</a>
+            </div>
         </>);
     }
 
