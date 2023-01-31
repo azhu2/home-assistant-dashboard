@@ -56,5 +56,5 @@ function isValidColorVal(v: number): boolean {
 }
 
 function toHexStr(n: number): string {
-    return n.toString(16).padEnd(2, '0');
+    return n.toString(16).padStart(2, '0');
 }

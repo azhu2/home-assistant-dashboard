@@ -1,8 +1,10 @@
 import { EntityID } from "../entities/ha-entity";
 
-type BaseProps = {
+/** A set of base props for any entity-specific component. */
+type BaseEntityProps = {
     entityID: EntityID,
     friendlyName?: string,
+    icon?: string,
 };
 
-export default BaseProps;
+export default BaseEntityProps;

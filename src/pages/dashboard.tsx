@@ -7,8 +7,7 @@ import React from 'react';
 import Camera from '../components/camera/camera';
 import Gauge from '../components/gauge/gauge';
 import Light from '../components/light/light';
-import { EntityID, fromHassEntity, HaEntity } from '../entities/ha-entity';
-import Type from '../entities/type';
+import { EntityID, EntityType, fromHassEntity, HaEntity } from '../entities/ha-entity';
 import getType from '../mappings/types';
 import { ConnectionContext } from '../services/websocket-service/context';
 
@@ -46,7 +45,7 @@ class Dashboard extends React.Component<{}, State> {
         const allProps = Array.from(this.state.entities, ([id, entity]) => {
             const entityID = new EntityID(id);
             switch (entity.type) {
-                case Type.Light:
+                case EntityType.Light:
                     return (<Light
                         key={entityID.getCanonicalized()}
                         entityID={entityID}
@@ -54,7 +53,7 @@ class Dashboard extends React.Component<{}, State> {
                         state={entity.state === 'on'}
                         brightness={entity.attributes['brightness']}
                     />);
-                case Type.Gauge:
+                case EntityType.Gauge:
                     return (<Gauge
                         key={entityID.getCanonicalized()}
                         entityID={entityID}
@@ -62,7 +61,7 @@ class Dashboard extends React.Component<{}, State> {
                         state={entity.state}
                         unit={entity.attributes['unit_of_measurement']}
                     />);
-                case Type.Camera:
+                case EntityType.Camera:
                     return (<Camera
                         key={entityID.getCanonicalized()}
                         entityID={entityID}

@@ -1,14 +1,15 @@
 import { HassEntity } from "home-assistant-js-websocket";
-import Type from "./type";
 
+/** Internal representation of a Home Assistant entity, with some attributes mapped more nicely. */
 export type HaEntity = {
     entityID: EntityID,
-    type: Type,
+    type: EntityType,
     state: string,
     friendlyName?: string,
     attributes: {[key: string]: any},
 }
 
+/** Internal representation of a Home Assistant entityID, split by domain and value. */
 export class EntityID {
     domain: string;
     value: string;
@@ -31,7 +32,15 @@ export class EntityID {
     }
 }
 
-export function fromHassEntity(e: HassEntity, t: Type): HaEntity {
+/** Internal representation of a Home Assistant entity type. */
+export enum EntityType {
+    Light = "LIGHT",
+    Gauge = "GAUGE",
+    Camera = 'CAMERA',
+}
+
+/** Converts from built-in HassEntity type to our HaEntity type. */
+export function fromHassEntity(e: HassEntity, t: EntityType): HaEntity {
     return {
         entityID: new EntityID(e.entity_id),
         type: t,

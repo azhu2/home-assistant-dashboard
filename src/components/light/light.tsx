@@ -2,18 +2,20 @@ import React, { MouseEvent } from "react";
 import { Color } from "../../entities/color";
 import { ConnectionContext } from "../../services/websocket-service/context";
 import callWebsocketService from "../../services/websocket-service/websocket-service";
-import BaseProps from "../base";
+import BaseEntityProps from "../base";
 import Icon from "../icon/icon";
 import BrightnessSlider from "./brightness-slider";
 
-const ON_COLOR = "#BBBB44";
+/** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
+ * I have no RGB lights in HA, so not dealing with those for now.
+ */
+const ON_COLOR = "#BBBB22";
 
-type Props = BaseProps & {
+type Props = BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
     /** 0-255 if dimmer available */
     brightness?: number,
-    icon?: string,
 }
 
 type State = {

@@ -1,6 +1,6 @@
-import BaseProps from "../base";
+import BaseEntityProps from "../base";
 
-type Props = BaseProps & {
+type Props = BaseEntityProps & {
     state: string,
     unit?: string,
 }
