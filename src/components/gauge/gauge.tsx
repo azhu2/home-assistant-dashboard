@@ -7,7 +7,7 @@ type Props = BaseProps & {
 
 function Gauge(props: Props) {
     return(
-        <div className="gauge" id={props.entityID}>
+        <div className="gauge" id={props.entityID.getCanonicalized()}>
             {props.friendlyName} | {props.state} {props.unit || ''}
         </div>
     );

@@ -7,7 +7,7 @@ import React from 'react';
 import Camera from '../components/camera/camera';
 import Gauge from '../components/gauge/gauge';
 import Light from '../components/light/light';
-import { fromHassEntity, HaEntity } from '../entities/ha-entity';
+import { EntityID, fromHassEntity, HaEntity } from '../entities/ha-entity';
 import Type from '../entities/type';
 import getType from '../mappings/types';
 import { ConnectionContext } from '../services/websocket-service/context';
@@ -43,11 +43,12 @@ class Dashboard extends React.Component<{}, State> {
     }
 
     render() {
-        const allProps = Array.from(this.state.entities, ([entityID, entity]) => {
+        const allProps = Array.from(this.state.entities, ([id, entity]) => {
+            const entityID = new EntityID(id);
             switch (entity.type) {
                 case Type.Light:
                     return (<Light
-                        key={entityID}
+                        key={entityID.getCanonicalized()}
                         entityID={entityID}
                         friendlyName={entity.friendlyName}
                         state={entity.state == 'on'}
@@ -55,7 +56,7 @@ class Dashboard extends React.Component<{}, State> {
                     />);
                 case Type.Gauge:
                     return (<Gauge
-                        key={entityID}
+                        key={entityID.getCanonicalized()}
                         entityID={entityID}
                         friendlyName={entity.friendlyName}
                         state={entity.state}
@@ -63,7 +64,7 @@ class Dashboard extends React.Component<{}, State> {
                     />);
                 case Type.Camera:
                     return (<Camera
-                        key={entityID}
+                        key={entityID.getCanonicalized()}
                         entityID={entityID}
                         friendlyName={entity.friendlyName}
                         snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}

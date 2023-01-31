@@ -1,5 +1,7 @@
+import { EntityID } from "../entities/ha-entity";
+
 type BaseProps = {
-    entityID: string,
+    entityID: EntityID,
     friendlyName?: string,
 };
 
