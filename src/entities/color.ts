@@ -38,9 +38,9 @@ export class Color {
         }
     }
 
-    /** #rrggbb representation of this color. */
-    rgbString(): string {
-        return `${toHexStr(this.red)}${toHexStr(this.green)}${toHexStr(this.blue)}`
+    /** rrggbb representation of this color. */
+    rgbString(leadingHash?: boolean): string {
+        return `${leadingHash ? '#' : ''}${toHexStr(this.red)}${toHexStr(this.green)}${toHexStr(this.blue)}`
     }
 
     /** Returns a new Color with each color value scaled by scale factor. */
@@ -49,8 +49,10 @@ export class Color {
     }
 };
 
+export const MAX_COLOR_VALUE = 255;
+
 function isValidColorVal(v: number): boolean {
-    return v >= 0 && v <= 255;
+    return v >= 0 && v <= MAX_COLOR_VALUE;
 }
 
 function toHexStr(n: number): string {

@@ -51,7 +51,7 @@ class Dashboard extends React.Component<{}, State> {
                         key={entityID.getCanonicalized()}
                         entityID={entityID}
                         friendlyName={entity.friendlyName}
-                        state={entity.state == 'on'}
+                        state={entity.state === 'on'}
                         brightness={entity.attributes['brightness']}
                     />);
                 case Type.Gauge:
@@ -117,7 +117,7 @@ class Dashboard extends React.Component<{}, State> {
 
     async authenticate(hassURL?: string | null): Promise<Auth> {
         const options: getAuthOptions = {
-            hassUrl: hassURL == null ? undefined : hassURL,
+            hassUrl: hassURL === null ? undefined : hassURL,
             saveTokens: (tokens) => {
                 localStorage.haTokens = JSON.stringify(tokens);
             },

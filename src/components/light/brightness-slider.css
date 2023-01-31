@@ -1,0 +1,13 @@
+.brightness-slider {
+    position: relative;
+    height: 1px;
+}
+
+.background {
+    background-color: #DDDDDD;
+    height: 100%;
+}
+
+.slider {
+    height: 100%;
+}
