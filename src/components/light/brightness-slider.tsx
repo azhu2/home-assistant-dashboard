@@ -1,9 +1,9 @@
-import { MouseEvent, useRef } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { Color, MAX_COLOR_VALUE } from "../../entities/color";
 import './brightness-slider.css';
 
 type Props = {
-    value: number,
+    brightness: number,
     isExpanded: boolean,
     color: Color,
     onSetBrightness: (brightness: number) => void,
@@ -11,39 +11,67 @@ type Props = {
 
 function BrightnessSlider(props: Props) {
     const ref = useRef<HTMLDivElement>(null);
+    const [isDraggingSlider, setIsDraggingSlider] = useState(false);
+    const [displayBrightness, setDisplayBrightness] = useState(props.brightness);
 
-    const color = props.color.rgbString(true);
-    const width = `${props.value / MAX_COLOR_VALUE * 100}%`;
+    const getSliderWidth = (brightness: number) => `${brightness / MAX_COLOR_VALUE * 100}%`
+
+    const onMouseDown = (e: MouseEvent) => {
+        e.stopPropagation();
+        setIsDraggingSlider(true);
+    }
+
+    const onMouseMove = (e: MouseEvent) => {
+        if(!isDraggingSlider) {
+            return;
+        }
+
+        const brightness = getSliderBrightness(e);
+        if (brightness) {
+            setDisplayBrightness(brightness);
+        }
+    }
 
     const onMouseUp = (e: MouseEvent) => {
         e.stopPropagation();
+        const brightness = getSliderBrightness(e);
+        if (brightness) {
+            props.onSetBrightness(brightness);
+        }
+        setIsDraggingSlider(false);
+    };
 
+    const getSliderBrightness = (e: MouseEvent) => {
         if (!ref.current) {
             console.warn('Tried to move brightness slider before ref available');
             return;
         }
         const boundingRect = ref.current.getBoundingClientRect();
         const pct = (e.clientX - boundingRect.left) / boundingRect.width;
-        console.log(boundingRect);
-        props.onSetBrightness(pct * 255);
-    };
+        return pct * 255;
+    }
 
     return (
         <div className='brightness-slider'>
             <div className='mini'>
                 <div className='background'>
                     <div className='slider' style={{
-                        backgroundColor: color,
-                        width: width,
+                        backgroundColor: props.color.rgbString(true),
+                        width: getSliderWidth(props.brightness),
                     }}></div>
                 </div>
             </div>
             {props.isExpanded &&
-                <div className='expanded' onMouseUp={onMouseUp} onClick={e => e.stopPropagation()} >
+                <div className='expanded'
+                    onClick={e => e.stopPropagation()}
+                    onMouseDown={onMouseDown}
+                    onMouseMove={onMouseMove}
+                    onMouseUp={onMouseUp} >
                     <div className='background' ref={ref} >
                         <div className='slider' style={{
-                            backgroundColor: color,
-                            width: width,
+                            // Copy of Light.ON_COLOR - TODO: Clean up and make dynamic when dragging
+                            backgroundColor: (new Color('#BBBB22')).rgbString(true),
+                            width: getSliderWidth(displayBrightness),
                         }}></div>
                     </div>
                 </div>

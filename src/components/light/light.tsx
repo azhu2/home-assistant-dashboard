@@ -1,4 +1,4 @@
-import React, { MouseEvent as ReactMouseEvent, Ref, RefObject } from "react";
+import React, { MouseEvent as ReactMouseEvent, RefObject } from "react";
 import { Color } from "../../entities/color";
 import { ConnectionContext } from "../../services/websocket-service/context";
 import callWebsocketService from "../../services/websocket-service/websocket-service";
@@ -9,7 +9,7 @@ import BrightnessSlider from "./brightness-slider";
 /** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
  * I have no RGB lights in HA, so not dealing with those for now.
  */
-const ON_COLOR = "#BBBB22";
+const ON_COLOR = '#BBBB22';
 
 type Props = BaseEntityProps & {
     /** on(true) or off(false) */
@@ -69,7 +69,7 @@ class Light extends React.Component<Props, State> {
         if (this.state.isExpanded && this.ref.current && !this.ref.current.contains(e.target as Node)) {
             this.setState({ ...this.state, isExpanded: false });
         }
-    };
+    }
 
     /** Callback for setting dimmer brightness */
     onSetBrightness(brightness: number) {
@@ -97,10 +97,12 @@ class Light extends React.Component<Props, State> {
                     {this.isDimmable &&
                         <div>
                             <BrightnessSlider
-                                value={this.props.brightness || 0}
+                                brightness={this.props.brightness || 0}
                                 color={this.color()}
                                 isExpanded={this.state.isExpanded}
                                 onSetBrightness={this.onSetBrightness}
+                                // Reset key on open/close or entity brightness change to force creating new component
+                                key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
                             />
                         </div>
                     }
