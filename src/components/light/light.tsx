@@ -39,6 +39,7 @@ class Light extends React.Component<Props, State> {
         this.isDimmable = this.props.entityID.domain === 'light';
         this.onClick = this.onClick.bind(this);
         this.onClickOutside = this.onClickOutside.bind(this);
+        this.onSetBrightness = this.onSetBrightness.bind(this);
         this.ref = React.createRef();
     }
 
@@ -70,6 +71,12 @@ class Light extends React.Component<Props, State> {
         }
     };
 
+    /** Callback for setting dimmer brightness */
+    onSetBrightness(brightness: number) {
+        const stringified = `${brightness.toFixed(0)}`;
+        callWebsocketService(this.context, 'light', 'turn_on', { brightness: stringified }, this.props.entityID);
+    }
+
     color() {
         var scaleFactor: number;
         if (!this.isDimmable || !this.props.brightness) {
@@ -89,7 +96,12 @@ class Light extends React.Component<Props, State> {
                     <Icon name={icon} color={this.color()} />
                     {this.isDimmable &&
                         <div>
-                            <BrightnessSlider value={this.props.brightness || 0} color={this.color()} isExpanded={this.state.isExpanded} />
+                            <BrightnessSlider
+                                value={this.props.brightness || 0}
+                                color={this.color()}
+                                isExpanded={this.state.isExpanded}
+                                onSetBrightness={this.onSetBrightness}
+                            />
                         </div>
                     }
                 </button>

@@ -6,6 +6,7 @@ type Props = {
     value: number,
     isExpanded: boolean,
     color: Color,
+    onSetBrightness: (brightness: number) => void,
 }
 
 function BrightnessSlider(props: Props) {
@@ -14,8 +15,17 @@ function BrightnessSlider(props: Props) {
     const color = props.color.rgbString(true);
     const width = `${props.value / MAX_COLOR_VALUE * 100}%`;
 
-    const onClick = (e: MouseEvent) => {
+    const onMouseUp = (e: MouseEvent) => {
         e.stopPropagation();
+
+        if (!ref.current) {
+            console.warn('Tried to move brightness slider before ref available');
+            return;
+        }
+        const boundingRect = ref.current.getBoundingClientRect();
+        const pct = (e.clientX - boundingRect.left) / boundingRect.width;
+        console.log(boundingRect);
+        props.onSetBrightness(pct * 255);
     };
 
     return (
@@ -29,8 +39,8 @@ function BrightnessSlider(props: Props) {
                 </div>
             </div>
             {props.isExpanded &&
-                <div className='expanded' onClick={onClick} ref={ref} >
-                    <div className='background' >
+                <div className='expanded' onMouseUp={onMouseUp} onClick={e => e.stopPropagation()} >
+                    <div className='background' ref={ref} >
                         <div className='slider' style={{
                             backgroundColor: color,
                             width: width,
