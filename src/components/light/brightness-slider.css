@@ -1,10 +1,26 @@
 .brightness-slider {
     position: relative;
+}
+
+.mini {
     height: 1px;
 }
 
-.background {
+.expanded {
     background-color: #DDDDDD;
+    height: 1em;
+    position: absolute;
+    width: 100%;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: auto;
+    border: 1px solid black;
+    padding: 2px;
+}
+
+.background {
+    background-color: #BBBBBB;
     height: 100%;
 }
 
