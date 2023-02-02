@@ -1,5 +1,5 @@
-import { EntityWrapper, WrapperProps } from "../base";
-import Light from "./light";
+import { EntityWrapper, WrapperProps } from '../base';
+import Light from './light';
 
 const LightWrapper: EntityWrapper = (props: WrapperProps) =>
     <Light

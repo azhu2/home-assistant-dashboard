@@ -1,4 +1,4 @@
-import { EntityType } from "../entities/ha-entity";
+import { EntityType } from '../entities/ha-entity';
 
 const toEntityType: {[key: string]: EntityType} = {
     'switch.marble_lamp': EntityType.Light,

@@ -1,5 +1,5 @@
-import React from "react";
-import { EntityID, HaEntity } from "../entities/ha-entity";
+import React from 'react';
+import { EntityID, HaEntity } from '../entities/ha-entity';
 
 export type WrapperProps = {
     entity: HaEntity,

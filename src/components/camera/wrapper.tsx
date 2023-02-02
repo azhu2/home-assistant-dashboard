@@ -1,5 +1,5 @@
-import { EntityWrapper, WrapperProps } from "../base";
-import Camera from "./camera";
+import { EntityWrapper, WrapperProps } from '../base';
+import Camera from './camera';
 
 const CameraWrapper: EntityWrapper = (props: WrapperProps) =>
     <Camera

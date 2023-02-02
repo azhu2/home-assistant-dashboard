@@ -48,7 +48,7 @@ class Dashboard extends React.Component<{}, State> {
             </ConnectionContext.Provider>
 
             <div>
-                TODO Footer: <a target="_blank" href="https://icons8.com/">Icons by Icons8</a>
+                TODO Footer: <a target='_blank' href='https://icons8.com/'>Icons by Icons8</a>
             </div>
         </>);
     }
@@ -102,7 +102,7 @@ class Dashboard extends React.Component<{}, State> {
         } catch (err) {
             const hassURL = prompt(
                 `[Error ${err}] What host to connect to?`,
-                "http://localhost:8123"
+                'http://localhost:8123'
             );
             // Spin until auth succeeds
             return await this.authenticate(hassURL);

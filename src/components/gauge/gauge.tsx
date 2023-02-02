@@ -1,4 +1,4 @@
-import { BaseEntityProps } from "../base";
+import { BaseEntityProps } from '../base';
 
 type Props = BaseEntityProps & {
     state: string,
@@ -7,7 +7,7 @@ type Props = BaseEntityProps & {
 
 function Gauge(props: Props) {
     return(
-        <div className="gauge" id={props.entityID.getCanonicalized()}>
+        <div className='gauge' id={props.entityID.getCanonicalized()}>
             {props.friendlyName} | {props.state} {props.unit || ''}
         </div>
     );

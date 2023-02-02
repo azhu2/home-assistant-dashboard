@@ -1,4 +1,4 @@
-import { Color } from "../../entities/color";
+import { Color } from '../../entities/color';
 
 type Props = {
     name: string;

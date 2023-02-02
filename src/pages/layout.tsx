@@ -1,6 +1,6 @@
-import Room from "../components/room/room";
-import { HaEntity } from "../entities/ha-entity";
-import toWrapperType from "../mappings/wrappers";
+import Room from '../components/room/room';
+import { HaEntity } from '../entities/ha-entity';
+import toWrapperType from '../mappings/wrappers';
 import './layout.css';
 
 type Props = {

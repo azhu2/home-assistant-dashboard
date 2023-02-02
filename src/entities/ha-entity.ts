@@ -1,4 +1,4 @@
-import { HassEntity } from "home-assistant-js-websocket";
+import { HassEntity } from 'home-assistant-js-websocket';
 
 /** Internal representation of a Home Assistant entity, with some attributes mapped more nicely. */
 export type HaEntity = {
@@ -34,8 +34,8 @@ export class EntityID {
 
 /** Internal representation of a Home Assistant entity type. */
 export enum EntityType {
-    Light = "LIGHT",
-    Gauge = "GAUGE",
+    Light = 'LIGHT',
+    Gauge = 'GAUGE',
     Camera = 'CAMERA',
 }
 

@@ -1,5 +1,5 @@
-import { EntityWrapper, WrapperProps } from "../base";
-import Gauge from "./gauge";
+import { EntityWrapper, WrapperProps } from '../base';
+import Gauge from './gauge';
 
 const GauageWrapper: EntityWrapper = (props: WrapperProps) =>
     <Gauge

@@ -7,8 +7,8 @@ type Props = {
 
 const Room = (props: Props) =>
     <div className='room'>
-        <div className="room-title">{props.title}</div>
-        <div className="room-contents">
+        <div className='room-title'>{props.title}</div>
+        <div className='room-contents'>
             {props.children}
         </div>
     </div>

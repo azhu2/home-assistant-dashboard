@@ -1,5 +1,5 @@
-import { callService, Connection } from "home-assistant-js-websocket";
-import { EntityID } from "../../entities/ha-entity";
+import { callService, Connection } from 'home-assistant-js-websocket';
+import { EntityID } from '../../entities/ha-entity';
 
 const callWebsocketService = (connection: Connection | undefined, domain: string, action: string, data?: object, target?: EntityID) => {
     if (!connection) {

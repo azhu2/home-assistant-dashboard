@@ -1,10 +1,10 @@
-import React, { MouseEvent as ReactMouseEvent, RefObject } from "react";
-import { Color } from "../../entities/color";
-import { ConnectionContext } from "../../services/websocket-service/context";
-import callWebsocketService from "../../services/websocket-service/websocket-service";
-import { BaseEntityProps } from "../base";
-import Icon from "../icon/icon";
-import BrightnessSlider from "./brightness-slider";
+import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
+import { Color } from '../../entities/color';
+import { ConnectionContext } from '../../services/websocket-service/context';
+import callWebsocketService from '../../services/websocket-service/websocket-service';
+import { BaseEntityProps } from '../base';
+import Icon from '../icon/icon';
+import BrightnessSlider from './brightness-slider';
 
 /** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
  * I have no RGB lights in HA, so not dealing with those for now.
@@ -91,7 +91,7 @@ class Light extends React.Component<Props, State> {
         const icon = this.props.icon ? this.props.icon : this.props.state ? 'light-on' : 'light-off';
 
         return (
-            <div className="light" id={this.props.entityID.getCanonicalized()} ref={this.ref}>
+            <div className='light' id={this.props.entityID.getCanonicalized()} ref={this.ref}>
                 <button onClick={this.onClick} onContextMenu={this.onClick}>
                     <Icon name={icon} color={this.color()} />
                     {this.isDimmable &&
