@@ -1,6 +1,6 @@
 import { EntityType } from "../entities/ha-entity";
 
-const typeMapping: {[key: string]: EntityType} = {
+const toEntityType: {[key: string]: EntityType} = {
     'switch.marble_lamp': EntityType.Light,
     'switch.pendant_lamp': EntityType.Light,
     'light.family_room_lights': EntityType.Light,
@@ -28,8 +28,4 @@ const typeMapping: {[key: string]: EntityType} = {
     // 'camera.living_room_camera_2': Type.Camera,
 };
 
-function getType(entityID: string): EntityType | undefined {
-    return typeMapping[entityID];
-}
-
-export default getType;
+export default toEntityType;

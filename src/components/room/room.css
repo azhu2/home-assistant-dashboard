@@ -1,0 +1,21 @@
+.room {
+    margin: 0.2em;
+    padding: 0.2em;
+    width: fit-content;
+    border: 1px solid black;
+}
+
+.room-title {
+    font-weight: bold;
+    font-variant: small-caps;
+    text-align: center;
+}
+
+.room-contents {
+    display: flex;
+    justify-content: center;
+}
+
+.room-contents > * {
+    padding: 0.2em;
+}

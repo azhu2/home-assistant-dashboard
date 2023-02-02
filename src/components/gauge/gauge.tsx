@@ -1,4 +1,4 @@
-import BaseEntityProps from "../base";
+import { BaseEntityProps } from "../base";
 
 type Props = BaseEntityProps & {
     state: string,
