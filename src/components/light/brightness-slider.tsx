@@ -22,7 +22,7 @@ function BrightnessSlider(props: Props) {
     }
 
     const onMouseMove = (e: MouseEvent) => {
-        if(!isDraggingSlider) {
+        if (!isDraggingSlider) {
             return;
         }
 
@@ -53,14 +53,16 @@ function BrightnessSlider(props: Props) {
 
     return (
         <div className='brightness-slider'>
-            <div className='mini'>
-                <div className='background'>
-                    <div className='slider' style={{
-                        backgroundColor: props.color.rgbString(true),
-                        width: getSliderWidth(props.brightness),
-                    }}></div>
+            {!props.isExpanded &&
+                <div className='mini'>
+                    <div className='background'>
+                        <div className='slider' style={{
+                            backgroundColor: props.color.rgbString(true),
+                            width: getSliderWidth(props.brightness),
+                        }}></div>
+                    </div>
                 </div>
-            </div>
+            }
             {props.isExpanded &&
                 <div className='expanded'
                     onClick={e => e.stopPropagation()}

@@ -1,4 +1,5 @@
 import { Color } from '../../entities/color';
+import './icon.css';
 
 type Props = {
     name: string;
@@ -9,7 +10,7 @@ function Icon(props: Props) {
     const color = props.color ? props.color : new Color('#000000');
 
     return (
-        <img src={`https://img.icons8.com/ios/50/${color.rgbString(false)}/${props.name}.png`} />
+        <img className='icon' src={`https://img.icons8.com/ios/50/${color.rgbString(false)}/${props.name}.png`} />
     );
 }
 

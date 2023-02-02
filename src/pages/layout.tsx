@@ -28,13 +28,13 @@ const Layout = (props: Props) => {
                 {getWrapper('switch.pendant_lamp', 'desk-lamp')}
             </Room>
             <Room title='Family Room'>
-                {getWrapper('light.family_room_lights', 'ceiling-light')}
+                {getWrapper('light.family_room_lights')}
                 {getWrapper('light.family_room_chandelier', 'luminaria-led')}
-                {getWrapper('switch.cat_den', 'ceiling-light')}
+                {getWrapper('switch.cat_den', 'curtain-light')}
             </Room>
             <Room title='Kitchen'>
-                {getWrapper('switch.kitchen_chandelier', 'dining-table-light')}
-                {getWrapper('switch.kitchen_lights', 'ceiling-light')}
+                {getWrapper('switch.kitchen_lights')}
+                {getWrapper('switch.kitchen_chandelier', 'chandelier')}
             </Room>
             <Room title='Master Bedroom'>
                 {getWrapper('light.master_light', 'chandelier')}
