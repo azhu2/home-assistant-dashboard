@@ -48,7 +48,7 @@ class Dashboard extends React.Component<{}, State> {
             </ConnectionContext.Provider>
 
             <div>
-                TODO Footer: <a target='_blank' href='https://icons8.com/'>Icons by Icons8</a>
+                TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a>
             </div>
         </>);
     }

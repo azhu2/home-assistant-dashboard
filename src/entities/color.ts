@@ -11,7 +11,7 @@ export class Color {
     constructor(rOrRGB: string | number, g?: number, b?: number) {
         if (typeof rOrRGB === 'string') {
             const stripped = rOrRGB.replace('#', '');
-            if (stripped.length != 6) {
+            if (stripped.length !== 6) {
                 throw new Error(`invalid rgb value - must be of form rrggbb or #rrggbb - ${rOrRGB}`);
             }
             const rPart = stripped.slice(0, 2);
