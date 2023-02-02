@@ -66,6 +66,7 @@ class Light extends React.Component<Props, State> {
     }
 
     /** To un-expand when clicked elsewhere */
+    // TODO: Also trigger when leaving element && mouse is held down. Probably add document listeners on BrightnessSlider.
     onClickOutside(e: MouseEvent) {
         if (this.state.isExpanded && this.ref.current && !this.ref.current.contains(e.target as Node)) {
             this.setState({ ...this.state, isExpanded: false });

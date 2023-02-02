@@ -7,16 +7,26 @@
 }
 
 .expanded {
-    background-color: #EEEEEE;
-    height: 1em;
+    height: 3em;
+    width: 300%;
     position: absolute;
-    width: 200%;
-    top: -1px;
+    top: -0.9em;
     left: 50%;
     transform: translateX(-50%);
+}
+
+.slider-box {
+    background-color: #EEEEEE;
+    box-sizing: border-box;
+    height: 50%;
+    width: 75%;
     margin: auto;
     border: 1px solid black;
     padding: 2px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
 }
 
 .background {

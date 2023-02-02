@@ -48,7 +48,7 @@ function BrightnessSlider(props: Props) {
         }
         const boundingRect = ref.current.getBoundingClientRect();
         const pct = (e.clientX - boundingRect.left) / boundingRect.width;
-        return pct * 255;
+        return Math.max(0, Math.min(pct * 255, 255));
     }
 
     return (
@@ -69,12 +69,14 @@ function BrightnessSlider(props: Props) {
                     onMouseDown={onMouseDown}
                     onMouseMove={onMouseMove}
                     onMouseUp={onMouseUp} >
-                    <div className='background' ref={ref} >
-                        <div className='slider' style={{
-                            // Copy of Light.ON_COLOR - TODO: Clean up and make dynamic when dragging
-                            backgroundColor: (new Color('#BBBB22')).rgbString(true),
-                            width: getSliderWidth(displayBrightness),
-                        }}></div>
+                    <div className='slider-box'>
+                        <div className='background' ref={ref} >
+                            <div className='slider' style={{
+                                // Copy of Light.ON_COLOR - TODO: Clean up and make dynamic when dragging
+                                backgroundColor: (new Color('#BBBB22')).rgbString(true),
+                                width: getSliderWidth(displayBrightness),
+                            }}></div>
+                        </div>
                     </div>
                 </div>
             }
