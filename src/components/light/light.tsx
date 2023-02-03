@@ -57,8 +57,10 @@ class Light extends React.Component<Props, State> {
     onClick(e: ReactMouseEvent) {
         e.preventDefault();
         // Right-click on a dimmable light toggles brightness slider
-        if (this.isDimmable && e.button > 0) {
-            this.setState({ ...this.state, isExpanded: !this.state.isExpanded });
+        if (e.button > 0) {
+            if (this.isDimmable) {
+                this.setState({ ...this.state, isExpanded: !this.state.isExpanded });
+            }
             return;
         }
         // Use home assistant domain for generic toggle (works for lights and switches)
