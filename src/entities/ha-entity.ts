@@ -1,4 +1,5 @@
 import { HassEntity } from 'home-assistant-js-websocket';
+import renamedEntityMap from '../mappers/renamed-entities';
 
 /** Internal representation of a Home Assistant entity, with some attributes mapped more nicely. */
 export type HaEntity = {
@@ -45,7 +46,7 @@ export function fromHassEntity(e: HassEntity, t: EntityType): HaEntity {
         entityID: new EntityID(e.entity_id),
         type: t,
         state: e.state,
-        friendlyName: e.attributes.friendly_name,
+        friendlyName: renamedEntityMap[e.entity_id] || e.attributes.friendly_name,
         attributes: e.attributes,
     };
 }

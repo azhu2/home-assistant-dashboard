@@ -5,10 +5,11 @@ import LightTile from '../components/tiles/light/light';
 import { TileProps } from '../components/tiles/tile';
 import { EntityType } from '../entities/ha-entity';
 
-const toTileType:{[type in EntityType]: (props: TileProps) => React.ReactElement} = {
+/** Fetches a default tile for an entity type. */
+const toTile:{[type in EntityType]: (props: TileProps) => React.ReactElement} = {
     LIGHT: LightTile,
     CAMERA: CameraTile,
     GAUGE: GaugeTile,
 }
 
-export default toTileType;
+export default toTile;

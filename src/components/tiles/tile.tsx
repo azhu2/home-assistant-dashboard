@@ -9,10 +9,11 @@ export type TileProps = {
 };
 
 export enum TileOption {
-    Icon = "icon",
+    Icon = 'icon',
+    ShowName = 'showName',
 };
 
-export type TileOptions = {[key in TileOption]: any};
+export type TileOptions = {[key in TileOption]?: any};
 
 type EntityTileProps = TileProps & {
     propsMapper: (entity: HaEntity, options?: TileOptions) => React.ReactElement,
@@ -21,7 +22,7 @@ type EntityTileProps = TileProps & {
 
 const Tile = (props: EntityTileProps) =>
     <div className='tile' style={{
-        backgroundColor: props.backgroundColorMapper && props.backgroundColorMapper(props.entity) || 'transparent',
+        backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',
     }}>
         <div className='content'>
             {props.propsMapper(props.entity, props.options)}

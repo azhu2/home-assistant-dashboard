@@ -5,7 +5,7 @@ import {
 } from 'home-assistant-js-websocket';
 import React from 'react';
 import { fromHassEntity, HaEntity } from '../entities/ha-entity';
-import toEntityType from '../mappings/types';
+import entityTypeMap from '../mappers/entity-types';
 import { ConnectionContext } from '../services/websocket-service/context';
 import './dashboard.css';
 import Layout from './layout';
@@ -71,7 +71,7 @@ class Dashboard extends React.Component<{}, State> {
             Object.entries(entities).forEach(entry => {
                 const [entityID, entity] = entry;
 
-                const type = toEntityType[entityID]
+                const type = entityTypeMap[entityID]
                 if (type) {
                     newEntities.set(entityID, fromHassEntity(entity, type));
                 }

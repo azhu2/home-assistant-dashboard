@@ -1,0 +1,7 @@
+.room {
+    max-width: 30em;
+}
+
+#room-system .tile {
+    width: 6em;
+}

@@ -5,13 +5,20 @@ import './gauge.css'
 type Props = BaseEntityProps & {
     state: string,
     unit?: string,
+    showName?: boolean,
 }
 
 function Gauge(props: Props) {
     return (
         <div className='gauge' id={props.entityID.getCanonicalized()}>
-            <span className='value'>{props.state}</span>
-            <span className='unit'>{props.unit || ''}</span>
+            {props.showName && <div className='name'>{props.friendlyName}</div>}
+            <div className='values'>
+                {/* extra div so superscript works with flexbox used to vertical-center values */}
+                <div>
+                    <span className='value'>{props.state}</span>
+                    {props.unit && <span className='unit'>{props.unit || ''}</span>}
+                </div>
+            </div>
         </div>
     );
 }
@@ -29,6 +36,7 @@ const GaugeTile = (props: TileProps) =>
                     icon={options?.icon}
                     state={entity.state}
                     unit={entity.attributes['unit_of_measurement']}
+                    showName={options?.showName}
                 />
         }
     />;
