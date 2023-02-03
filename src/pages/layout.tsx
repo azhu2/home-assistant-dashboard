@@ -1,4 +1,5 @@
 import Room from '../components/room/room';
+import { TileOptions } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
 import toTileType from '../mappings/tiles';
 import './layout.css';
@@ -12,38 +13,38 @@ const Layout = (props: Props) => {
         ([entityID, entity]) => [entityID, toTileType[entity.type]]
     ));
 
-    const getWrapper = (entityID: string, icon?: string) => {
-        const wrapper = componentMap.get(entityID)
+    const getTile = (entityID: string, options?: TileOptions) => {
+        const tile = componentMap.get(entityID)
         const entity = props.entityMap.get(entityID)
-        if (!wrapper || !entity) {
+        if (!tile || !entity) {
             return;
         }
-        return wrapper({ entity, icon });
+        return tile({ entity, options });
     }
 
     return (
         <>
             <Room title='Living Room'>
-                {getWrapper('switch.marble_lamp', 'table-lights')}
-                {getWrapper('switch.pendant_lamp', 'desk-lamp')}
-                {getWrapper('sensor.nest_temperature_sensor_family_room_temperature')}
+                {getTile('switch.marble_lamp', {icon: 'table-lights'})}
+                {getTile('switch.pendant_lamp', {icon: 'desk-lamp'})}
             </Room>
             <Room title='Family Room'>
-                {getWrapper('light.family_room_lights')}
-                {getWrapper('light.family_room_chandelier', 'luminaria-led')}
-                {getWrapper('switch.cat_den', 'curtain-light')}
+                {getTile('light.family_room_lights')}
+                {getTile('light.family_room_chandelier', {icon: 'luminaria-led'})}
+                {getTile('switch.cat_den', {icon: 'curtain-light'})}
+                {getTile('sensor.nest_temperature_sensor_family_room_temperature')}
             </Room>
             <Room title='Kitchen'>
-                {getWrapper('switch.kitchen_lights')}
-                {getWrapper('switch.kitchen_chandelier', 'chandelier')}
+                {getTile('switch.kitchen_lights')}
+                {getTile('switch.kitchen_chandelier', {icon: 'chandelier'})}
             </Room>
             <Room title='Master Bedroom'>
-                {getWrapper('light.master_light', 'chandelier')}
-                {getWrapper('sensor.master_bedroom_temperature_sensor_temperature')}
+                {getTile('light.master_light', {icon: 'chandelier'})}
+                {getTile('sensor.master_bedroom_temperature_sensor_temperature')}
             </Room>
             <Room title='Outside'>
-                {getWrapper('switch.front_door_lights', 'lights')}
-                {getWrapper('switch.outdoor_lights', 'external-lights')}
+                {getTile('switch.front_door_lights', {icon: 'lights'})}
+                {getTile('switch.outdoor_lights', {icon: 'external-lights'})}
             </Room>
         </>
     );

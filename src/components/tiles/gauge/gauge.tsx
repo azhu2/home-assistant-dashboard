@@ -19,14 +19,14 @@ function Gauge(props: Props) {
 const GaugeTile = (props: TileProps) =>
     <Tile
         entity={props.entity}
-        icon={props.icon}
+        options={props.options}
         propsMapper={
-            (entity, icon) =>
+            (entity, options) =>
                 <Gauge
                     key={entity.entityID.getCanonicalized()}
                     entityID={entity.entityID}
                     friendlyName={entity.friendlyName}
-                    icon={icon}
+                    icon={options?.icon}
                     state={entity.state}
                     unit={entity.attributes['unit_of_measurement']}
                 />

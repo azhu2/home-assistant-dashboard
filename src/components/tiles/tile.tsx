@@ -5,11 +5,17 @@ import './tile.css';
 /** Props for a tile representing a single entity. */
 export type TileProps = {
     entity: HaEntity,
-    icon?: string,
-}
+    options?: TileOptions,
+};
+
+export enum TileOption {
+    Icon = "icon",
+};
+
+export type TileOptions = {[key in TileOption]: any};
 
 type EntityTileProps = TileProps & {
-    propsMapper: (entity: HaEntity, icon?: string) => React.ReactElement,
+    propsMapper: (entity: HaEntity, options?: TileOptions) => React.ReactElement,
     backgroundColorMapper?: (entity: HaEntity) => string | undefined,
 }
 
@@ -18,7 +24,7 @@ const Tile = (props: EntityTileProps) =>
         backgroundColor: props.backgroundColorMapper && props.backgroundColorMapper(props.entity) || 'transparent',
     }}>
         <div className='content'>
-            {props.propsMapper(props.entity, props.icon)}
+            {props.propsMapper(props.entity, props.options)}
         </div>
     </div>
 

@@ -18,14 +18,14 @@ function Camera(props: Props) {
 const CameraTile = (props: TileProps) =>
     <Tile
         entity={props.entity}
-        icon={props.icon}
+        options={props.options}
         propsMapper={
-            (entity, icon) =>
+            (entity, options) =>
                 <Camera
                     key={entity.entityID.getCanonicalized()}
                     entityID={entity.entityID}
                     friendlyName={entity.friendlyName}
-                    icon={icon}
+                    icon={options?.icon}
                 // snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}
                 />
         }

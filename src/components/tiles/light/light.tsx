@@ -121,14 +121,14 @@ class Light extends React.Component<Props, State> {
 const LightTile = (props: TileProps) =>
     <Tile
         entity={props.entity}
-        icon={props.icon}
+        options={props.options}
         propsMapper={
-            (entity, icon) =>
+            (entity, options) =>
                 <Light
                     key={entity.entityID.getCanonicalized()}
                     entityID={entity.entityID}
                     friendlyName={entity.friendlyName}
-                    icon={icon}
+                    icon={options?.icon}
                     state={entity.state === 'on'}
                     brightness={entity.attributes['brightness']}
                 />
