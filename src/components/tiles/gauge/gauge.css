@@ -1,0 +1,11 @@
+.gauge {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.unit {
+    vertical-align: super;
+    font-size: x-small;
+}

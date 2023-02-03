@@ -26,8 +26,8 @@ const toEntityType: {[key: string]: EntityType} = {
     // 'camera.front_yard_camera_2': Type.Camera,
     // 'camera.backyard_cam': Type.Camera,
     // 'camera.living_room_camera_2': Type.Camera,
-    'sensor.nest_temperature_sensor_family_room_temperature': EntityType.Temperature,
-    'sensor.master_bedroom_temperature_sensor_temperature': EntityType.Temperature,
+    'sensor.nest_temperature_sensor_family_room_temperature': EntityType.Gauge,
+    'sensor.master_bedroom_temperature_sensor_temperature': EntityType.Gauge,
 };
 
 export default toEntityType;

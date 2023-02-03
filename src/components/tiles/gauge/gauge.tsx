@@ -1,5 +1,6 @@
 import { BaseEntityProps } from "../../base";
 import Tile, { TileProps } from '../tile';
+import './gauge.css'
 
 type Props = BaseEntityProps & {
     state: string,
@@ -9,7 +10,8 @@ type Props = BaseEntityProps & {
 function Gauge(props: Props) {
     return (
         <div className='gauge' id={props.entityID.getCanonicalized()}>
-            {props.friendlyName} | {props.state} {props.unit || ''}
+            <span className='value'>{props.state}</span>
+            <span className='unit'>{props.unit || ''}</span>
         </div>
     );
 }
