@@ -30,13 +30,13 @@ const Layout = (props: Props) => {
                 {getTile('sensor.thermostat_humidity', { showName: true })}
             </Room>
             <Room title='Family Room'>
-                {getTile('light.family_room_lights')}
+                {getTile('light.family_room_lights', { icon: 'philips-hue-go' })}
                 {getTile('light.family_room_chandelier', { icon: 'luminaria-led' })}
                 {getTile('switch.cat_den', { icon: 'curtain-light' })}
                 {getTile('sensor.nest_temperature_sensor_family_room_temperature')}
             </Room>
             <Room title='Kitchen'>
-                {getTile('switch.kitchen_lights')}
+                {getTile('switch.kitchen_lights', { icon: 'philips-hue-go' })}
                 {getTile('switch.kitchen_chandelier', { icon: 'chandelier' })}
             </Room>
             <Room title='Master Bedroom'>
