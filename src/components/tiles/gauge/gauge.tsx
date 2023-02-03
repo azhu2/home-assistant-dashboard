@@ -1,5 +1,5 @@
 import { BaseEntityProps } from "../../base";
-import { makeEntityTile, TileProps } from '../tile';
+import Tile, { TileProps } from '../tile';
 
 type Props = BaseEntityProps & {
     state: string,
@@ -14,17 +14,21 @@ function Gauge(props: Props) {
     );
 }
 
-const GaugeTile = (props: TileProps) => makeEntityTile(
-    props,
-    props =>
-        <Gauge
-            key={props.entity.entityID.getCanonicalized()}
-            entityID={props.entity.entityID}
-            friendlyName={props.entity.friendlyName}
-            icon={props.icon}
-            state={props.entity.state}
-            unit={props.entity.attributes['unit_of_measurement']}
-        />
-);
+const GaugeTile = (props: TileProps) =>
+    <Tile
+        entity={props.entity}
+        icon={props.icon}
+        propsMapper={
+            (entity, icon) =>
+                <Gauge
+                    key={entity.entityID.getCanonicalized()}
+                    entityID={entity.entityID}
+                    friendlyName={entity.friendlyName}
+                    icon={icon}
+                    state={entity.state}
+                    unit={entity.attributes['unit_of_measurement']}
+                />
+        }
+    />;
 
 export default GaugeTile;

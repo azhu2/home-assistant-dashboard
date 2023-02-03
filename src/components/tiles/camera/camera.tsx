@@ -1,5 +1,5 @@
 import { BaseEntityProps } from "../../base";
-import { makeEntityTile, TileProps } from '../tile';
+import Tile, { TileProps } from '../tile';
 
 type Props = BaseEntityProps & {
     snapshotURL?: string,
@@ -15,16 +15,20 @@ function Camera(props: Props) {
     );
 }
 
-const CameraTile = (props: TileProps) => makeEntityTile(
-    props,
-    props =>
-        <Camera
-            key={props.entity.entityID.getCanonicalized()}
-            entityID={props.entity.entityID}
-            friendlyName={props.entity.friendlyName}
-            icon={props.icon}
-        // snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}
-        />
-);
+const CameraTile = (props: TileProps) =>
+    <Tile
+        entity={props.entity}
+        icon={props.icon}
+        propsMapper={
+            (entity, icon) =>
+                <Camera
+                    key={entity.entityID.getCanonicalized()}
+                    entityID={entity.entityID}
+                    friendlyName={entity.friendlyName}
+                    icon={icon}
+                // snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}
+                />
+        }
+    />;
 
 export default CameraTile;

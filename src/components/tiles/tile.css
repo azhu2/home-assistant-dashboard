@@ -1,0 +1,11 @@
+.tile {
+    border: 1px solid black;
+    padding: 0.2em;
+    width: 3em;
+    height: 3em;
+}
+
+.content {
+    height: 100%;
+    width: 100%;
+}

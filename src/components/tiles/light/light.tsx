@@ -4,7 +4,7 @@ import { ConnectionContext } from '../../../services/websocket-service/context';
 import callWebsocketService from '../../../services/websocket-service/websocket-service';
 import { BaseEntityProps } from "../../base";
 import Icon from '../../icon/icon';
-import { makeEntityTile, TileProps } from '../tile';
+import Tile, { TileProps } from '../tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
@@ -96,36 +96,46 @@ class Light extends React.Component<Props, State> {
         const icon = this.props.icon ? this.props.icon : this.props.state ? 'light-on' : 'light-off';
 
         return (
-            <div className={`'light light-${this.props.state ? 'on' : 'off'}`} id={`light-${this.props.entityID.getCanonicalized()}`} ref={this.ref}>
-                <button className='light-button' onClick={this.onClick} onContextMenu={this.onClick}>
-                    <Icon name={icon} color={this.color()} />
-                    {this.isDimmable &&
-                        <BrightnessSlider
-                            brightness={this.props.brightness || 0}
-                            color={this.color()}
-                            isExpanded={this.state.isExpanded}
-                            onSetBrightness={this.onSetBrightness}
-                            // Reset key on open/close or entity brightness change to force creating new component
-                            key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
-                        />
-                    }
-                </button>
+            <div className={`light light-${this.props.state ? 'on' : 'off'}`}
+                id={`light-${this.props.entityID.getCanonicalized()}`}
+                onClick={this.onClick}
+                onContextMenu={this.onClick}
+                ref={this.ref}
+            >
+                <Icon name={icon} color={this.color()} />
+                {this.isDimmable &&
+                    <BrightnessSlider
+                        brightness={this.props.brightness || 0}
+                        color={this.color()}
+                        isExpanded={this.state.isExpanded}
+                        onSetBrightness={this.onSetBrightness}
+                        // Reset key on open/close or entity brightness change to force creating new component
+                        key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
+                    />
+                }
             </div>
         );
     }
 }
 
-const LightTile = (props: TileProps) => makeEntityTile(
-    props,
-    props =>
-        <Light
-            key={props.entity.entityID.getCanonicalized()}
-            entityID={props.entity.entityID}
-            friendlyName={props.entity.friendlyName}
-            icon={props.icon}
-            state={props.entity.state === 'on'}
-            brightness={props.entity.attributes['brightness']}
-        />
-);
+const LightTile = (props: TileProps) =>
+    <Tile
+        entity={props.entity}
+        icon={props.icon}
+        propsMapper={
+            (entity, icon) =>
+                <Light
+                    key={entity.entityID.getCanonicalized()}
+                    entityID={entity.entityID}
+                    friendlyName={entity.friendlyName}
+                    icon={icon}
+                    state={entity.state === 'on'}
+                    brightness={entity.attributes['brightness']}
+                />
+        }
+        backgroundColorMapper={
+            entity => entity.state === 'on' ? undefined : '#dddddd'
+        }
+    />;
 
 export default LightTile;

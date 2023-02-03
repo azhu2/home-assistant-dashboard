@@ -1,5 +1,5 @@
 import { BaseEntityProps } from "../../base";
-import { makeEntityTile, TileProps } from "../tile";
+import Tile, { TileProps } from "../tile";
 
 type Props = BaseEntityProps & {
     state: number;
@@ -8,16 +8,20 @@ type Props = BaseEntityProps & {
 const Temperature = (props: Props) =>
     <div>{props.state}</div>
 
-const TemperatureTile = (props: TileProps) => makeEntityTile(
-    props,
-    props =>
-        <Temperature
-            key={props.entity.entityID.getCanonicalized()}
-            entityID={props.entity.entityID}
-            friendlyName={props.entity.friendlyName}
-            icon={props.icon}
-            state={parseFloat(props.entity.state)}
-        />
-);
+const TemperatureTile = (props: TileProps) =>
+    <Tile
+        entity={props.entity}
+        icon={props.icon}
+        propsMapper={
+            (entity, icon) =>
+                <Temperature
+                    key={entity.entityID.getCanonicalized()}
+                    entityID={entity.entityID}
+                    friendlyName={entity.friendlyName}
+                    icon={icon}
+                    state={parseFloat(entity.state)}
+                />
+        }
+    />;
 
 export default TemperatureTile;

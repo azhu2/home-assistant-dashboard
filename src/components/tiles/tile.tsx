@@ -1,5 +1,6 @@
 import React from 'react';
 import { HaEntity } from '../../entities/ha-entity';
+import './tile.css';
 
 /** Props for a tile representing a single entity. */
 export type TileProps = {
@@ -7,13 +8,18 @@ export type TileProps = {
     icon?: string,
 }
 
-/** Factory to create a tile for an entity.
- * @param props         the entity and optional icon.
- * @param propsMapper   function mapping props to the child element inside the tile.
- */
-export const makeEntityTile = (props: TileProps, propsMapper: (props: TileProps) => React.ReactElement) =>
-    <div className='tile'>
-        {propsMapper(props)}
-    </div>
-    ;
+type EntityTileProps = TileProps & {
+    propsMapper: (entity: HaEntity, icon?: string) => React.ReactElement,
+    backgroundColorMapper?: (entity: HaEntity) => string | undefined,
+}
 
+const Tile = (props: EntityTileProps) =>
+    <div className='tile' style={{
+        backgroundColor: props.backgroundColorMapper && props.backgroundColorMapper(props.entity) || 'transparent',
+    }}>
+        <div className='content'>
+            {props.propsMapper(props.entity, props.icon)}
+        </div>
+    </div>
+
+export default Tile;
