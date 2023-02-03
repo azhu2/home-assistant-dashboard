@@ -3,9 +3,19 @@
     padding: 0.2em;
     width: 3em;
     height: 3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.name {
+    font-weight: bold;
+    font-size: 0.65em;
+    text-align: center;
+    flex: 1;
 }
 
 .content {
-    height: 100%;
-    width: 100%;
+    flex: auto;
 }

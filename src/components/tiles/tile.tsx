@@ -26,6 +26,7 @@ const Tile = (props: EntityTileProps) =>
     <div className='tile' style={{
         backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',
     }}>
+        {props.options?.showName && <div className='name'>{props.entity.friendlyName}</div>}
         <div className='content'>
             {props.propsMapper(props.entity, props.options)}
         </div>

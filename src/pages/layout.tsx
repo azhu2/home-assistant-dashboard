@@ -32,8 +32,8 @@ const Layout = (props: Props) => {
             <Room title='Family Room'>
                 {getTile('light.family_room_lights', { icon: 'philips-hue-go' })}
                 {getTile('light.family_room_chandelier', { icon: 'luminaria-led' })}
-                {getTile('switch.cat_den', { icon: 'curtain-light' })}
-                {getTile('sensor.nest_temperature_sensor_family_room_temperature')}
+                {getTile('switch.cat_den', { icon: 'animal-shelter' })}
+                {getTile('sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
             </Room>
             <Room title='Kitchen'>
                 {getTile('switch.kitchen_lights', { icon: 'philips-hue-go' })}
@@ -41,7 +41,7 @@ const Layout = (props: Props) => {
             </Room>
             <Room title='Master Bedroom'>
                 {getTile('light.master_light', { icon: 'chandelier' })}
-                {getTile('sensor.master_bedroom_temperature_sensor_temperature')}
+                {getTile('sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
                 {getTile('switch.front_door_lights', { icon: 'lights' })}

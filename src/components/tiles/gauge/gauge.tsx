@@ -11,13 +11,10 @@ type Props = BaseEntityProps & {
 function Gauge(props: Props) {
     return (
         <div className='gauge' id={props.entityID.getCanonicalized()}>
-            {props.showName && <div className='name'>{props.friendlyName}</div>}
-            <div className='values'>
-                {/* extra div so superscript works with flexbox used to vertical-center values */}
-                <div>
-                    <span className='value'>{props.state}</span>
-                    {props.unit && <span className='unit'>{props.unit || ''}</span>}
-                </div>
+            {/* extra div so superscript works with flexbox used to vertical-center values */}
+            <div>
+                <span className='value'>{props.state}</span>
+                {props.unit && <span className='unit'>{props.unit || ''}</span>}
             </div>
         </div>
     );
