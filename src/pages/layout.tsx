@@ -27,6 +27,7 @@ const Layout = (props: Props) => {
             <Room title='Living Room'>
                 {getTile('switch.marble_lamp', { icon: 'table-lights' })}
                 {getTile('switch.pendant_lamp', { icon: 'desk-lamp' })}
+                {getTile('sensor.thermostat_humidity', { showName: true })}
             </Room>
             <Room title='Family Room'>
                 {getTile('light.family_room_lights')}
@@ -55,6 +56,7 @@ const Layout = (props: Props) => {
                 {getTile('sensor.online_devices', { showName: true })}
                 {getTile('sensor.1m_download_max', { showName: true })}
                 {getTile('sensor.1m_upload_max', { showName: true })}
+                {getTile('sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>
         </>
     );

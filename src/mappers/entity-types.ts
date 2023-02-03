@@ -29,6 +29,8 @@ const entityTypeMap: {[key: string]: EntityType} = {
     // 'camera.living_room_camera_2': Type.Camera,
     'sensor.nest_temperature_sensor_family_room_temperature': EntityType.Gauge,
     'sensor.master_bedroom_temperature_sensor_temperature': EntityType.Gauge,
+    'sensor.thermostat_humidity': EntityType.Gauge,
+    'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
 };
 
 export default entityTypeMap;

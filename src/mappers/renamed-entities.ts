@@ -7,6 +7,8 @@ const renamedEntityMap: {[key: string]: string} = {
     'sensor.udr_storage_utilization': 'UDR Storage',
     'sensor.1m_download_max': 'Downnload',
     'sensor.1m_upload_max': 'Upload',
+    'sensor.thermostat_humidity': 'Humidity',
+    'sensor.adguard_home_dns_queries_blocked_ratio': 'AdGuard Blocked',
 };
 
 export default renamedEntityMap;

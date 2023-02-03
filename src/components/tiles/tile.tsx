@@ -5,10 +5,11 @@ import './tile.css';
 /** Props for a tile representing a single entity. */
 export type TileProps = {
     entity: HaEntity,
+    /** Map of additional parms to pass to a tile. */
     options?: TileOptions,
 };
 
-export enum TileOption {
+enum TileOption {
     Icon = 'icon',
     ShowName = 'showName',
 };
@@ -20,6 +21,7 @@ type EntityTileProps = TileProps & {
     backgroundColorMapper?: (entity: HaEntity) => string | undefined,
 }
 
+/** Tile provides basic functionality and look-and-feel to a tile. */
 const Tile = (props: EntityTileProps) =>
     <div className='tile' style={{
         backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',
