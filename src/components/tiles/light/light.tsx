@@ -1,9 +1,10 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
-import { Color } from '../../entities/color';
-import { ConnectionContext } from '../../services/websocket-service/context';
-import callWebsocketService from '../../services/websocket-service/websocket-service';
-import { BaseEntityProps } from '../base';
-import Icon from '../icon/icon';
+import { Color } from '../../../entities/color';
+import { ConnectionContext } from '../../../services/websocket-service/context';
+import callWebsocketService from '../../../services/websocket-service/websocket-service';
+import { BaseEntityProps } from "../../base";
+import Icon from '../../icon/icon';
+import { makeEntityTile, TileProps } from '../tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
@@ -114,4 +115,17 @@ class Light extends React.Component<Props, State> {
     }
 }
 
-export default Light;
+const LightTile = (props: TileProps) => makeEntityTile(
+    props,
+    props =>
+        <Light
+            key={props.entity.entityID.getCanonicalized()}
+            entityID={props.entity.entityID}
+            friendlyName={props.entity.friendlyName}
+            icon={props.icon}
+            state={props.entity.state === 'on'}
+            brightness={props.entity.attributes['brightness']}
+        />
+);
+
+export default LightTile;

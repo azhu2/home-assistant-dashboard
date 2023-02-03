@@ -1,6 +1,6 @@
 import Room from '../components/room/room';
 import { HaEntity } from '../entities/ha-entity';
-import toWrapperType from '../mappings/wrappers';
+import toTileType from '../mappings/tiles';
 import './layout.css';
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const Layout = (props: Props) => {
     const componentMap = new Map(Array.from(props.entityMap).map(
-        ([entityID, entity]) => [entityID, toWrapperType[entity.type]]
+        ([entityID, entity]) => [entityID, toTileType[entity.type]]
     ));
 
     const getWrapper = (entityID: string, icon?: string) => {
@@ -26,6 +26,7 @@ const Layout = (props: Props) => {
             <Room title='Living Room'>
                 {getWrapper('switch.marble_lamp', 'table-lights')}
                 {getWrapper('switch.pendant_lamp', 'desk-lamp')}
+                {getWrapper('sensor.nest_temperature_sensor_family_room_temperature')}
             </Room>
             <Room title='Family Room'>
                 {getWrapper('light.family_room_lights')}
@@ -38,6 +39,7 @@ const Layout = (props: Props) => {
             </Room>
             <Room title='Master Bedroom'>
                 {getWrapper('light.master_light', 'chandelier')}
+                {getWrapper('sensor.master_bedroom_temperature_sensor_temperature')}
             </Room>
             <Room title='Outside'>
                 {getWrapper('switch.front_door_lights', 'lights')}

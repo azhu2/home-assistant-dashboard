@@ -1,12 +1,4 @@
-import React from 'react';
-import { EntityID, HaEntity } from '../entities/ha-entity';
-
-export type WrapperProps = {
-    entity: HaEntity,
-    icon?: string,
-}
-
-export type EntityWrapper = (props: WrapperProps) => React.ReactElement;
+import { EntityID } from "../entities/ha-entity";
 
 /** A set of base props for any entity-specific component. */
 export type BaseEntityProps = {
@@ -14,4 +6,3 @@ export type BaseEntityProps = {
     friendlyName?: string,
     icon?: string,
 };
-

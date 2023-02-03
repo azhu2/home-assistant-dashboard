@@ -1,5 +1,5 @@
 import { MouseEvent, useRef, useState } from 'react';
-import { Color, MAX_COLOR_VALUE } from '../../entities/color';
+import { Color, MAX_COLOR_VALUE } from '../../../entities/color';
 import './brightness-slider.css';
 
 type Props = {
