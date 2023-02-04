@@ -14,6 +14,9 @@ const Layout = (props: Props) => {
     ));
 
     const getTile = (entityID: string, options?: TileOptions) => {
+        if (props.entityMap.size === 0) {
+            return;
+        }
         const tile = componentMap.get(entityID)
         const entity = props.entityMap.get(entityID)
         if (!tile || !entity) {
