@@ -5,10 +5,9 @@ import {
 } from 'home-assistant-js-websocket';
 import React from 'react';
 import { fromHassEntity, HaEntity } from '../entities/ha-entity';
+import Layout from '../layout/layout';
 import entityTypeMap from '../mappers/entity-types';
 import { ConnectionContext } from '../services/websocket-service/context';
-import './dashboard.css';
-import Layout from './layout';
 
 type State = {
     connection?: Connection,
