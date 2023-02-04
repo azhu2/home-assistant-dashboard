@@ -4,10 +4,11 @@ import {
     subscribeEntities
 } from 'home-assistant-js-websocket';
 import React from 'react';
-import { fromHassEntity, HaEntity } from '../entities/ha-entity';
-import Layout from '../layout/layout';
-import entityTypeMap from '../mappers/entity-types';
-import { ConnectionContext } from '../services/websocket-service/context';
+import { Link } from 'react-router-dom';
+import { fromHassEntity, HaEntity } from '../../entities/ha-entity';
+import Layout from '../../layout/layout';
+import entityTypeMap from '../../mappers/entity-types';
+import { ConnectionContext } from '../../services/websocket-service/context';
 
 type State = {
     connection?: Connection,
@@ -47,7 +48,8 @@ class Dashboard extends React.Component<{}, State> {
             </ConnectionContext.Provider>
 
             <div>
-                TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a>
+                <p><Link to='/settings'>Settings</Link></p>
+                <p>TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a></p>
             </div>
         </>);
     }
