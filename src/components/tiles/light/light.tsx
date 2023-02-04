@@ -1,7 +1,7 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
-import { ConnectionContext } from '../../../services/websocket-service/context';
-import callWebsocketService from '../../../services/websocket-service/websocket-service';
+import { ConnectionContext } from '../../../services/websocket/context';
+import { callWebsocketService } from "../../../services/websocket/websocket";
 import { BaseEntityProps } from "../../base";
 import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';

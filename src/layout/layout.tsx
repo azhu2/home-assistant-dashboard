@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Room from '../components/room/room';
 import { TileOptions } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
@@ -28,6 +29,7 @@ const Layout = (props: Props) => {
 
     return (
         <>
+            <div>Home Assistant Dashboard</div>
             <Room title='Living Room'>
                 {getTile('switch.marble_lamp', { icon: 'table-lights' })}
                 {getTile('switch.pendant_lamp', { icon: 'desk-lamp' })}
@@ -63,6 +65,10 @@ const Layout = (props: Props) => {
                 {getTile('sensor.1m_upload_max', { showName: true })}
                 {getTile('sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>
+            <div>
+                <p><Link to='/settings'>Settings</Link></p>
+                <p>TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a></p>
+            </div>
         </>
     );
 }
