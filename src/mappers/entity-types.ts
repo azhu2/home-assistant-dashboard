@@ -31,6 +31,7 @@ const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.master_bedroom_temperature_sensor_temperature': EntityType.Gauge,
     'sensor.thermostat_humidity': EntityType.Gauge,
     'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
+    'cover.garage_door': EntityType.Garage,
 };
 
 export default entityTypeMap;

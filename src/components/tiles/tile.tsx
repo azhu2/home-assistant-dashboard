@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactElement } from 'react';
 import { HaEntity } from '../../entities/ha-entity';
 import './tile.css';
 
@@ -17,14 +17,14 @@ enum TileOption {
 export type TileOptions = {[key in TileOption]?: any};
 
 type EntityTileProps = TileProps & {
-    propsMapper: (entity: HaEntity, options?: TileOptions) => React.ReactElement,
+    propsMapper: (entity: HaEntity, options?: TileOptions) => ReactElement,
     backgroundColorMapper?: (entity: HaEntity) => string | undefined,
 }
 
 /** Tile provides basic functionality and look-and-feel to a tile. */
 const Tile = (props: EntityTileProps) =>
     <div className='tile' style={{
-        backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',
+        backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',       // TODO tile background color
     }}>
         {props.options?.showName && <div className='name'>{props.entity.friendlyName}</div>}
         <div className='content'>

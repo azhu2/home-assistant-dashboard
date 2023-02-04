@@ -38,6 +38,7 @@ export enum EntityType {
     Light = 'LIGHT',
     Gauge = 'GAUGE',
     Camera = 'CAMERA',
+    Garage = 'GARAGE',
 }
 
 /** Converts from built-in HassEntity type to our HaEntity type. */

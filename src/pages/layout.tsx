@@ -17,6 +17,7 @@ const Layout = (props: Props) => {
         const tile = componentMap.get(entityID)
         const entity = props.entityMap.get(entityID)
         if (!tile || !entity) {
+            console.warn(`Could not find default tile for ${entityID}`)
             return;
         }
         return tile({ entity, options });
@@ -44,6 +45,7 @@ const Layout = (props: Props) => {
                 {getTile('sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
+                {getTile('cover.garage_door')}
                 {getTile('switch.front_door_lights', { icon: 'lights' })}
                 {getTile('switch.outdoor_lights', { icon: 'external-lights' })}
             </Room>

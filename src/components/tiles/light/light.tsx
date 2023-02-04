@@ -11,7 +11,7 @@ import './light.css';
 /** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
  * I have no RGB lights in HA, so not dealing with those for now.
  */
-const ON_COLOR = '#BBBB22';
+const ON_COLOR = '#BBBB22';     // TODO lights color
 
 type Props = BaseEntityProps & {
     /** on(true) or off(false) */
@@ -134,7 +134,7 @@ const LightTile = (props: TileProps) =>
                 />
         }
         backgroundColorMapper={
-            entity => entity.state === 'on' ? undefined : '#dddddd'
+            entity => entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
         }
     />;
 
