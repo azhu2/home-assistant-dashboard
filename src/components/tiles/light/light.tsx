@@ -1,8 +1,8 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
 import { ConnectionContext } from '../../../services/websocket/context';
-import { callWebsocketService } from "../../../services/websocket/websocket";
-import { BaseEntityProps } from "../../base";
+import { callWebsocketService } from '../../../services/websocket/websocket';
+import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';
 import BrightnessSlider from './brightness-slider';

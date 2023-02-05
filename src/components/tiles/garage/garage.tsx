@@ -1,8 +1,8 @@
-import { ReactElement, useContext } from "react";
-import { ConnectionContext } from "../../../services/websocket/context";
-import { callWebsocketService } from "../../../services/websocket/websocket";
-import { BaseEntityProps } from "../../base";
-import Icon from "../../icon/icon";
+import { ReactElement, useContext } from 'react';
+import { ConnectionContext } from '../../../services/websocket/context';
+import { callWebsocketService } from '../../../services/websocket/websocket';
+import { BaseEntityProps } from '../../base';
+import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';
 
 type Props = BaseEntityProps & {

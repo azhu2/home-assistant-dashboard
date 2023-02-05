@@ -1,4 +1,4 @@
-import { LoadTokensFunc, SaveTokensFunc } from "home-assistant-js-websocket";
+import { LoadTokensFunc, SaveTokensFunc } from 'home-assistant-js-websocket';
 
 export const saveWebsocketTokens: SaveTokensFunc = tokens => {
     localStorage.haTokens = JSON.stringify(tokens);

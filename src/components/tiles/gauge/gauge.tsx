@@ -1,4 +1,4 @@
-import { BaseEntityProps } from "../../base";
+import { BaseEntityProps } from '../../base';
 import Tile, { TileProps } from '../tile';
 import './gauge.css'
 

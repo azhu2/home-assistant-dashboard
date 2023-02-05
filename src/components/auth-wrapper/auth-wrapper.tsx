@@ -1,10 +1,10 @@
-import { Auth, Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from "home-assistant-js-websocket";
-import { Component } from "react";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import Dashboard from "../../pages/dashboard/dashboard";
-import Settings from "../../pages/settings/settings";
-import { ConnectionContext, ErrConnectionNotInitialized } from "../../services/websocket/context";
-import { authenticateWebsocket } from "../../services/websocket/websocket";
+import { Auth, Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
+import { Component } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Dashboard from '../../pages/dashboard/dashboard';
+import Settings from '../../pages/settings/settings';
+import { ConnectionContext, ErrConnectionNotInitialized } from '../../services/websocket/context';
+import { authenticateWebsocket } from '../../services/websocket/websocket';
 
 type State = {
     connection: Connection | Error,

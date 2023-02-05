@@ -1,10 +1,10 @@
-import { Connection } from "home-assistant-js-websocket";
-import { Component, FormEvent } from "react";
-import { Link } from "react-router-dom";
-import Icon from "../../components/icon/icon";
-import { Color } from "../../entities/color";
-import { loadWebsocketTokens } from "../../services/local-storage/local-storage";
-import { ConnectionContext } from "../../services/websocket/context";
+import { Connection } from 'home-assistant-js-websocket';
+import { Component, FormEvent } from 'react';
+import { Link } from 'react-router-dom';
+import Icon from '../../components/icon/icon';
+import { Color } from '../../entities/color';
+import { loadWebsocketTokens } from '../../services/local-storage/local-storage';
+import { ConnectionContext } from '../../services/websocket/context';
 import './settings.css';
 
 const DEFAULT_URL = 'http://127.0.0.1:8123';

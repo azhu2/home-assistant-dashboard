@@ -1,4 +1,4 @@
-import { BaseEntityProps } from "../../base";
+import { BaseEntityProps } from '../../base';
 import Tile, { TileProps } from '../tile';
 
 type Props = BaseEntityProps & {
