@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
 import { AuthContext, AuthContextType, emptyAuthContext } from '../../services/context';
-import { loadLongLivedAccessToken, saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
+import { loadHAURL, loadLongLivedAccessToken, saveHAURL, saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
 import { NewRestAPI, RestAPI } from '../../services/rest-api/rest-api';
 import { authenticateWebsocket, WebsocketAPIImpl, WebsocketConnection } from '../../services/websocket/websocket';
 
@@ -23,7 +23,7 @@ class AuthWrapper extends Component<{}, State> {
 
     componentDidMount() {
         this.setWebsocketAuth().catch(err => console.error(err));
-        this.setRestAuth(loadLongLivedAccessToken());
+        this.setRestAuth(loadHAURL(), loadLongLivedAccessToken());
     }
 
     componentWillUnmount() {
@@ -76,10 +76,11 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Set and return authed rest API. */
-    async setRestAuth(llaToken: string): Promise<RestAPI> {
-        return NewRestAPI(llaToken)
+    async setRestAuth(baseURL: string, llaToken: string): Promise<RestAPI> {
+        return NewRestAPI(baseURL, llaToken)
             .then(restAPI => {
                 saveLongLivedAccessToken(llaToken);
+                saveHAURL(baseURL);
                 this.setState({
                     ...this.state,
                     restAPI,
@@ -104,10 +105,7 @@ class AuthWrapper extends Component<{}, State> {
             {
                 path: '/settings',
                 element: <Settings
-                    checkWebsocketCallback={async haURL => {
-                        const connection = await this.setWebsocketAuth(haURL);
-                        return connection.options.auth?.data.hassUrl || '';
-                    }}
+                    checkWebsocketCallback={this.setWebsocketAuth}
                     checkRestAPICallback={this.setRestAuth}
                 />
             }

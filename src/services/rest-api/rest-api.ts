@@ -1,28 +1,36 @@
 export interface RestAPI {
-    healthCheck: () => Promise<void>
+    healthCheck: () => Promise<boolean>
 };
 
 class RestAPIImpl implements RestAPI {
-    authToken: string
+    baseURL: string;
+    authToken: string;
+    authHeaders: Headers;
 
-    constructor(authToken: string) {
+    constructor(baseURL: string, authToken: string) {
+        if (baseURL.endsWith('/')) {
+            this.baseURL = `${baseURL}api/`;
+        } else {
+            this.baseURL = `${baseURL}/api/`;
+        }
         this.authToken = authToken;
+        this.authHeaders = new Headers({
+            'Authorization': `Bearer ${this.authToken}`,
+            'content-type': 'application/json',
+        });
     }
 
     async healthCheck() {
-        await fetch(new Request('http://10.0.0.106:8123/api/', {
-            headers: new Headers({
-                'Authorization': `Bearer ${this.authToken}`,
-                'content-type': 'application/json',
-            })
+        await fetch(new Request(this.baseURL, {
+            headers: this.authHeaders,
         }));
-        return;
+        return true;
     };
 };
 
-export const NewRestAPI = async (authToken: string) => {
+export const NewRestAPI = async (baseURL: string, authToken: string) => {
     try {
-        const api = new RestAPIImpl(authToken);
+        const api = new RestAPIImpl(baseURL, authToken);
         await api.healthCheck();
         return api;
     } catch (err) {

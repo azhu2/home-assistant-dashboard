@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import Icon from '../../components/icon/icon';
 import { Color } from '../../entities/color';
 import { AuthContext } from '../../services/context';
-import { loadLongLivedAccessToken, loadWebsocketTokens } from '../../services/local-storage/local-storage';
+import { loadHAURL, loadLongLivedAccessToken } from '../../services/local-storage/local-storage';
 import { RestAPI } from '../../services/rest-api/rest-api';
+import { WebsocketConnection } from '../../services/websocket/websocket';
 import './settings.css';
 
 const DEFAULT_URL = 'http://127.0.0.1:8123';
 
 type Props = {
-    checkWebsocketCallback: (haURL: string) => Promise<string>,
-    checkRestAPICallback: (llaToken: string) => Promise<RestAPI>,
+    checkWebsocketCallback: (haURL: string) => Promise<WebsocketConnection>,
+    checkRestAPICallback: (haURL: string, llaToken: string) => Promise<RestAPI>,
 }
 
 type State = {
@@ -28,23 +29,16 @@ const initialState: State = {
 class Settings extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
-        this.state = { ...initialState };
-        this.loadHAURL = this.loadHAURL.bind(this);
+        this.state = {
+            ...initialState,
+            haURL: loadHAURL(),
+        };
         this.loadLLAToken = this.loadLLAToken.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
 
     componentDidMount() {
-        this.loadHAURL();
         this.loadLLAToken();
-    }
-
-    async loadHAURL() {
-        const authData = await loadWebsocketTokens();
-        if (!authData) {
-            return;
-        }
-        this.setState({ ...this.state, haURL: authData.hassUrl });
     }
 
     async loadLLAToken() {
@@ -55,23 +49,21 @@ class Settings extends Component<Props, State> {
     async onSubmit(event: FormEvent) {
         event.preventDefault();
 
-        if (this.state.llaToken) {
-            this.props.checkRestAPICallback(this.state.llaToken);
-        }
-
         let url = this.state.haURL;
         if (!url) {
             return;
         }
-        if (!(url.startsWith('https://') && url.startsWith('http://'))) {
+        if (!(url.startsWith('https://') || url.startsWith('http://'))) {
             url = `http://${url}`;
         }
 
+        if (this.state.llaToken) {
+            this.props.checkRestAPICallback(url, this.state.llaToken);
+        }
+
         this.props.checkWebsocketCallback(url)
-            .then(haURL => {
-                if (haURL) {
-                    this.setState({ ...this.state, haURL });
-                }
+            .then(() => {
+                this.setState({ ...this.state, haURL: url });
             });
         // TODO Clear URL params after complete
     }
@@ -83,7 +75,7 @@ class Settings extends Component<Props, State> {
                 <form onSubmit={this.onSubmit}>
                     <div>
                         <label htmlFor='ha-url'>Home Assistant URL </label>
-                        <input type='text' id='ha-url' required
+                        <input type='url' id='ha-url' required
                             placeholder={DEFAULT_URL}
                             value={this.state.haURL || ''}
                             onChange={event => this.setState({ ...this.state, haURL: event.currentTarget.value })} />

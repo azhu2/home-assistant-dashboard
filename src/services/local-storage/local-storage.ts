@@ -12,6 +12,14 @@ export const loadWebsocketTokens: LoadTokensFunc = () => {
     }
 };
 
+export const saveHAURL = (haURL: string) => {
+    localStorage.haURL = haURL;
+}
+
+export const loadHAURL = () => {
+    return localStorage.haURL;
+}
+
 export const saveLongLivedAccessToken = (token: string) => {
     localStorage.longLivedToken = token;
 }
