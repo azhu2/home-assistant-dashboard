@@ -8,6 +8,6 @@ export const loadWebsocketTokens: LoadTokensFunc = () => {
     try {
         return JSON.parse(localStorage.haTokens);
     } catch (err) {
-        return err;
+        return null;
     }
 };

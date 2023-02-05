@@ -1,12 +1,10 @@
-import { Auth, Connection, createConnection } from "home-assistant-js-websocket";
-import { Component, ReactNode } from "react";
-import { loadWebsocketTokens } from "../../services/local-storage/local-storage";
+import { Auth, Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from "home-assistant-js-websocket";
+import { Component } from "react";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Dashboard from "../../pages/dashboard/dashboard";
+import Settings from "../../pages/settings/settings";
 import { ConnectionContext, ErrConnectionNotInitialized } from "../../services/websocket/context";
 import { authenticateWebsocket } from "../../services/websocket/websocket";
-
-type Props = {
-    children: ReactNode;
-}
 
 type State = {
     connection: Connection | Error,
@@ -17,15 +15,15 @@ const initialState: State = {
 };
 
 /** Wrapper that provides a (Connection | Error) context. */
-class AuthWrapper extends Component<Props, State> {
-    constructor(props: Props) {
+class AuthWrapper extends Component<{}, State> {
+    constructor(props: {}) {
         super(props);
         this.state = { ...initialState };
-        this.checkAuth = this.checkAuth.bind(this);
+        this.setAuthInState = this.setAuthInState.bind(this);
     }
 
     componentDidMount() {
-        this.checkAuth();
+        this.setAuthInState().catch(err => console.error(err));
     }
 
     componentWillUnmount() {
@@ -34,35 +32,57 @@ class AuthWrapper extends Component<Props, State> {
         }
     }
 
-    async checkAuth() {
-        const authData = await loadWebsocketTokens();
-        if (!authData) {
-            this.setState({ ...this.state, connection: new Error('No Home Assistant config set') });
-            return;
-        }
+    /** Check auth, set connection or error in state, and return result. */
+    async setAuthInState(haURL?: string) {
+        return this.checkAuth(haURL)
+            .then(connection => {
+                this.setState({ ...this.state, connection });
+                return connection;
+            })
+            .catch(err => {
+                this.setState({ ...this.state, connection: err });
+                throw err;
+            });
+    }
+
+    /** Set and return Connection if valid. */
+    async checkAuth(haURL?: string) {
         let auth: Auth;
         try {
-            auth = await authenticateWebsocket(authData.hassUrl);
+            auth = await authenticateWebsocket(haURL);
+            return await createConnection({ auth });
         } catch (err) {
-            this.setState({ ...this.state, connection: new Error('Authentication failed', { cause: err }) });
-            return;
+            switch (err) {
+                case ERR_HASS_HOST_REQUIRED:
+                    throw new Error('Home Assistant URL not provided.');
+                case ERR_INVALID_AUTH:
+                    throw new Error('Auth code invalid.');
+                case ERR_INVALID_HTTPS_TO_HTTP:
+                    throw new Error('Cannot access http Home Assistant from https context.');
+                case ERR_CANNOT_CONNECT:
+                    throw new Error('Cannot connect to websocket API');
+                case ERR_CONNECTION_LOST:
+                    throw new Error('Connection lost!')
+            }
+            throw new Error('Unrecognized error', {cause: err});
         }
-        let connection: Connection;
-        try {
-            connection = await createConnection({ auth });
-        } catch (err) {
-            this.setState({ ...this.state, connection: new Error('Could not establish connection', { cause: err }) });
-            return;
-        }
-
-        this.setState({ ...this.state, connection });
-        return connection;
     }
 
     render() {
+        const router = createBrowserRouter([
+            {
+                path: '/',
+                element: <Dashboard />
+            },
+            {
+                path: '/settings',
+                element: <Settings checkAuthCallback={this.setAuthInState} />
+            }
+        ]);
+
         return (
             <ConnectionContext.Provider value={this.state.connection}>
-                {this.props.children}
+                <RouterProvider router={router} />
             </ConnectionContext.Provider>
         );
     }

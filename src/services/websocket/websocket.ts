@@ -2,10 +2,9 @@ import { Auth, callService, Connection, getAuth, getAuthOptions } from 'home-ass
 import { EntityID } from '../../entities/ha-entity';
 import { loadWebsocketTokens, saveWebsocketTokens } from '../local-storage/local-storage';
 
-export const authenticateWebsocket = async (haURL: string, redirectURL?: string): Promise<Auth> => {
+export const authenticateWebsocket = async (haURL?: string): Promise<Auth> => {
     const options: getAuthOptions = {
         hassUrl: haURL,
-        redirectUrl: redirectURL,
         saveTokens: saveWebsocketTokens,
         loadTokens: loadWebsocketTokens,
     };
@@ -17,5 +16,5 @@ export const callWebsocketService = (connection: Connection | Error, domain: str
         console.error(`No connection to make websocket service call ${domain}.${action}!`);
         return;
     }
-    callService(connection, domain, action, data, {entity_id: target?.getCanonicalized()});
+    callService(connection, domain, action, data, { entity_id: target?.getCanonicalized() });
 };
