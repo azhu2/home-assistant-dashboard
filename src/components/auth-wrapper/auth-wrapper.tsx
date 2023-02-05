@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
 import { AuthContext, AuthContextType, emptyAuthContext } from '../../services/context';
-import { saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
+import { loadLongLivedAccessToken, saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
 import { NewRestAPI, RestAPI } from '../../services/rest-api/rest-api';
 import { authenticateWebsocket, WebsocketAPIImpl, WebsocketConnection } from '../../services/websocket/websocket';
 
@@ -23,6 +23,7 @@ class AuthWrapper extends Component<{}, State> {
 
     componentDidMount() {
         this.setWebsocketAuth().catch(err => console.error(err));
+        this.setRestAuth(loadLongLivedAccessToken());
     }
 
     componentWillUnmount() {
