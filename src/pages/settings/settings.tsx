@@ -43,11 +43,15 @@ class Settings extends Component<Props, State> {
     async onSubmit(event: FormEvent) {
         event.preventDefault();
 
-        if (!this.state.haURL) {
+        let url = this.state.haURL;
+        if (!url) {
             return;
         }
+        if (!(url.startsWith('https://') && url.startsWith('http://'))) {
+            url = `http://${url}`;
+        }
 
-        this.props.checkAuthCallback(this.state.haURL)
+        this.props.checkAuthCallback(url)
             .then(haURL => {
                 if (haURL) {
                     this.setState({ ...this.state, haURL });

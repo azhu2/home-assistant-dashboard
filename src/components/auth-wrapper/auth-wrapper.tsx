@@ -79,8 +79,8 @@ class AuthWrapper extends Component<{}, State> {
             },
             {
                 path: '/settings',
-                element: <Settings checkAuthCallback={async () => {
-                    const connection = await this.setWebsocketAuth();
+                element: <Settings checkAuthCallback={async (haURL) => {
+                    const connection = await this.setWebsocketAuth(haURL);
                     return connection.options.auth?.data.hassUrl || '';
                 }} />
             }
