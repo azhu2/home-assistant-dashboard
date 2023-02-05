@@ -1,16 +1,15 @@
-import { Connection } from 'home-assistant-js-websocket';
 import { Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icon/icon';
 import { Color } from '../../entities/color';
 import { loadWebsocketTokens } from '../../services/local-storage/local-storage';
-import { ConnectionContext } from '../../services/websocket/context';
+import { WebsocketAPIContext } from '../../services/websocket/context';
 import './settings.css';
 
 const DEFAULT_URL = 'http://127.0.0.1:8123';
 
 type Props = {
-    checkAuthCallback: (haURL: string) => Promise<Connection>,
+    checkAuthCallback: (haURL: string) => Promise<string>,
 }
 
 type State = {
@@ -49,8 +48,12 @@ class Settings extends Component<Props, State> {
         }
 
         this.props.checkAuthCallback(this.state.haURL)
-            .then(connection => this.setState({ ...this.state, haURL: connection.options.auth?.data.hassUrl }));
-            // TODO Clear URL params after complete
+            .then(haURL => {
+                if (haURL) {
+                    this.setState({ ...this.state, haURL });
+                }
+            });
+        // TODO Clear URL params after complete
     }
 
     render() {
@@ -64,7 +67,7 @@ class Settings extends Component<Props, State> {
                             placeholder={DEFAULT_URL}
                             value={this.state.haURL || ''}
                             onChange={event => this.setState({ ...this.state, haURL: event.currentTarget.value })} />
-                        <ConnectionContext.Consumer>
+                        <WebsocketAPIContext.Consumer>
                             {connection => {
                                 if (connection instanceof Error) {
                                     return (
@@ -81,9 +84,9 @@ class Settings extends Component<Props, State> {
                                     <Icon name='ok--v1' color={new Color('#00aa00')} />
                                 )
                             }}
-                        </ConnectionContext.Consumer>
+                        </WebsocketAPIContext.Consumer>
                     </div>
-                    <input type='submit' />
+                    <input type='submit' value='Save' />
                 </form>
                 <div><Link to='/'>Back</Link></div>
             </>

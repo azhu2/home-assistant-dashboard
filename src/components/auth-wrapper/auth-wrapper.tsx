@@ -1,10 +1,10 @@
-import { Auth, Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
+import { Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
 import { Component } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
-import { ConnectionContext, ErrConnectionNotInitialized } from '../../services/websocket/context';
-import { authenticateWebsocket } from '../../services/websocket/websocket';
+import { ConnectionContext, ErrConnectionNotInitialized, WebsocketAPIContext } from '../../services/websocket/context';
+import { authenticateWebsocket, WebsocketImpl } from '../../services/websocket/websocket';
 
 type State = {
     connection: Connection | Error,
@@ -27,13 +27,13 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     componentWillUnmount() {
-        if (this.state.connection instanceof Connection) {
+        if (!(this.state.connection instanceof Error)) {
             this.state.connection.close();
         }
     }
 
     /** Check auth, set connection or error in state, and return result. */
-    async setAuthInState(haURL?: string) {
+    async setAuthInState(haURL?: string): Promise<Connection> {
         return this.checkAuth(haURL)
             .then(connection => {
                 this.setState({ ...this.state, connection });
@@ -45,11 +45,10 @@ class AuthWrapper extends Component<{}, State> {
             });
     }
 
-    /** Set and return Connection if valid. */
-    async checkAuth(haURL?: string) {
-        let auth: Auth;
+    /** Set and return connection if valid. */
+    async checkAuth(haURL?: string): Promise<Connection> {
         try {
-            auth = await authenticateWebsocket(haURL);
+            const auth = await authenticateWebsocket(haURL);
             return await createConnection({ auth });
         } catch (err) {
             switch (err) {
@@ -64,7 +63,7 @@ class AuthWrapper extends Component<{}, State> {
                 case ERR_CONNECTION_LOST:
                     throw new Error('Connection lost!')
             }
-            throw new Error('Unrecognized error', {cause: err});
+            throw new Error('Unrecognized error', { cause: err });
         }
     }
 
@@ -76,13 +75,22 @@ class AuthWrapper extends Component<{}, State> {
             },
             {
                 path: '/settings',
-                element: <Settings checkAuthCallback={this.setAuthInState} />
+                element: <Settings checkAuthCallback={async () => {
+                    const connection = await this.setAuthInState();
+                    return connection.options.auth?.data.hassUrl || '';
+                }} />
             }
         ]);
 
         return (
             <ConnectionContext.Provider value={this.state.connection}>
-                <RouterProvider router={router} />
+                <ConnectionContext.Consumer>
+                    {connection =>
+                        <WebsocketAPIContext.Provider value={connection instanceof Error ? connection : new WebsocketImpl(connection)}>
+                            <RouterProvider router={router} />
+                        </WebsocketAPIContext.Provider>
+                    }
+                </ConnectionContext.Consumer>
             </ConnectionContext.Provider>
         );
     }

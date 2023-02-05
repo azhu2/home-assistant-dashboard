@@ -1,7 +1,6 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
-import { ConnectionContext } from '../../../services/websocket/context';
-import { callWebsocketService } from '../../../services/websocket/websocket';
+import { callWebsocketOrWarn, WebsocketAPIContext } from '../../../services/websocket/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';
@@ -30,8 +29,8 @@ const initialState: State = {
 }
 
 class Light extends React.Component<Props, State> {
-    context!: React.ContextType<typeof ConnectionContext>
-    static contextType = ConnectionContext;
+    context!: React.ContextType<typeof WebsocketAPIContext>
+    static contextType = WebsocketAPIContext;
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 
@@ -65,7 +64,7 @@ class Light extends React.Component<Props, State> {
             return;
         }
         // Use home assistant domain for generic toggle (works for lights and switches)
-        callWebsocketService(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() })
+        callWebsocketOrWarn(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() })
     }
 
     /** To un-expand when clicked elsewhere */
@@ -79,7 +78,7 @@ class Light extends React.Component<Props, State> {
     /** Callback for setting dimmer brightness */
     onSetBrightness(brightness: number) {
         const stringified = `${brightness.toFixed(0)}`;
-        callWebsocketService(this.context, 'light', 'turn_on', { brightness: stringified }, this.props.entityID);
+        callWebsocketOrWarn(this.context, 'light', 'turn_on', { brightness: stringified }, this.props.entityID);
     }
 
     color() {
