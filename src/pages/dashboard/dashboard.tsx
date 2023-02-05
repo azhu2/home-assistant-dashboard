@@ -1,10 +1,11 @@
-import { Connection, subscribeEntities, UnsubscribeFunc } from 'home-assistant-js-websocket';
+import { subscribeEntities, UnsubscribeFunc } from 'home-assistant-js-websocket';
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { fromHassEntity, HaEntity } from '../../entities/ha-entity';
 import Layout from '../../layout/layout';
 import entityTypeMap from '../../mappers/entity-types';
-import { ConnectionContext, ErrConnectionNotInitialized } from '../../services/websocket/context';
+import { ErrConnectionNotInitialized, WebsocketConnectionContext } from '../../services/websocket/context';
+import { WebsocketConnection } from '../../services/websocket/websocket';
 
 type State = {
     entityMap: Map<string, HaEntity>,
@@ -32,10 +33,10 @@ class Dashboard extends React.Component<{}, State> {
 
     render() {
         return (<>
-            <ConnectionContext.Consumer>
+            <WebsocketConnectionContext.Consumer>
                 {connection => {
                     if (this.state.entityMap.size === 0) {
-                        if (connection instanceof Connection) {
+                        if (!(connection instanceof Error)) {
                             this.setupSubscription(connection);
                         } else if (connection === ErrConnectionNotInitialized) {
                             // Expected error while AuthWrapper still initializing
@@ -51,11 +52,11 @@ class Dashboard extends React.Component<{}, State> {
                         <Layout entityMap={this.state.entityMap} />
                     );
                 }}
-            </ConnectionContext.Consumer>
+            </WebsocketConnectionContext.Consumer>
         </>);
     }
 
-    async setupSubscription(connection: Connection) {
+    async setupSubscription(connection: WebsocketConnection) {
         subscribeEntities(connection, (entities) => {
             const newEntities = new Map(this.state.entityMap);
 

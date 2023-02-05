@@ -1,20 +1,20 @@
-import { Connection, createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
+import { createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
 import { Component } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
-import { ConnectionContext, ErrConnectionNotInitialized, WebsocketAPIContext } from '../../services/websocket/context';
-import { authenticateWebsocket, WebsocketImpl } from '../../services/websocket/websocket';
+import { WebsocketConnectionContext, ErrConnectionNotInitialized, WebsocketAPIContext } from '../../services/websocket/context';
+import { authenticateWebsocket, WebsocketConnection, WebsocketImpl } from '../../services/websocket/websocket';
 
 type State = {
-    connection: Connection | Error,
+    connection: WebsocketConnection | Error,
 };
 
 const initialState: State = {
     connection: ErrConnectionNotInitialized,
 };
 
-/** Wrapper that provides a (Connection | Error) context. */
+/** Wrapper that provides a (WebsocketConnection | Error) context. */
 class AuthWrapper extends Component<{}, State> {
     constructor(props: {}) {
         super(props);
@@ -33,7 +33,7 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Check auth, set connection or error in state, and return result. */
-    async setAuthInState(haURL?: string): Promise<Connection> {
+    async setAuthInState(haURL?: string): Promise<WebsocketConnection> {
         return this.checkAuth(haURL)
             .then(connection => {
                 this.setState({ ...this.state, connection });
@@ -46,7 +46,7 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Set and return connection if valid. */
-    async checkAuth(haURL?: string): Promise<Connection> {
+    async checkAuth(haURL?: string): Promise<WebsocketConnection> {
         try {
             const auth = await authenticateWebsocket(haURL);
             return await createConnection({ auth });
@@ -83,15 +83,16 @@ class AuthWrapper extends Component<{}, State> {
         ]);
 
         return (
-            <ConnectionContext.Provider value={this.state.connection}>
-                <ConnectionContext.Consumer>
+            // Provide WebsocketConnection and WebsocketAPI under it.
+            <WebsocketConnectionContext.Provider value={this.state.connection}>
+                <WebsocketConnectionContext.Consumer>
                     {connection =>
                         <WebsocketAPIContext.Provider value={connection instanceof Error ? connection : new WebsocketImpl(connection)}>
                             <RouterProvider router={router} />
                         </WebsocketAPIContext.Provider>
                     }
-                </ConnectionContext.Consumer>
-            </ConnectionContext.Provider>
+                </WebsocketConnectionContext.Consumer>
+            </WebsocketConnectionContext.Provider>
         );
     }
 };

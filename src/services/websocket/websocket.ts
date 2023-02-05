@@ -2,14 +2,16 @@ import { Auth, callService, Connection, getAuth, getAuthOptions } from 'home-ass
 import { EntityID } from '../../entities/ha-entity';
 import { loadWebsocketTokens, saveWebsocketTokens } from '../local-storage/local-storage';
 
+export type WebsocketConnection = Connection;
+
 export interface Websocket {
     call: (domain: string, action: string, data?: object, target?: EntityID) => Promise<any>,
 };
 
 export class WebsocketImpl implements Websocket {
-    connection: Connection;
+    connection: WebsocketConnection;
 
-    constructor(connection: Connection) {
+    constructor(connection: WebsocketConnection) {
         this.connection = connection;
     }
 
