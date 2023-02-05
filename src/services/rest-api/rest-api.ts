@@ -26,6 +26,6 @@ export const NewRestAPI = async (authToken: string) => {
         await api.healthCheck();
         return api;
     } catch (err) {
-        return new Error('Could not reach REST API.', { cause: err });
+        throw new Error('Could not reach REST API.', { cause: err });
     }
 }

@@ -4,6 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
 import { AuthContext, AuthContextType, emptyAuthContext } from '../../services/context';
+import { saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
+import { NewRestAPI, RestAPI } from '../../services/rest-api/rest-api';
 import { authenticateWebsocket, WebsocketAPIImpl, WebsocketConnection } from '../../services/websocket/websocket';
 
 type State = AuthContextType;
@@ -16,6 +18,7 @@ class AuthWrapper extends Component<{}, State> {
         super(props);
         this.state = { ...initialState };
         this.setWebsocketAuth = this.setWebsocketAuth.bind(this);
+        this.setRestAuth = this.setRestAuth.bind(this);
     }
 
     componentDidMount() {
@@ -71,6 +74,26 @@ class AuthWrapper extends Component<{}, State> {
         }
     }
 
+    /** Set and return authed rest API. */
+    async setRestAuth(llaToken: string): Promise<RestAPI> {
+        return NewRestAPI(llaToken)
+            .then(restAPI => {
+                saveLongLivedAccessToken(llaToken);
+                this.setState({
+                    ...this.state,
+                    restAPI,
+                });
+                return restAPI;
+            })
+            .catch(err => {
+                this.setState({
+                    ...this.state,
+                    restAPI: err,
+                });
+                throw err;
+            });
+    }
+
     render() {
         const router = createBrowserRouter([
             {
@@ -79,15 +102,18 @@ class AuthWrapper extends Component<{}, State> {
             },
             {
                 path: '/settings',
-                element: <Settings checkAuthCallback={async (haURL) => {
-                    const connection = await this.setWebsocketAuth(haURL);
-                    return connection.options.auth?.data.hassUrl || '';
-                }} />
+                element: <Settings
+                    checkWebsocketCallback={async haURL => {
+                        const connection = await this.setWebsocketAuth(haURL);
+                        return connection.options.auth?.data.hassUrl || '';
+                    }}
+                    checkRestAPICallback={this.setRestAuth}
+                />
             }
         ]);
 
         return (
-            <AuthContext.Provider value={this.state}>
+            <AuthContext.Provider value={this.state} >
                 <RouterProvider router={router} />
             </AuthContext.Provider>
         );
