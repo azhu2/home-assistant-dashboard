@@ -2,8 +2,8 @@ import { Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Icon from '../../components/icon/icon';
 import { Color } from '../../entities/color';
+import { AuthContext } from '../../services/context';
 import { loadWebsocketTokens } from '../../services/local-storage/local-storage';
-import { WebsocketAPIContext } from '../../services/websocket/context';
 import './settings.css';
 
 const DEFAULT_URL = 'http://127.0.0.1:8123';
@@ -67,24 +67,30 @@ class Settings extends Component<Props, State> {
                             placeholder={DEFAULT_URL}
                             value={this.state.haURL || ''}
                             onChange={event => this.setState({ ...this.state, haURL: event.currentTarget.value })} />
-                        <WebsocketAPIContext.Consumer>
-                            {connection => {
-                                if (connection instanceof Error) {
+                        <AuthContext.Consumer>
+                            {auth => {
+                                let websocketStatus = <Icon name='ok--v1' color={new Color('#00aa00')} />
+
+                                let errMessage;
+                                if (auth.websocketConnection instanceof Error) {
+                                    errMessage = auth.websocketConnection.message;
+                                } else if (auth.websocketAPI instanceof Error) {
+                                    errMessage = auth.websocketAPI.message;
+                                }
+
+                                if (errMessage) {
                                     return (
                                         <>
                                             {/* TODO Error color */}
                                             <Icon name='circled-x' color={new Color('aa0000')} />
                                             {/* TODO Make hover */}
-                                            {connection.message}
+                                            {errMessage}
                                         </>
                                     );
                                 }
-                                return (
-                                    // TODO Success color
-                                    <Icon name='ok--v1' color={new Color('#00aa00')} />
-                                )
+                                return websocketStatus;
                             }}
-                        </WebsocketAPIContext.Consumer>
+                        </AuthContext.Consumer>
                     </div>
                     <input type='submit' value='Save' />
                 </form>

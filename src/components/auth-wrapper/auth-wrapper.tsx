@@ -3,50 +3,54 @@ import { Component } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Dashboard from '../../pages/dashboard/dashboard';
 import Settings from '../../pages/settings/settings';
-import { WebsocketConnectionContext, ErrConnectionNotInitialized, WebsocketAPIContext } from '../../services/websocket/context';
-import { authenticateWebsocket, WebsocketConnection, WebsocketImpl } from '../../services/websocket/websocket';
+import { AuthContext, AuthContextType, emptyAuthContext } from '../../services/context';
+import { authenticateWebsocket, WebsocketAPIImpl, WebsocketConnection } from '../../services/websocket/websocket';
 
-type State = {
-    connection: WebsocketConnection | Error,
-};
+type State = AuthContextType;
 
-const initialState: State = {
-    connection: ErrConnectionNotInitialized,
-};
+const initialState: State = emptyAuthContext;
 
-/** Wrapper that provides a (WebsocketConnection | Error) context. */
+/** Wrapper that provides an AuthContext. */
 class AuthWrapper extends Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { ...initialState };
-        this.setAuthInState = this.setAuthInState.bind(this);
+        this.setWebsocketAuth = this.setWebsocketAuth.bind(this);
     }
 
     componentDidMount() {
-        this.setAuthInState().catch(err => console.error(err));
+        this.setWebsocketAuth().catch(err => console.error(err));
     }
 
     componentWillUnmount() {
-        if (!(this.state.connection instanceof Error)) {
-            this.state.connection.close();
+        if (!(this.state.websocketConnection instanceof Error)) {
+            this.state.websocketConnection.close();
         }
     }
 
-    /** Check auth, set connection or error in state, and return result. */
-    async setAuthInState(haURL?: string): Promise<WebsocketConnection> {
-        return this.checkAuth(haURL)
+    /** Check websocket auth, set connection or error in state, and return result. */
+    async setWebsocketAuth(haURL?: string): Promise<WebsocketConnection> {
+        return this.checkWebsocketAuth(haURL)
             .then(connection => {
-                this.setState({ ...this.state, connection });
+                this.setState({
+                    ...this.state,
+                    websocketConnection: connection,
+                    websocketAPI: new WebsocketAPIImpl(connection),
+                });
                 return connection;
             })
             .catch(err => {
-                this.setState({ ...this.state, connection: err });
+                this.setState({
+                    ...this.state,
+                    websocketConnection: err,
+                    websocketAPI: err,
+                });
                 throw err;
             });
     }
 
-    /** Set and return connection if valid. */
-    async checkAuth(haURL?: string): Promise<WebsocketConnection> {
+    /** Set and return websocket connection if valid. */
+    async checkWebsocketAuth(haURL?: string): Promise<WebsocketConnection> {
         try {
             const auth = await authenticateWebsocket(haURL);
             return await createConnection({ auth });
@@ -76,23 +80,16 @@ class AuthWrapper extends Component<{}, State> {
             {
                 path: '/settings',
                 element: <Settings checkAuthCallback={async () => {
-                    const connection = await this.setAuthInState();
+                    const connection = await this.setWebsocketAuth();
                     return connection.options.auth?.data.hassUrl || '';
                 }} />
             }
         ]);
 
         return (
-            // Provide WebsocketConnection and WebsocketAPI under it.
-            <WebsocketConnectionContext.Provider value={this.state.connection}>
-                <WebsocketConnectionContext.Consumer>
-                    {connection =>
-                        <WebsocketAPIContext.Provider value={connection instanceof Error ? connection : new WebsocketImpl(connection)}>
-                            <RouterProvider router={router} />
-                        </WebsocketAPIContext.Provider>
-                    }
-                </WebsocketConnectionContext.Consumer>
-            </WebsocketConnectionContext.Provider>
+            <AuthContext.Provider value={this.state}>
+                <RouterProvider router={router} />
+            </AuthContext.Provider>
         );
     }
 };

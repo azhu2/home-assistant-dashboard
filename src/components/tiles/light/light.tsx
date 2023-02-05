@@ -1,6 +1,6 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
-import { callWebsocketOrWarn, WebsocketAPIContext } from '../../../services/websocket/context';
+import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';
@@ -29,8 +29,8 @@ const initialState: State = {
 }
 
 class Light extends React.Component<Props, State> {
-    context!: React.ContextType<typeof WebsocketAPIContext>
-    static contextType = WebsocketAPIContext;
+    context!: React.ContextType<typeof AuthContext>
+    static contextType = AuthContext;
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 

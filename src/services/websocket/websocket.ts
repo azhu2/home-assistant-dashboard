@@ -4,11 +4,11 @@ import { loadWebsocketTokens, saveWebsocketTokens } from '../local-storage/local
 
 export type WebsocketConnection = Connection;
 
-export interface Websocket {
+export interface WebsocketAPI {
     call: (domain: string, action: string, data?: object, target?: EntityID) => Promise<any>,
 };
 
-export class WebsocketImpl implements Websocket {
+export class WebsocketAPIImpl implements WebsocketAPI {
     connection: WebsocketConnection;
 
     constructor(connection: WebsocketConnection) {

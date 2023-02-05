@@ -4,7 +4,7 @@ import { Navigate } from 'react-router-dom';
 import { fromHassEntity, HaEntity } from '../../entities/ha-entity';
 import Layout from '../../layout/layout';
 import entityTypeMap from '../../mappers/entity-types';
-import { ErrConnectionNotInitialized, WebsocketConnectionContext } from '../../services/websocket/context';
+import { ErrConnectionNotInitialized, AuthContext } from '../../services/context';
 import { WebsocketConnection } from '../../services/websocket/websocket';
 
 type State = {
@@ -33,16 +33,17 @@ class Dashboard extends React.Component<{}, State> {
 
     render() {
         return (<>
-            <WebsocketConnectionContext.Consumer>
-                {connection => {
+            <AuthContext.Consumer>
+                {context => {
+                    const websocketConnection = context.websocketConnection;
                     if (this.state.entityMap.size === 0) {
-                        if (!(connection instanceof Error)) {
-                            this.setupSubscription(connection);
-                        } else if (connection === ErrConnectionNotInitialized) {
+                        if (!(websocketConnection instanceof Error)) {
+                            this.setupSubscription(websocketConnection);
+                        } else if (websocketConnection === ErrConnectionNotInitialized) {
                             // Expected error while AuthWrapper still initializing
                             console.info('Connection not established yet. Should retry or redirect.');
                         } else {
-                            console.warn('Unable to automatically connect. Redirecting to settings.', connection);
+                            console.warn('Unable to automatically connect. Redirecting to settings.', websocketConnection);
                             return (
                                 <Navigate to='/settings' />
                             );
@@ -52,7 +53,7 @@ class Dashboard extends React.Component<{}, State> {
                         <Layout entityMap={this.state.entityMap} />
                     );
                 }}
-            </WebsocketConnectionContext.Consumer>
+            </AuthContext.Consumer>
         </>);
     }
 

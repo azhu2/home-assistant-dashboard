@@ -1,5 +1,5 @@
 import { ReactElement, useContext } from 'react';
-import { callWebsocketOrWarn, WebsocketAPIContext } from '../../../services/websocket/context';
+import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
 import Tile, { TileProps } from '../tile';
@@ -16,15 +16,15 @@ const stateToIconMap: { [state: string]: ReactElement } = {
 }
 
 function Garage(props: Props) {
-    const websocket = useContext(WebsocketAPIContext);
+    const authContext = useContext(AuthContext);
 
     const onClick = () => {
         switch (props.state) {
             case 'closed':
-                callWebsocketOrWarn(websocket, 'cover', 'open_cover', {}, props.entityID);
+                callWebsocketOrWarn(authContext, 'cover', 'open_cover', {}, props.entityID);
                 return;
             case 'open':
-                callWebsocketOrWarn(websocket, 'cover', 'close_cover', {}, props.entityID);
+                callWebsocketOrWarn(authContext, 'cover', 'close_cover', {}, props.entityID);
                 return;
         }
         console.warn(`Not opening or closing ${props.friendlyName} while in operation`);
