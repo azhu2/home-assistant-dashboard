@@ -41,7 +41,7 @@ class Dashboard extends React.Component<{}, State> {
                             this.setupSubscription(websocketConnection);
                         } else if (websocketConnection === ErrConnectionNotInitialized) {
                             // Expected error while AuthWrapper still initializing
-                            console.info('Connection not established yet. Should retry or redirect.');
+                            console.info('Connection not established yet. Should retry.');
                         } else {
                             console.warn('Unable to automatically connect. Redirecting to settings.', websocketConnection);
                             return (

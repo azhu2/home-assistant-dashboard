@@ -21,6 +21,7 @@ class AuthWrapper extends Component<{}, State> {
         this.setRestAuth = this.setRestAuth.bind(this);
     }
 
+    /** Try to set up connections from data in local storage. */
     componentDidMount() {
         this.setWebsocketAuth().catch(err => console.error(err));
         this.setRestAuth(loadHAURL(), loadLongLivedAccessToken());
