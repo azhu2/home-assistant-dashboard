@@ -5,6 +5,7 @@ import './tile.css';
 /** Props for a tile representing a single entity. */
 export type TileProps = {
     entity: HaEntity,
+    tileType?: string,
     /** Map of additional parms to pass to a tile. */
     options?: TileOptions,
 };
@@ -23,7 +24,7 @@ type EntityTileProps = TileProps & {
 
 /** Tile provides basic functionality and look-and-feel to a tile. */
 const Tile = (props: EntityTileProps) =>
-    <div className='tile' style={{
+    <div className={`tile tile-${props.tileType}`} style={{
         backgroundColor: (props.backgroundColorMapper && props.backgroundColorMapper(props.entity)) || 'transparent',       // TODO tile background color
     }}>
         {props.options?.showName && <div className='name'>{props.entity.friendlyName}</div>}

@@ -40,6 +40,7 @@ function Garage(props: Props) {
 const GarageTile = (props: TileProps) =>
     <Tile
         entity={props.entity}
+        tileType='garage'
         options={props.options}
         propsMapper={
             (entity) =>

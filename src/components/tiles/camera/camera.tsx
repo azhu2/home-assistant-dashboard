@@ -1,23 +1,36 @@
+import { Component } from 'react';
+import { AuthContext } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Tile, { TileProps } from '../tile';
+import './camera.css';
 
 type Props = BaseEntityProps & {
     snapshotURL?: string,
 }
 
-function Camera(props: Props) {
-    return (
-        <div className='camera' id={props.entityID.getCanonicalized()}>
-            {props.friendlyName}
-            {/* Camera image seems iffy - ratelimiting? Try RTSP instead - see what the card does? */}
-            {/* {props.snapshotURL && <img src={props.snapshotURL} height='100px' />} */}
-        </div>
-    );
+class Camera extends Component<Props> {
+    render() {
+        return (
+            <div className='camera' id={this.props.entityID.getCanonicalized()}>
+                <AuthContext.Consumer>
+                    {auth => {
+                        const { restAPI } = auth;
+                        if (!(restAPI instanceof Error) && this.props.snapshotURL) {
+                            return(
+                                <img className='camera-snapshot' src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`} />
+                            );
+                        }
+                    }}
+                </AuthContext.Consumer>
+            </div>
+        );
+    };
 }
 
 const CameraTile = (props: TileProps) =>
     <Tile
         entity={props.entity}
+        tileType='camera'
         options={props.options}
         propsMapper={
             (entity, options) =>
@@ -26,9 +39,9 @@ const CameraTile = (props: TileProps) =>
                     entityID={entity.entityID}
                     friendlyName={entity.friendlyName}
                     icon={options?.icon}
-                // snapshotURL={entity.attributes['entity_picture'] ? `${this.state.baseURL}${entity.attributes['entity_picture']}` : ''}
+                    snapshotURL={entity.attributes['entity_picture']}
                 />
         }
-    />;
+    />
 
 export default CameraTile;

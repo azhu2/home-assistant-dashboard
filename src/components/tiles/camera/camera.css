@@ -1,0 +1,15 @@
+.tile-camera {
+    width: 16em;
+    height: 9em;
+}
+
+.camera {
+    height: 100%;
+    width: 100%;
+    display: flex;
+}
+
+.camera-snapshot {
+    max-height: 100%;
+    max-width: 100%;
+}

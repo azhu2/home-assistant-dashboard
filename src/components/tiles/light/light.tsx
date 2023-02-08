@@ -29,10 +29,11 @@ const initialState: State = {
 }
 
 class Light extends React.Component<Props, State> {
-    context!: React.ContextType<typeof AuthContext>
-    static contextType = AuthContext;
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
+
+    context!: React.ContextType<typeof AuthContext>
+    static contextType = AuthContext;
 
     constructor(props: Props) {
         super(props);

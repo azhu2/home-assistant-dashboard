@@ -1,4 +1,5 @@
 export interface RestAPI {
+    getBaseURL: () => string;
     healthCheck: () => Promise<boolean>
 };
 
@@ -9,9 +10,9 @@ class RestAPIImpl implements RestAPI {
 
     constructor(baseURL: string, authToken: string) {
         if (baseURL.endsWith('/')) {
-            this.baseURL = `${baseURL}api/`;
+            this.baseURL = baseURL.slice(0, baseURL.length - 1);
         } else {
-            this.baseURL = `${baseURL}/api/`;
+            this.baseURL = baseURL;
         }
         this.authToken = authToken;
         this.authHeaders = new Headers({
@@ -20,8 +21,12 @@ class RestAPIImpl implements RestAPI {
         });
     }
 
+    getBaseURL() {
+        return this.baseURL;
+    }
+
     async healthCheck() {
-        await fetch(new Request(this.baseURL, {
+        await fetch(new Request(`${this.baseURL}/api/`, {
             headers: this.authHeaders,
         }));
         return true;

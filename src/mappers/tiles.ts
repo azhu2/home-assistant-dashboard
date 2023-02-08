@@ -8,10 +8,10 @@ import { EntityType } from '../entities/ha-entity';
 
 /** Fetches a default tile for an entity type. */
 const toTile:{[type in EntityType]: (props: TileProps) => ReactElement} = {
-    LIGHT: LightTile,
-    CAMERA: CameraTile,
-    GAUGE: GaugeTile,
-    GARAGE: GarageTile,
+    light: LightTile,
+    camera: CameraTile,
+    gauge: GaugeTile,
+    garage: GarageTile,
 }
 
 export default toTile;

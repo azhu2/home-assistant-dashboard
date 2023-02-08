@@ -24,7 +24,7 @@ const Layout = (props: Props) => {
             console.warn(`Could not find default tile for ${entityID}`)
             return;
         }
-        return tile({ entity, options });
+        return tile({ entity, tileType: entity.type, options });
     }
 
     return (
@@ -53,6 +53,9 @@ const Layout = (props: Props) => {
                 {getTile('cover.garage_door')}
                 {getTile('switch.front_door_lights', { icon: 'lights' })}
                 {getTile('switch.outdoor_lights', { icon: 'external-lights' })}
+            </Room>
+            <Room title='Cameras'>
+                {getTile('camera.garage_cam_high')}
             </Room>
             <Room title='System'>
                 {getTile('sensor.synology_nas_cpu_utilization_total', { showName: true })}
