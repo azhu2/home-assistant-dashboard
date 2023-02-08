@@ -16,8 +16,12 @@ class Camera extends Component<Props> {
                     {auth => {
                         const { restAPI } = auth;
                         if (!(restAPI instanceof Error) && this.props.snapshotURL) {
-                            return(
-                                <img className='camera-snapshot' src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`} />
+                            return (
+                                <img
+                                    className='camera-snapshot'
+                                    src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                    alt={this.props.friendlyName}
+                                />
                             );
                         }
                     }}

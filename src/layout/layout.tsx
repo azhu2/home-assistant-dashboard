@@ -55,7 +55,9 @@ const Layout = (props: Props) => {
                 {getTile('switch.outdoor_lights', { icon: 'external-lights' })}
             </Room>
             <Room title='Cameras'>
-                {getTile('camera.garage_cam_high')}
+                {getTile('camera.garage_cam_high', { showName: true })}
+                {getTile('camera.family_room_cam_high', { showName: true })}
+                {getTile('camera.bedroom_cam_high', { showName: true })}
             </Room>
             <Room title='System'>
                 {getTile('sensor.synology_nas_cpu_utilization_total', { showName: true })}

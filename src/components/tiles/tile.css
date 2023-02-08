@@ -17,5 +17,6 @@
 }
 
 .content {
-    flex: auto;
+    flex: 9 4;
+    min-height: 0; /* prevents overflowing flex parent */
 }
