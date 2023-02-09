@@ -1,14 +1,20 @@
-import { Component } from 'react';
+import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
-import Tile, { TileProps } from '../tile';
+import { TileComponent } from '../tile';
 import './camera.css';
 
 type Props = BaseEntityProps & {
     snapshotURL?: string,
 }
 
-class Camera extends Component<Props> {
+class Camera extends TileComponent<Props> {
+    propsMapper(entity: HaEntity) {
+        return {
+            snapshotURL: entity.attributes['entity_picture'],
+        };
+    }
+
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
@@ -31,21 +37,4 @@ class Camera extends Component<Props> {
     };
 }
 
-const CameraTile = (props: TileProps) =>
-    <Tile
-        entity={props.entity}
-        tileType='camera'
-        options={props.options}
-        propsMapper={
-            (entity, options) =>
-                <Camera
-                    key={entity.entityID.getCanonicalized()}
-                    entityID={entity.entityID}
-                    friendlyName={entity.friendlyName}
-                    icon={options?.icon}
-                    snapshotURL={entity.attributes['entity_picture']}
-                />
-        }
-    />
-
-export default CameraTile;
+export default Camera;

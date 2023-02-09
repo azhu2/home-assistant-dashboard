@@ -1,8 +1,9 @@
-import { ReactElement, useContext } from 'react';
+import { ReactElement } from 'react';
+import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import Tile, { TileProps } from '../tile';
+import { TileComponent } from '../tile';
 
 type Props = BaseEntityProps & {
     state: string,
@@ -15,56 +16,40 @@ const stateToIconMap: { [state: string]: ReactElement } = {
     'closing': <Icon name='close-garage-door' />,
 }
 
-function Garage(props: Props) {
-    const authContext = useContext(AuthContext);
+class Garage extends TileComponent<Props> {
+    context!: React.ContextType<typeof AuthContext>
+    static contextType = AuthContext;
 
-    const onClick = () => {
-        switch (props.state) {
-            case 'closed':
-                callWebsocketOrWarn(authContext, 'cover', 'open_cover', {}, props.entityID);
-                return;
-            case 'open':
-                callWebsocketOrWarn(authContext, 'cover', 'close_cover', {}, props.entityID);
-                return;
-        }
-        console.warn(`Not opening or closing ${props.friendlyName} while in operation`);
+    constructor(props: Props) {
+        super(props);
+        this.onClick = this.onClick.bind(this);
     }
 
-    return (
-        <div className='Garage' id={props.entityID.getCanonicalized()} onClick={onClick}>
-            {stateToIconMap[props.state]}
-        </div>
-    );
+    propsMapper(entity: HaEntity) {
+        return {
+            state: entity.state,
+        };
+    }
+
+    onClick() {
+        switch (this.props.state) {
+            case 'closed':
+                callWebsocketOrWarn(this.context, 'cover', 'open_cover', {}, this.props.entityID);
+                return;
+            case 'open':
+                callWebsocketOrWarn(this.context, 'cover', 'close_cover', {}, this.props.entityID);
+                return;
+        }
+        console.warn(`Not opening or closing ${this.props.friendlyName} while in operation`);
+    }
+
+    render() {
+        return (
+            <div className='Garage' id={this.props.entityID.getCanonicalized()} onClick={this.onClick}>
+                {stateToIconMap[this.props.state]}
+            </div>
+        );
+    }
 }
 
-const GarageTile = (props: TileProps) =>
-    <Tile
-        entity={props.entity}
-        tileType='garage'
-        options={props.options}
-        propsMapper={
-            (entity) =>
-                <Garage
-                    key={entity.entityID.getCanonicalized()}
-                    entityID={entity.entityID}
-                    friendlyName={entity.friendlyName}
-                    state={entity.state}
-                />
-        }
-        backgroundColorMapper={
-            entity => {
-                switch (entity.state) {
-                    case 'open':
-                        return 'transparent';   // TODO tile background color
-                    case 'closed':
-                        return '#dddddd';       // TODO inactive color
-                    case 'opening':
-                    case 'closing':
-                        return '#cc99ff';       // TODO accent color
-                }
-                return undefined;
-            }
-        }
-    />;
-
-export default GarageTile;
+export default Garage;

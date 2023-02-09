@@ -1,9 +1,10 @@
 import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
+import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import Tile, { TileProps } from '../tile';
+import { TileComponent } from '../tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
@@ -28,7 +29,7 @@ const initialState: State = {
     isExpanded: false,
 }
 
-class Light extends React.Component<Props, State> {
+class Light extends TileComponent<Props, State> {
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 
@@ -43,6 +44,13 @@ class Light extends React.Component<Props, State> {
         this.onClickOutside = this.onClickOutside.bind(this);
         this.onSetBrightness = this.onSetBrightness.bind(this);
         this.ref = React.createRef();
+    }
+
+    propsMapper(entity: HaEntity) {
+        return {
+            state: entity.state === 'on',
+            brightness: entity.attributes['brightness'],
+        };
     }
 
     componentDidMount() {
@@ -118,24 +126,4 @@ class Light extends React.Component<Props, State> {
     }
 }
 
-const LightTile = (props: TileProps) =>
-    <Tile
-        entity={props.entity}
-        options={props.options}
-        propsMapper={
-            (entity, options) =>
-                <Light
-                    key={entity.entityID.getCanonicalized()}
-                    entityID={entity.entityID}
-                    friendlyName={entity.friendlyName}
-                    icon={options?.icon}
-                    state={entity.state === 'on'}
-                    brightness={entity.attributes['brightness']}
-                />
-        }
-        backgroundColorMapper={
-            entity => entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
-        }
-    />;
-
-export default LightTile;
+export default Light;

@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
 import Room from '../components/room/room';
-import { TileOptions } from '../components/tiles/tile';
+import Camera from '../components/tiles/camera/camera';
+import Garage from '../components/tiles/garage/garage';
+import Gauge from '../components/tiles/gauge/gauge';
+import Light from '../components/tiles/light/light';
+import { TileComponent, TileOptions, wrapTile } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
 import toTile from '../mappers/tiles';
 import './layout.css';
@@ -14,61 +18,60 @@ const Layout = (props: Props) => {
         ([entityID, entity]) => [entityID, toTile[entity.type]]
     ));
 
-    const getTile = (entityID: string, options?: TileOptions) => {
+    /** Construct a tile for a given tile type and entity ID. */
+    const getTile = (Tile: typeof TileComponent, entityID: string, options?: TileOptions) => {
         if (props.entityMap.size === 0) {
             return;
         }
-        const tile = componentMap.get(entityID)
-        const entity = props.entityMap.get(entityID)
-        if (!tile || !entity) {
-            console.warn(`Could not find default tile for ${entityID}`)
-            return;
+        const entity = props.entityMap.get(entityID);
+        const tileType = componentMap.get(entityID);
+        if (entity && tileType) {
+            return wrapTile(entity, options)(Tile);
         }
-        return tile({ entity, tileType: entity.type, options });
     }
 
     return (
         <>
             <div>Home Assistant Dashboard</div>
             <Room title='Living Room'>
-                {getTile('switch.marble_lamp', { icon: 'table-lights' })}
-                {getTile('switch.pendant_lamp', { icon: 'desk-lamp' })}
-                {getTile('sensor.thermostat_humidity', { showName: true })}
+                {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
+                {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}
+                {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
             </Room>
             <Room title='Family Room'>
-                {getTile('light.family_room_lights', { icon: 'philips-hue-go' })}
-                {getTile('light.family_room_chandelier', { icon: 'luminaria-led' })}
-                {getTile('switch.cat_den', { icon: 'animal-shelter' })}
-                {getTile('sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
+                {getTile(Light, 'light.family_room_lights', { icon: 'philips-hue-go' })}
+                {getTile(Light, 'light.family_room_chandelier', { icon: 'luminaria-led' })}
+                {getTile(Light, 'switch.cat_den', { icon: 'animal-shelter' })}
+                {getTile(Gauge, 'sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
             </Room>
             <Room title='Kitchen'>
-                {getTile('switch.kitchen_lights', { icon: 'philips-hue-go' })}
-                {getTile('switch.kitchen_chandelier', { icon: 'chandelier' })}
+                {getTile(Light, 'switch.kitchen_lights', { icon: 'philips-hue-go' })}
+                {getTile(Light, 'switch.kitchen_chandelier', { icon: 'chandelier' })}
             </Room>
             <Room title='Master Bedroom'>
-                {getTile('light.master_light', { icon: 'chandelier' })}
-                {getTile('sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
+                {getTile(Light, 'light.master_light', { icon: 'chandelier' })}
+                {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
-                {getTile('cover.garage_door')}
-                {getTile('switch.front_door_lights', { icon: 'lights' })}
-                {getTile('switch.outdoor_lights', { icon: 'external-lights' })}
+                {getTile(Garage, 'cover.garage_door')}
+                {getTile(Light, 'switch.front_door_lights', { icon: 'lights' })}
+                {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
             </Room>
             <Room title='Cameras'>
-                {getTile('camera.garage_cam_high', { showName: true })}
-                {getTile('camera.family_room_cam_high', { showName: true })}
-                {getTile('camera.bedroom_cam_high', { showName: true })}
+                {getTile(Camera, 'camera.garage_cam_high', { showName: true })}
+                {getTile(Camera, 'camera.family_room_cam_high', { showName: true })}
+                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true })}
             </Room>
             <Room title='System'>
-                {getTile('sensor.synology_nas_cpu_utilization_total', { showName: true })}
-                {getTile('sensor.synology_nas_memory_usage_real', { showName: true })}
-                {getTile('sensor.udr_memory_utilization', { showName: true })}
-                {getTile('sensor.synology_nas_volume_1_volume_used', { showName: true })}
-                {getTile('sensor.udr_storage_utilization', { showName: true })}
-                {getTile('sensor.online_devices', { showName: true })}
-                {getTile('sensor.1m_download_max', { showName: true })}
-                {getTile('sensor.1m_upload_max', { showName: true })}
-                {getTile('sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
+                {getTile(Gauge, 'sensor.synology_nas_cpu_utilization_total', { showName: true })}
+                {getTile(Gauge, 'sensor.synology_nas_memory_usage_real', { showName: true })}
+                {getTile(Gauge, 'sensor.udr_memory_utilization', { showName: true })}
+                {getTile(Gauge, 'sensor.synology_nas_volume_1_volume_used', { showName: true })}
+                {getTile(Gauge, 'sensor.udr_storage_utilization', { showName: true })}
+                {getTile(Gauge, 'sensor.online_devices', { showName: true })}
+                {getTile(Gauge, 'sensor.1m_download_max', { showName: true })}
+                {getTile(Gauge, 'sensor.1m_upload_max', { showName: true })}
+                {getTile(Gauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>
             <div>
                 <p><Link to='/settings'>Settings</Link></p>
