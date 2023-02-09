@@ -6,7 +6,6 @@ import Gauge from '../components/tiles/gauge/gauge';
 import Light from '../components/tiles/light/light';
 import { TileComponent, TileOptions, wrapTile } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
-import toTile from '../mappers/tiles';
 import './layout.css';
 
 type Props = {
@@ -14,18 +13,13 @@ type Props = {
 }
 
 const Layout = (props: Props) => {
-    const componentMap = new Map(Array.from(props.entityMap).map(
-        ([entityID, entity]) => [entityID, toTile[entity.type]]
-    ));
-
     /** Construct a tile for a given tile type and entity ID. */
     const getTile = (Tile: typeof TileComponent, entityID: string, options?: TileOptions) => {
         if (props.entityMap.size === 0) {
             return;
         }
         const entity = props.entityMap.get(entityID);
-        const tileType = componentMap.get(entityID);
-        if (entity && tileType) {
+        if (entity) {
             return wrapTile(entity, options)(Tile);
         }
     }
