@@ -4,7 +4,7 @@ import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import { TileComponent } from '../tile';
+import { MappableProps, TileComponent } from '../tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
@@ -46,10 +46,11 @@ class Light extends TileComponent<Props, State> {
         this.ref = React.createRef();
     }
 
-    propsMapper(entity: HaEntity) {
+    propsMapper(entity: HaEntity): MappableProps<Props> {
         return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
+            backgroundColor: entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
         };
     }
 

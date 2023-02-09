@@ -3,7 +3,7 @@ import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import { TileComponent } from '../tile';
+import { MappableProps, TileComponent } from '../tile';
 
 type Props = BaseEntityProps & {
     state: string,
@@ -25,9 +25,23 @@ class Garage extends TileComponent<Props> {
         this.onClick = this.onClick.bind(this);
     }
 
-    propsMapper(entity: HaEntity) {
+    propsMapper(entity: HaEntity): MappableProps<Props> {
+        let backgroundColor;
+        switch (entity.state) {
+            case 'open':
+                backgroundColor = 'transparent';   // TODO tile background color
+                break;
+            case 'closed':
+                backgroundColor = '#dddddd';       // TODO inactive color
+                break;
+            case 'opening':
+            case 'closing':
+                backgroundColor = '#cc99ff';       // TODO accent color
+        }
+
         return {
             state: entity.state,
+            backgroundColor: backgroundColor,
         };
     }
 
