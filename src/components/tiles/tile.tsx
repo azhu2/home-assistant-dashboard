@@ -3,11 +3,11 @@ import { HaEntity } from '../../entities/ha-entity';
 import { BaseEntityProps } from '../base';
 import './tile.css';
 
-/** Additional options for tile customzation. */
 enum TileOption {
     Icon = 'icon',
     ShowName = 'showName',
 };
+/** Additional options for tile customzation. */
 export type TileOptions = { [key in TileOption]?: any };
 
 /** A wrapper around React.Component that forces a propsMapper function. */
