@@ -1,10 +1,12 @@
+import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
+import { BaseEntityProps } from '../components/base';
 import Room from '../components/room/room';
 import Camera from '../components/tiles/camera/camera';
 import Garage from '../components/tiles/garage/garage';
 import Gauge from '../components/tiles/gauge/gauge';
 import Light from '../components/tiles/light/light';
-import { TileComponent, TileOptions, wrapTile } from '../components/tiles/tile';
+import { TileOptions, wrapTile } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
 import './layout.css';
 
@@ -14,7 +16,7 @@ type Props = {
 
 const Layout = (props: Props) => {
     /** Construct a tile for a given tile type and entity ID. */
-    const getTile = (Tile: typeof TileComponent, entityID: string, options?: TileOptions) => {
+    const getTile = <P extends BaseEntityProps>(Tile: ComponentType<P>, entityID: string, options?: TileOptions) => {
         if (props.entityMap.size === 0) {
             return;
         }

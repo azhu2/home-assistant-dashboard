@@ -1,6 +1,7 @@
+import { Component } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { BaseEntityProps } from '../../base';
-import { MappableProps, TileComponent } from '../tile';
+import { MappableProps, MappedProps } from '../tile';
 import './gauge.css';
 
 type Props = BaseEntityProps & {
@@ -8,8 +9,8 @@ type Props = BaseEntityProps & {
     unit?: string,
 }
 
-class Gauge extends TileComponent<Props> {
-    propsMapper(entity: HaEntity): MappableProps<Props> {
+class Gauge extends Component<Props> implements MappableProps<Props>{
+    propsMapper(entity: HaEntity): MappedProps<Props> {
         return {
             state: entity.state,
             unit: entity.attributes['unit_of_measurement'],

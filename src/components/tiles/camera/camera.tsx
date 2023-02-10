@@ -1,15 +1,16 @@
+import { Component } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
-import { MappableProps, TileComponent } from '../tile';
+import { MappedProps, MappableProps } from '../tile';
 import './camera.css';
 
 type Props = BaseEntityProps & {
     snapshotURL?: string,
 }
 
-class Camera extends TileComponent<Props> {
-    propsMapper(entity: HaEntity): MappableProps<Props> {
+class Camera extends Component<Props> implements MappableProps<Props>{
+    propsMapper(entity: HaEntity): MappedProps<Props> {
         return {
             snapshotURL: entity.attributes['entity_picture'],
         };
