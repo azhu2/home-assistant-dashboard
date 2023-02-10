@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { BaseEntityProps } from '../../base';
-import { MappableProps, MappedProps } from '../tile';
+import { MappableProps, MappedProps } from '../../tile/tile';
 import './gauge.css';
 
 type Props = BaseEntityProps & {

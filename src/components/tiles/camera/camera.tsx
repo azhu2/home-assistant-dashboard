@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
-import { MappedProps, MappableProps } from '../tile';
+import { MappedProps, MappableProps } from '../../tile/tile';
 import './camera.css';
 
 type Props = BaseEntityProps & {

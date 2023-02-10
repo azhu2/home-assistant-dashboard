@@ -8,10 +8,11 @@ import './tile.css';
 export type TileOptions = {
     icon?: string,
     showName?: boolean,
+    fetchHistory?: boolean,
 };
 
 type AdditionalMappedProps = {
-    history?: any,
+    history?: any,  // TODO Build struct
 }
 
 /** Stripping all BaseEntityProps by default unless they should be passed to propsMapper. */

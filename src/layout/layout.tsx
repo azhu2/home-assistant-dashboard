@@ -6,7 +6,7 @@ import Camera from '../components/tiles/camera/camera';
 import Garage from '../components/tiles/garage/garage';
 import Gauge from '../components/tiles/gauge/gauge';
 import Light from '../components/tiles/light/light';
-import { TileOptions, wrapTile } from '../components/tiles/tile';
+import { TileOptions, wrapTile } from '../components/tile/tile';
 import { HaEntity } from '../entities/ha-entity';
 import './layout.css';
 

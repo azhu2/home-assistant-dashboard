@@ -4,7 +4,7 @@ import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import { MappableProps, MappedProps } from '../tile';
+import { MappableProps, MappedProps } from '../../tile/tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
