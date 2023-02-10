@@ -48,6 +48,10 @@ export const wrapTile = (entity: HaEntity, options?: TileOptions) => <P extends 
     }
 
     return (
+        // Would be nice to wrap this in a neat component with entity as a prop, but that runs afouls of
+        // "Don't use HOCs inside the render method" (https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method)
+        // and React will unmount + remount the whole component every update since we're recreated a whole NEW object.
+        // Returning a raw JSX.Element doesn't trigger this and the WrappedTile inside only updates its props, never unmounting the whole component.
         <div className={`tile tile-${tileType}`} style={{ backgroundColor }}>
             {options?.showName && <div className='name'>{entity.friendlyName}</div>}
             <div className='content'>
