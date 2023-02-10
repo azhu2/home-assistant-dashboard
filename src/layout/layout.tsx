@@ -1,12 +1,10 @@
-import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
-import { BaseEntityProps } from '../components/base';
 import Room from '../components/room/room';
 import Camera from '../components/tiles/camera/camera';
 import Garage from '../components/tiles/garage/garage';
 import Gauge from '../components/tiles/gauge/gauge';
 import Light from '../components/tiles/light/light';
-import { TileOptions, wrapTile } from '../components/tiles/tile';
+import { TileComponent, TileOptions, wrapTile } from '../components/tiles/tile';
 import { HaEntity } from '../entities/ha-entity';
 import './layout.css';
 
@@ -16,7 +14,7 @@ type Props = {
 
 const Layout = (props: Props) => {
     /** Construct a tile for a given tile type and entity ID. */
-    const getTile = <P extends BaseEntityProps>(Tile: ComponentType<P>, entityID: string, options?: TileOptions) => {
+    const getTile = (Tile: typeof TileComponent, entityID: string, options?: TileOptions) => {
         if (props.entityMap.size === 0) {
             return;
         }
@@ -65,8 +63,8 @@ const Layout = (props: Props) => {
                 {getTile(Gauge, 'sensor.synology_nas_volume_1_volume_used', { showName: true })}
                 {getTile(Gauge, 'sensor.udr_storage_utilization', { showName: true })}
                 {getTile(Gauge, 'sensor.online_devices', { showName: true })}
-                {getTile(Gauge, 'sensor.1m_download_max', { showName: true, fetchHistory: true })}
-                {getTile(Gauge, 'sensor.1m_upload_max', { showName: true, fetchHistory: true })}
+                {getTile(Gauge, 'sensor.1m_download_max', { showName: true })}
+                {getTile(Gauge, 'sensor.1m_upload_max', { showName: true })}
                 {getTile(Gauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>
             <div>

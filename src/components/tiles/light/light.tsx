@@ -1,10 +1,10 @@
-import React, { Component, MouseEvent as ReactMouseEvent, RefObject } from 'react';
+import React, { MouseEvent as ReactMouseEvent, RefObject } from 'react';
 import { Color } from '../../../entities/color';
 import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import { MappedProps, MappableProps } from '../tile';
+import { MappableProps, TileComponent } from '../tile';
 import BrightnessSlider from './brightness-slider';
 import './light.css';
 
@@ -29,7 +29,7 @@ const initialState: State = {
     isExpanded: false,
 }
 
-class Light extends Component<Props, State> implements MappableProps<Props>{
+class Light extends TileComponent<Props, State> {
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 
@@ -46,7 +46,7 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
         this.ref = React.createRef();
     }
 
-    propsMapper(entity: HaEntity): MappedProps<Props> {
+    propsMapper(entity: HaEntity): MappableProps<Props> {
         return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
