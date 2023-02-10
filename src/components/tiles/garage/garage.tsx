@@ -1,9 +1,9 @@
-import { ReactElement } from 'react';
+import { Component, ReactElement } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
 import Icon from '../../icon/icon';
-import { MappableProps, TileComponent } from '../tile';
+import { MappedProps, MappableProps } from '../tile';
 
 type Props = BaseEntityProps & {
     state: string,
@@ -16,7 +16,7 @@ const stateToIconMap: { [state: string]: ReactElement } = {
     'closing': <Icon name='close-garage-door' />,
 }
 
-class Garage extends TileComponent<Props> {
+class Garage extends Component<Props> implements MappableProps<Props>{
     context!: React.ContextType<typeof AuthContext>
     static contextType = AuthContext;
 
@@ -25,7 +25,7 @@ class Garage extends TileComponent<Props> {
         this.onClick = this.onClick.bind(this);
     }
 
-    propsMapper(entity: HaEntity): MappableProps<Props> {
+    propsMapper(entity: HaEntity): MappedProps<Props> {
         let backgroundColor;
         switch (entity.state) {
             case 'open':
