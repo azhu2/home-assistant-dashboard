@@ -1,8 +1,8 @@
-import { HassEntity } from 'home-assistant-js-websocket';
-import renamedEntityMap from '../mappers/renamed-entities';
+import * as haWebsocket from 'home-assistant-js-websocket';
+import * as entityMapper from '../mappers/renamed-entities';
 
 /** Internal representation of a Home Assistant entity, with some attributes mapped more nicely. */
-export type HaEntity = {
+export type Entity = {
     entityID: EntityID,
     type: EntityType,
     state: string,
@@ -42,16 +42,16 @@ export enum EntityType {
 }
 
 /** Converts from built-in HassEntity type to our HaEntity type. */
-export function fromHassEntity(e: HassEntity, t: EntityType): HaEntity {
+export function fromHassEntity(e: haWebsocket.HassEntity, t: EntityType): Entity {
     return {
         entityID: new EntityID(e.entity_id),
         type: t,
         state: e.state,
-        friendlyName: renamedEntityMap[e.entity_id] || e.attributes.friendly_name,
+        friendlyName: entityMapper.renamedEntityMap[e.entity_id] || e.attributes.friendly_name,
         attributes: e.attributes,
     };
 }
 
-export type HaStream = {
+export type Stream = {
     url: string;
 };

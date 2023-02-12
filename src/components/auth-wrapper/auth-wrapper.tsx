@@ -1,16 +1,18 @@
-import { createConnection, ERR_CANNOT_CONNECT, ERR_CONNECTION_LOST, ERR_HASS_HOST_REQUIRED, ERR_INVALID_AUTH, ERR_INVALID_HTTPS_TO_HTTP } from 'home-assistant-js-websocket';
+import * as haWebsocket from 'home-assistant-js-websocket';
 import { Component } from 'react';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Dashboard from '../../pages/dashboard/dashboard';
-import Settings from '../../pages/settings/settings';
-import { AuthContext, AuthContextType, emptyAuthContext } from '../../services/context';
-import { loadHAURL, loadLongLivedAccessToken, saveHAURL, saveLongLivedAccessToken } from '../../services/local-storage/local-storage';
-import { NewRestAPI, RestAPI } from '../../services/rest-api/rest-api';
-import { authenticateWebsocket, WebsocketAPIImpl, WebsocketConnection } from '../../services/websocket/websocket';
+import * as reactRouter from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
+import { Dashboard } from '../../pages/dashboard/dashboard';
+import { Settings } from '../../pages/settings/settings';
+import * as authContext from '../../services/auth-context';
+import { AuthContextProvider } from '../../services/auth-context';
+import * as localStorage from '../../services/local-storage/local-storage';
+import * as restAPI from '../../services/rest-api/rest-api';
+import * as websocket from '../../services/websocket/websocket';
 
-type State = AuthContextType;
+type State = authContext.AuthContextType;
 
-const initialState: State = emptyAuthContext;
+const initialState: State = authContext.emptyAuthContext;
 
 /** Wrapper that provides an AuthContext. */
 class AuthWrapper extends Component<{}, State> {
@@ -24,7 +26,7 @@ class AuthWrapper extends Component<{}, State> {
     /** Try to set up connections from data in local storage. */
     componentDidMount() {
         this.setWebsocketAuth().catch(err => console.error(err));
-        this.setRestAuth(loadHAURL(), loadLongLivedAccessToken());
+        this.setRestAuth(localStorage.loadHAURL(), localStorage.loadLongLivedAccessToken());
     }
 
     componentWillUnmount() {
@@ -34,13 +36,13 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Check websocket auth, set connection or error in state, and return result. */
-    async setWebsocketAuth(haURL?: string): Promise<WebsocketConnection> {
+    async setWebsocketAuth(haURL?: string): Promise<websocket.Connection> {
         return this.checkWebsocketAuth(haURL)
             .then(connection => {
                 this.setState({
                     ...this.state,
                     websocketConnection: connection,
-                    websocketAPI: new WebsocketAPIImpl(connection),
+                    websocketAPI: new websocket.WebsocketAPIImpl(connection),
                 });
                 return connection;
             })
@@ -55,21 +57,21 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Set and return websocket connection if valid. */
-    async checkWebsocketAuth(haURL?: string): Promise<WebsocketConnection> {
+    async checkWebsocketAuth(haURL?: string): Promise<websocket.Connection> {
         try {
-            const auth = await authenticateWebsocket(haURL);
-            return await createConnection({ auth });
+            const auth = await websocket.authenticate(haURL);
+            return await haWebsocket.createConnection({ auth });
         } catch (err) {
             switch (err) {
-                case ERR_HASS_HOST_REQUIRED:
+                case haWebsocket.ERR_HASS_HOST_REQUIRED:
                     throw new Error('Home Assistant URL not provided.');
-                case ERR_INVALID_AUTH:
+                case haWebsocket.ERR_INVALID_AUTH:
                     throw new Error('Auth code invalid.');
-                case ERR_INVALID_HTTPS_TO_HTTP:
+                case haWebsocket.ERR_INVALID_HTTPS_TO_HTTP:
                     throw new Error('Cannot access http Home Assistant from https context.');
-                case ERR_CANNOT_CONNECT:
+                case haWebsocket.ERR_CANNOT_CONNECT:
                     throw new Error('Cannot connect to websocket API');
-                case ERR_CONNECTION_LOST:
+                case haWebsocket.ERR_CONNECTION_LOST:
                     throw new Error('Connection lost!')
             }
             throw new Error('Unrecognized error', { cause: err });
@@ -77,11 +79,11 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     /** Set and return authed rest API. */
-    async setRestAuth(baseURL: string, llaToken: string): Promise<RestAPI> {
-        return NewRestAPI(baseURL, llaToken)
+    async setRestAuth(baseURL: string, llaToken: string): Promise<restAPI.RestAPI> {
+        return restAPI.create(baseURL, llaToken)
             .then(restAPI => {
-                saveLongLivedAccessToken(llaToken);
-                saveHAURL(baseURL);
+                localStorage.saveLongLivedAccessToken(llaToken);
+                localStorage.saveHAURL(baseURL);
                 this.setState({
                     ...this.state,
                     restAPI,
@@ -98,7 +100,7 @@ class AuthWrapper extends Component<{}, State> {
     }
 
     render() {
-        const router = createBrowserRouter([
+        const router = reactRouter.createBrowserRouter([
             {
                 path: '/',
                 element: <Dashboard />
@@ -113,9 +115,9 @@ class AuthWrapper extends Component<{}, State> {
         ]);
 
         return (
-            <AuthContext.Provider value={this.state} >
+            <AuthContextProvider value={this.state} >
                 <RouterProvider router={router} />
-            </AuthContext.Provider>
+            </AuthContextProvider>
         );
     }
 };

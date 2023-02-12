@@ -1,16 +1,16 @@
 import { Component } from 'react';
-import { HaEntity } from '../../../entities/ha-entity';
-import { BaseEntityProps } from '../../base';
-import { MappableProps, MappedProps } from '../../tile/tile';
+import * as haEntity from '../../../entities/ha-entity';
+import * as base from '../../base';
+import * as tile from '../../tile/tile';
 import './gauge.css';
 
-type Props = BaseEntityProps & {
+type Props = base.BaseEntityProps & {
     state: string,
     unit?: string,
 }
 
-class Gauge extends Component<Props> implements MappableProps<Props>{
-    propsMapper(entity: HaEntity): MappedProps<Props> {
+export class Gauge extends Component<Props> implements tile.MappableProps<Props>{
+    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
         return {
             state: entity.state,
             unit: entity.attributes['unit_of_measurement'],
@@ -29,5 +29,3 @@ class Gauge extends Component<Props> implements MappableProps<Props>{
         );
     }
 }
-
-export default Gauge;

@@ -1,5 +1,5 @@
 /** Map of entities to rename */
-const renamedEntityMap: {[key: string]: string} = {
+export const renamedEntityMap: {[key: string]: string} = {
     'sensor.synology_nas_cpu_utilization_total': 'NAS CPU',
     'sensor.synology_nas_memory_usage_real': 'NAS RAM',
     'sensor.udr_memory_utilization': 'UDR RAM',
@@ -12,5 +12,3 @@ const renamedEntityMap: {[key: string]: string} = {
     'sensor.thermostat_humidity': 'Humidity',
     'sensor.adguard_home_dns_queries_blocked_ratio': 'AdGuard Blocked',
 };
-
-export default renamedEntityMap;

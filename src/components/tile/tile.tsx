@@ -1,11 +1,11 @@
 import { ComponentType } from 'react';
-import { Color } from '../../entities/color';
-import { HaEntity } from '../../entities/ha-entity';
-import { BaseEntityProps } from '../base';
+import * as color from '../../entities/color';
+import * as haEntity from '../../entities/ha-entity';
+import * as base from '../base';
 import './tile.css';
 
 /** Additional options for tile customzation. */
-export type TileOptions = {
+export type Options = {
     icon?: string,
     showName?: boolean,
     fetchHistory?: boolean,
@@ -16,17 +16,17 @@ type AdditionalMappedProps = {
 }
 
 /** Stripping all BaseEntityProps by default unless they should be passed to propsMapper. */
-type StrippedProps<P extends BaseEntityProps> = Omit<P, keyof BaseEntityProps> & Pick<BaseEntityProps, 'backgroundColor'>;
+type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEntityProps> & Pick<base.BaseEntityProps, 'backgroundColor'>;
 /** All  */
-export type MappedProps<P extends BaseEntityProps> = StrippedProps<P> & AdditionalMappedProps;
+export type MappedProps<P extends base.BaseEntityProps> = StrippedProps<P> & AdditionalMappedProps;
 
-export interface MappableProps<P extends BaseEntityProps> {
-    propsMapper(entity: HaEntity): MappedProps<P>,
+export interface MappableProps<P extends base.BaseEntityProps> {
+    propsMapper(entity: haEntity.Entity): MappedProps<P>,
 }
 
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
-export const wrapTile = (entity: HaEntity, options?: TileOptions) => <P extends BaseEntityProps>(WrappedTile: ComponentType<P>) => {
-    // Would love to define an abstract TileComponent that extends React.Component and implements (static) PropsMappable, but, alas, not in Typescript.
+export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
+    // Would love to define an abstract TileComponent that extends Component and implements (static) PropsMappable, but, alas, not in Typescript.
     // So we have to type assert here :(
     let mappedProps: MappedProps<P> | undefined;
     if (WrappedTile.prototype as MappableProps<P>) {
@@ -44,7 +44,7 @@ export const wrapTile = (entity: HaEntity, options?: TileOptions) => <P extends 
     let backgroundColor = 'transparent';
     if (mappedProps?.backgroundColor) {
         const colorVar = mappedProps.backgroundColor;
-        backgroundColor = colorVar instanceof Color ? colorVar.rgbString(true) : colorVar;
+        backgroundColor = colorVar instanceof color.Color ? colorVar.rgbString(true) : colorVar;
     }
 
     return (
@@ -63,4 +63,3 @@ export const wrapTile = (entity: HaEntity, options?: TileOptions) => <P extends 
     );
 }
 
-export default wrapTile;

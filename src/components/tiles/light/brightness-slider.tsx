@@ -1,20 +1,20 @@
 import { MouseEvent, useRef, useState } from 'react';
-import { Color, MAX_COLOR_VALUE } from '../../../entities/color';
+import * as color from '../../../entities/color';
 import './brightness-slider.css';
 
 type Props = {
     brightness: number,
     isExpanded: boolean,
-    color: Color,
+    color: color.Color,
     onSetBrightness: (brightness: number) => void,
 }
 
-function BrightnessSlider(props: Props) {
+export function BrightnessSlider(props: Props) {
     const ref = useRef<HTMLDivElement>(null);
     const [isDraggingSlider, setIsDraggingSlider] = useState(false);
     const [displayBrightness, setDisplayBrightness] = useState(props.brightness);
 
-    const getSliderWidth = (brightness: number) => `${brightness / MAX_COLOR_VALUE * 100}%`
+    const getSliderWidth = (brightness: number) => `${brightness / color.MAX_COLOR_VALUE * 100}%`
 
     const onMouseDown = (e: MouseEvent) => {
         e.stopPropagation();
@@ -73,7 +73,7 @@ function BrightnessSlider(props: Props) {
                         <div className='background' ref={ref} >
                             <div className='slider' style={{
                                 // Copy of Light.ON_COLOR - TODO: Clean up and make dynamic when dragging
-                                backgroundColor: (new Color('#BBBB22')).rgbString(true),
+                                backgroundColor: (new color.Color('#BBBB22')).rgbString(true),
                                 width: getSliderWidth(displayBrightness),
                             }}></div>
                         </div>
@@ -83,5 +83,3 @@ function BrightnessSlider(props: Props) {
         </div>
     )
 }
-
-export default BrightnessSlider;

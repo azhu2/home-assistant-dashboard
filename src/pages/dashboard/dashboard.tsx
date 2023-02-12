@@ -1,15 +1,16 @@
-import { subscribeEntities, UnsubscribeFunc } from 'home-assistant-js-websocket';
-import React from 'react';
+import * as haWebsocket from 'home-assistant-js-websocket';
+import { Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import { fromHassEntity, HaEntity } from '../../entities/ha-entity';
-import Layout from '../../layout/layout';
-import entityTypeMap from '../../mappers/entity-types';
-import { ErrConnectionNotInitialized, AuthContext } from '../../services/context';
-import { WebsocketConnection } from '../../services/websocket/websocket';
+import * as haEntity from '../../entities/ha-entity';
+import { Layout } from '../../layout/layout';
+import * as entityTypeMapper from '../../mappers/entity-types';
+import * as authContext from '../../services/auth-context';
+import { AuthContextConsumer } from '../../services/auth-context';
+import * as websocket from '../../services/websocket/websocket';
 
 type State = {
-    entityMap: Map<string, HaEntity>,
-    unsubFunc?: UnsubscribeFunc,
+    entityMap: Map<string, haEntity.Entity>,
+    unsubFunc?: haWebsocket.UnsubscribeFunc,
 };
 
 const initialState: State = {
@@ -18,7 +19,7 @@ const initialState: State = {
 };
 
 /** Dashboard wraps Layout with entity subscription and redirects to settings if auth fails. */
-class Dashboard extends React.Component<{}, State> {
+export class Dashboard extends Component<{}, State> {
     constructor(props: {}) {
         super(props);
         this.state = { ...initialState };
@@ -33,13 +34,13 @@ class Dashboard extends React.Component<{}, State> {
 
     render() {
         return (<>
-            <AuthContext.Consumer>
+            <AuthContextConsumer>
                 {context => {
                     const websocketConnection = context.websocketConnection;
                     if (this.state.entityMap.size === 0) {
                         if (!(websocketConnection instanceof Error)) {
                             this.setupSubscription(websocketConnection);
-                        } else if (websocketConnection === ErrConnectionNotInitialized) {
+                        } else if (websocketConnection === authContext.errConnectionNotInitialized) {
                             // Expected error while AuthWrapper still initializing
                             console.info('Connection not established yet. Should retry.');
                         } else {
@@ -53,20 +54,20 @@ class Dashboard extends React.Component<{}, State> {
                         <Layout entityMap={this.state.entityMap} />
                     );
                 }}
-            </AuthContext.Consumer>
+            </AuthContextConsumer>
         </>);
     }
 
-    async setupSubscription(connection: WebsocketConnection) {
-        subscribeEntities(connection, (entities) => {
+    async setupSubscription(connection: websocket.Connection) {
+        haWebsocket.subscribeEntities(connection, (entities) => {
             const newEntities = new Map(this.state.entityMap);
 
             Object.entries(entities).forEach(entry => {
                 const [entityID, entity] = entry;
 
-                const type = entityTypeMap[entityID]
+                const type = entityTypeMapper.entityTypeMap[entityID]
                 if (type) {
-                    newEntities.set(entityID, fromHassEntity(entity, type));
+                    newEntities.set(entityID, haEntity.fromHassEntity(entity, type));
                 }
             })
 
@@ -74,5 +75,3 @@ class Dashboard extends React.Component<{}, State> {
         });
     }
 }
-
-export default Dashboard;

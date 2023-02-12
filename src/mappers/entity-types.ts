@@ -1,7 +1,7 @@
 import { EntityType } from '../entities/ha-entity';
 
 /** Maps entities to their type. Only entities in this map are tracked. */
-const entityTypeMap: {[key: string]: EntityType} = {
+export const entityTypeMap: {[key: string]: EntityType} = {
     'switch.marble_lamp': EntityType.Light,
     'switch.pendant_lamp': EntityType.Light,
     'light.family_room_lights': EntityType.Light,
@@ -33,5 +33,3 @@ const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
     'cover.garage_door': EntityType.Garage,
 };
-
-export default entityTypeMap;

@@ -1,11 +1,11 @@
-import React, { Component, MouseEvent as ReactMouseEvent, RefObject } from 'react';
-import { Color } from '../../../entities/color';
-import { HaEntity } from '../../../entities/ha-entity';
-import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
-import { BaseEntityProps } from '../../base';
-import Icon from '../../icon/icon';
-import { MappableProps, MappedProps } from '../../tile/tile';
-import BrightnessSlider from './brightness-slider';
+import { Component, ContextType, createRef, MouseEvent as ReactMouseEvent, RefObject } from 'react';
+import * as color from '../../../entities/color';
+import * as haEntity from '../../../entities/ha-entity';
+import * as authContext from '../../../services/auth-context';
+import * as base from '../../base';
+import { Icon } from '../../icon/icon';
+import * as tile from '../../tile/tile';
+import { BrightnessSlider } from './brightness-slider';
 import './light.css';
 
 /** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
@@ -13,7 +13,7 @@ import './light.css';
  */
 const ON_COLOR = '#BBBB22';     // TODO lights color
 
-type Props = BaseEntityProps & {
+type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
     /** 0-255 if dimmer available */
@@ -29,12 +29,12 @@ const initialState: State = {
     isExpanded: false,
 }
 
-class Light extends Component<Props, State> implements MappableProps<Props>{
+export class Light extends Component<Props, State> implements tile.MappableProps<Props>{
     isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 
-    context!: React.ContextType<typeof AuthContext>
-    static contextType = AuthContext;
+    context!: ContextType<typeof authContext.AuthContext>
+    static contextType = authContext.AuthContext;
 
     constructor(props: Props) {
         super(props);
@@ -43,10 +43,10 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
         this.onClick = this.onClick.bind(this);
         this.onClickOutside = this.onClickOutside.bind(this);
         this.onSetBrightness = this.onSetBrightness.bind(this);
-        this.ref = React.createRef();
+        this.ref = createRef();
     }
 
-    propsMapper(entity: HaEntity): MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
         return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
@@ -74,7 +74,7 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
             return;
         }
         // Use home assistant domain for generic toggle (works for lights and switches)
-        callWebsocketOrWarn(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() })
+        authContext.callWebsocketOrWarn(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() })
     }
 
     /** To un-expand when clicked elsewhere */
@@ -88,7 +88,7 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
     /** Callback for setting dimmer brightness */
     onSetBrightness(brightness: number) {
         const stringified = `${brightness.toFixed(0)}`;
-        callWebsocketOrWarn(this.context, 'light', 'turn_on', { brightness: stringified }, this.props.entityID);
+        authContext.callWebsocketOrWarn(this.context, 'light', 'turn_on', { brightness: stringified }, this.props.entityID);
     }
 
     color() {
@@ -98,7 +98,7 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
         } else {
             scaleFactor = this.props.brightness / 255;
         }
-        return new Color(ON_COLOR).scale(scaleFactor);
+        return new color.Color(ON_COLOR).scale(scaleFactor);
     }
 
     render() {
@@ -126,5 +126,3 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
         );
     }
 }
-
-export default Light;

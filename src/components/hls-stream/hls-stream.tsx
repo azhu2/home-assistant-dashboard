@@ -1,5 +1,5 @@
-import Hls from "hls.js";
-import React, { Component, RefObject } from "react";
+import Hls from 'hls.js';
+import { Component, createRef, RefObject } from 'react';
 import './hls-stream.css';
 
 type Props = {
@@ -7,12 +7,12 @@ type Props = {
     poster?: string;
 }
 
-class HlsStream extends Component<Props, {}> {
+export class HlsStream extends Component<Props, {}> {
     videoRef: RefObject<HTMLVideoElement>;
 
     constructor(props: Props) {
         super(props);
-        this.videoRef = React.createRef();
+        this.videoRef = createRef();
     }
 
     componentDidMount() {
@@ -43,6 +43,3 @@ class HlsStream extends Component<Props, {}> {
         );
     }
 }
-
-
-export default HlsStream;

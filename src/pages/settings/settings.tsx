@@ -1,18 +1,18 @@
 import { Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import Icon from '../../components/icon/icon';
-import { Color } from '../../entities/color';
-import { AuthContext } from '../../services/context';
-import { loadHAURL, loadLongLivedAccessToken } from '../../services/local-storage/local-storage';
-import { RestAPI } from '../../services/rest-api/rest-api';
-import { WebsocketConnection } from '../../services/websocket/websocket';
+import { Icon } from '../../components/icon/icon';
+import * as color from '../../entities/color';
+import { AuthContextConsumer } from '../../services/auth-context';
+import * as localStorage from '../../services/local-storage/local-storage';
+import * as restApi from '../../services/rest-api/rest-api';
+import * as websocket from '../../services/websocket/websocket';
 import './settings.css';
 
 const DEFAULT_URL = 'http://127.0.0.1:8123';
 
 type Props = {
-    checkWebsocketCallback: (haURL: string) => Promise<WebsocketConnection>,
-    checkRestAPICallback: (haURL: string, llaToken: string) => Promise<RestAPI>,
+    checkWebsocketCallback: (haURL: string) => Promise<websocket.Connection>,
+    checkRestAPICallback: (haURL: string, llaToken: string) => Promise<restApi.RestAPI>,
 }
 
 type State = {
@@ -26,12 +26,12 @@ const initialState: State = {
     llaToken: undefined,
 }
 
-class Settings extends Component<Props, State> {
+export class Settings extends Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
             ...initialState,
-            haURL: loadHAURL(),
+            haURL: localStorage.loadHAURL(),
         };
         this.loadLLAToken = this.loadLLAToken.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -42,7 +42,7 @@ class Settings extends Component<Props, State> {
     }
 
     async loadLLAToken() {
-        const llaToken = loadLongLivedAccessToken();
+        const llaToken = localStorage.loadLongLivedAccessToken();
         this.setState({ ...this.state, llaToken });
     }
 
@@ -79,9 +79,9 @@ class Settings extends Component<Props, State> {
                             placeholder={DEFAULT_URL}
                             value={this.state.haURL || ''}
                             onChange={event => this.setState({ ...this.state, haURL: event.currentTarget.value })} />
-                        <AuthContext.Consumer>
+                        <AuthContextConsumer>
                             {auth => {
-                                let websocketStatus = <Icon name='ok--v1' color={new Color('#00aa00')} />
+                                let websocketStatus = <Icon name='ok--v1' color={new color.Color('#00aa00')} />
 
                                 let errMessage;
                                 if (auth.websocketConnection instanceof Error) {
@@ -94,7 +94,7 @@ class Settings extends Component<Props, State> {
                                     return (
                                         <>
                                             {/* TODO Error color */}
-                                            <Icon name='circled-x' color={new Color('aa0000')} />
+                                            <Icon name='circled-x' color={new color.Color('aa0000')} />
                                             {/* TODO Make hover */}
                                             {errMessage}
                                         </>
@@ -102,29 +102,29 @@ class Settings extends Component<Props, State> {
                                 }
                                 return websocketStatus;
                             }}
-                        </AuthContext.Consumer>
+                        </AuthContextConsumer>
                     </div>
                     <div>
                         <label htmlFor='lla-token'>Long-Lived Access Token </label>
                         <input type='password' id='lla-token' required
                             value={this.state.llaToken || ''}
                             onChange={event => this.setState({ ...this.state, llaToken: event.currentTarget.value })} />
-                        <AuthContext.Consumer>
+                        <AuthContextConsumer>
                             {auth => {
                                 if (auth.restAPI instanceof Error) {
                                     return (
                                         <>
                                             {/* TODO Error color */}
-                                            <Icon name='circled-x' color={new Color('aa0000')} />
+                                            <Icon name='circled-x' color={new color.Color('aa0000')} />
                                             {/* TODO Make hover */}
                                             {auth.restAPI.message}
                                         </>
                                     );
 
                                 }
-                                return <Icon name='ok--v1' color={new Color('#00aa00')} />
+                                return <Icon name='ok--v1' color={new color.Color('#00aa00')} />
                             }}
-                        </AuthContext.Consumer>
+                        </AuthContextConsumer>
                     </div>
                     <input type='submit' value='Save' />
                 </form>
@@ -133,5 +133,3 @@ class Settings extends Component<Props, State> {
         );
     }
 };
-
-export default Settings;

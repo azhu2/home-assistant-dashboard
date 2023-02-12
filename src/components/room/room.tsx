@@ -1,11 +1,12 @@
+import { ReactNode } from 'react';
 import './room.css';
 
-type Props = {
+export type Props = {
     title: string,
-    children: React.ReactNode,
+    children: ReactNode,
 };
 
-const Room = (props: Props) =>
+export const Room = (props: Props) =>
     <div className='room' id={`room-${props.title.toLowerCase().replaceAll(' ', '_')}`}>
         <div className='room-title'>{props.title}</div>
         <div className='room-contents'>
@@ -13,5 +14,3 @@ const Room = (props: Props) =>
         </div>
     </div>
     ;
-
-export default Room;

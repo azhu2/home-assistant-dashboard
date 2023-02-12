@@ -1,28 +1,28 @@
 import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
-import { BaseEntityProps } from '../components/base';
-import Room from '../components/room/room';
-import Camera from '../components/tiles/camera/camera';
-import Garage from '../components/tiles/garage/garage';
-import Gauge from '../components/tiles/gauge/gauge';
-import Light from '../components/tiles/light/light';
-import { TileOptions, wrapTile } from '../components/tile/tile';
-import { HaEntity } from '../entities/ha-entity';
+import * as base from '../components/base';
+import { Room } from '../components/room/room';
+import * as tile from '../components/tile/tile';
+import { Camera } from '../components/tiles/camera/camera';
+import { Garage } from '../components/tiles/garage/garage';
+import { Gauge } from '../components/tiles/gauge/gauge';
+import { Light } from '../components/tiles/light/light';
+import * as haEntity from '../entities/ha-entity';
 import './layout.css';
 
 type Props = {
-    entityMap: Map<string, HaEntity>
+    entityMap: Map<string, haEntity.Entity>
 }
 
-const Layout = (props: Props) => {
+export const Layout = (props: Props) => {
     /** Construct a tile for a given tile type and entity ID. */
-    const getTile = <P extends BaseEntityProps>(Tile: ComponentType<P>, entityID: string, options?: TileOptions) => {
+    const getTile = <P extends base.BaseEntityProps>(Tile: ComponentType<P>, entityID: string, options?: tile.Options) => {
         if (props.entityMap.size === 0) {
             return;
         }
         const entity = props.entityMap.get(entityID);
         if (entity) {
-            return wrapTile(entity, options)(Tile);
+            return tile.wrapTile(entity, options)(Tile);
         }
     }
 
@@ -76,5 +76,3 @@ const Layout = (props: Props) => {
         </>
     );
 }
-
-export default Layout;

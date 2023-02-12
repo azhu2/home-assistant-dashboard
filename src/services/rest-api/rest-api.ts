@@ -33,7 +33,7 @@ class RestAPIImpl implements RestAPI {
     };
 };
 
-export const NewRestAPI = async (baseURL: string, authToken: string) => {
+export const create = async (baseURL: string, authToken: string) => {
     try {
         const api = new RestAPIImpl(baseURL, authToken);
         await api.healthCheck();

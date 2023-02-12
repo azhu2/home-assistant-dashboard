@@ -1,12 +1,13 @@
-import { Component } from 'react';
-import { HaEntity } from '../../../entities/ha-entity';
-import { AuthContext } from '../../../services/context';
-import { BaseEntityProps } from '../../base';
-import HlsStream from '../../hls-stream/hls-stream';
-import { MappableProps, MappedProps } from '../../tile/tile';
+import { Component, ContextType } from 'react';
+import * as haEntity from '../../../entities/ha-entity';
+import * as authContext from '../../../services/auth-context';
+import { AuthContextConsumer } from '../../../services/auth-context';
+import * as base from '../../base';
+import { HlsStream } from '../../hls-stream/hls-stream';
+import * as tile from '../../tile/tile';
 import './camera.css';
 
-type Props = BaseEntityProps & {
+type Props = base.BaseEntityProps & {
     snapshotURL?: string,
 };
 
@@ -18,11 +19,11 @@ const initialState: State = {
     streamURL: undefined,
 };
 
-class Camera extends Component<Props, State> implements MappableProps<Props>{
+export class Camera extends Component<Props, State> implements tile.MappableProps<Props>{
     streamURL?: string;
 
-    context!: React.ContextType<typeof AuthContext>
-    static contextType = AuthContext;
+    context!: ContextType<typeof authContext.AuthContext>
+    static contextType = authContext.AuthContext;
 
     constructor(props: Props) {
         super(props);
@@ -30,7 +31,7 @@ class Camera extends Component<Props, State> implements MappableProps<Props>{
         this.setupStream = this.setupStream.bind(this);
     }
 
-    propsMapper(entity: HaEntity): MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
         return {
             snapshotURL: entity.attributes['entity_picture'],
         };
@@ -54,7 +55,7 @@ class Camera extends Component<Props, State> implements MappableProps<Props>{
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
-                <AuthContext.Consumer>
+                <AuthContextConsumer>
                     {auth => {
                         const { restAPI } = auth;
                         if (restAPI instanceof Error) {
@@ -62,18 +63,16 @@ class Camera extends Component<Props, State> implements MappableProps<Props>{
                         }
                         if (this.props.snapshotURL || this.state.streamURL) {
                             return (
-                                    <HlsStream
-                                        src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
-                                        poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                    />
+                                <HlsStream
+                                    src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
+                                    poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                />
                             );
                         }
                         return <>Loading...</>;
                     }}
-                </AuthContext.Consumer>
+                </AuthContextConsumer>
             </div>
         );
     };
 }
-
-export default Camera;

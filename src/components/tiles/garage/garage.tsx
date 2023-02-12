@@ -1,11 +1,11 @@
-import { Component, ReactElement } from 'react';
-import { HaEntity } from '../../../entities/ha-entity';
-import { AuthContext, callWebsocketOrWarn } from '../../../services/context';
-import { BaseEntityProps } from '../../base';
-import Icon from '../../icon/icon';
-import { MappableProps, MappedProps } from '../../tile/tile';
+import { Component, ContextType, ReactElement } from 'react';
+import * as haEntity from '../../../entities/ha-entity';
+import * as authContext from '../../../services/auth-context';
+import * as base from '../../base';
+import { Icon } from '../../icon/icon';
+import * as tile from '../../tile/tile';
 
-type Props = BaseEntityProps & {
+type Props = base.BaseEntityProps & {
     state: string,
 }
 
@@ -16,16 +16,16 @@ const stateToIconMap: { [state: string]: ReactElement } = {
     'closing': <Icon name='close-garage-door' />,
 }
 
-class Garage extends Component<Props> implements MappableProps<Props>{
-    context!: React.ContextType<typeof AuthContext>
-    static contextType = AuthContext;
+export class Garage extends Component<Props> implements tile.MappableProps<Props>{
+    context!: ContextType<typeof authContext.AuthContext>
+    static contextType = authContext.AuthContext;
 
     constructor(props: Props) {
         super(props);
         this.onClick = this.onClick.bind(this);
     }
 
-    propsMapper(entity: HaEntity): MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
         let backgroundColor;
         switch (entity.state) {
             case 'open':
@@ -48,10 +48,10 @@ class Garage extends Component<Props> implements MappableProps<Props>{
     onClick() {
         switch (this.props.state) {
             case 'closed':
-                callWebsocketOrWarn(this.context, 'cover', 'open_cover', {}, this.props.entityID);
+                authContext.callWebsocketOrWarn(this.context, 'cover', 'open_cover', {}, this.props.entityID);
                 return;
             case 'open':
-                callWebsocketOrWarn(this.context, 'cover', 'close_cover', {}, this.props.entityID);
+                authContext.callWebsocketOrWarn(this.context, 'cover', 'close_cover', {}, this.props.entityID);
                 return;
         }
         console.warn(`Not opening or closing ${this.props.friendlyName} while in operation`);
@@ -65,5 +65,3 @@ class Garage extends Component<Props> implements MappableProps<Props>{
         );
     }
 }
-
-export default Garage;
