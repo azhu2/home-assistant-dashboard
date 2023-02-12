@@ -51,3 +51,7 @@ export function fromHassEntity(e: HassEntity, t: EntityType): HaEntity {
         attributes: e.attributes,
     };
 }
+
+export type HaStream = {
+    url: string;
+};

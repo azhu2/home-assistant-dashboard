@@ -17,7 +17,7 @@ const stateToIconMap: { [state: string]: ReactElement } = {
 }
 
 class Garage extends Component<Props> implements MappableProps<Props>{
-        context!: React.ContextType<typeof AuthContext>
+    context!: React.ContextType<typeof AuthContext>
     static contextType = AuthContext;
 
     constructor(props: Props) {
@@ -26,7 +26,7 @@ class Garage extends Component<Props> implements MappableProps<Props>{
     }
 
     propsMapper(entity: HaEntity): MappedProps<Props> {
-                let backgroundColor;
+        let backgroundColor;
         switch (entity.state) {
             case 'open':
                 backgroundColor = 'transparent';   // TODO tile background color

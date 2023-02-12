@@ -6,8 +6,3 @@
 .camera {
     height: 100%;
 }
-
-.camera-snapshot {
-    max-height: 100%;
-    max-width: 100%;
-}

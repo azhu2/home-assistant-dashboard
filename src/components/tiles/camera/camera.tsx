@@ -2,24 +2,53 @@ import { Component } from 'react';
 import { HaEntity } from '../../../entities/ha-entity';
 import { AuthContext } from '../../../services/context';
 import { BaseEntityProps } from '../../base';
-import { MappedProps, MappableProps } from '../../tile/tile';
+import HlsStream from '../../hls-stream/hls-stream';
+import { MappableProps, MappedProps } from '../../tile/tile';
 import './camera.css';
 
 type Props = BaseEntityProps & {
-    streamURL?: string,
-}
+    snapshotURL?: string,
+};
 
-class Camera extends Component<Props> implements MappableProps<Props>{
+type State = {
+    streamURL?: string,
+};
+
+const initialState: State = {
+    streamURL: undefined,
+};
+
+class Camera extends Component<Props, State> implements MappableProps<Props>{
+    streamURL?: string;
+
+    context!: React.ContextType<typeof AuthContext>
+    static contextType = AuthContext;
+
+    constructor(props: Props) {
+        super(props);
+        this.state = { ...initialState };
+        this.setupStream = this.setupStream.bind(this);
+    }
+
     propsMapper(entity: HaEntity): MappedProps<Props> {
-        let streamURL: string | undefined;
-        const snapshotURL = entity.attributes['entity_picture'];
-        if (typeof snapshotURL === "string") {
-            /** Undocumented, but camera_proxy_stream gives an snapshot that updates once per second. */
-            streamURL = snapshotURL.replace('camera_proxy', 'camera_proxy_stream');
-        }
         return {
-            streamURL
+            snapshotURL: entity.attributes['entity_picture'],
         };
+    }
+
+    componentDidMount() {
+        this.setupStream();
+    }
+
+    setupStream() {
+        if (this.context) {
+            const { websocketAPI } = this.context;
+            if (!(websocketAPI instanceof Error)) {
+                websocketAPI.getStreamURL(this.props.entityID).then(stream => {
+                    this.setState({ ...this.state, streamURL: stream.url });
+                });
+            }
+        }
     }
 
     render() {
@@ -28,15 +57,18 @@ class Camera extends Component<Props> implements MappableProps<Props>{
                 <AuthContext.Consumer>
                     {auth => {
                         const { restAPI } = auth;
-                        if (!(restAPI instanceof Error) && this.props.streamURL) {
+                        if (restAPI instanceof Error) {
+                            return <>Loading...</>;
+                        }
+                        if (this.props.snapshotURL || this.state.streamURL) {
                             return (
-                                <img
-                                    className='camera-snapshot'
-                                    src={`${restAPI.getBaseURL()}${this.props.streamURL}`}
-                                    alt={this.props.friendlyName}
-                                />
+                                    <HlsStream
+                                        src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
+                                        poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                    />
                             );
                         }
+                        return <>Loading...</>;
                     }}
                 </AuthContext.Consumer>
             </div>

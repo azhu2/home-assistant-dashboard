@@ -30,7 +30,7 @@ const initialState: State = {
 }
 
 class Light extends Component<Props, State> implements MappableProps<Props>{
-        isDimmable: boolean;
+    isDimmable: boolean;
     ref: RefObject<HTMLDivElement>;
 
     context!: React.ContextType<typeof AuthContext>
@@ -47,7 +47,7 @@ class Light extends Component<Props, State> implements MappableProps<Props>{
     }
 
     propsMapper(entity: HaEntity): MappedProps<Props> {
-                return {
+        return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
             backgroundColor: entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
