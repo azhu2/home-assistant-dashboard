@@ -61,15 +61,27 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                         if (restAPI instanceof Error) {
                             return <>Loading...</>;
                         }
-                        if (this.props.snapshotURL || this.state.streamURL) {
+                        if (this.props.snapshotURL && this.state.streamURL) {
                             return (
                                 <HlsStream
                                     src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
                                     poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
                                 />
                             );
+                        } else {
+                            return (
+                                <>
+                                    <img
+                                        className='camera-snapshot'
+                                        src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                        alt={this.props.friendlyName}
+                                    />
+                                    <div>
+                                        Stream loading...
+                                    </div>
+                                </>
+                            );
                         }
-                        return <>Loading...</>;
                     }}
                 </AuthContextConsumer>
             </div>
