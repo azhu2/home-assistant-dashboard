@@ -9,6 +9,8 @@ export type Options = {
     icon?: string,
     showName?: boolean,
     fetchHistory?: boolean,
+    /** Second entity to provide to a tile */
+    secondaryEntities?: haEntity.Entity[],
 };
 
 type AdditionalMappedProps = {
@@ -21,7 +23,7 @@ type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEnti
 export type MappedProps<P extends base.BaseEntityProps> = StrippedProps<P> & AdditionalMappedProps;
 
 export interface MappableProps<P extends base.BaseEntityProps> {
-    propsMapper(entity: haEntity.Entity): MappedProps<P>,
+    propsMapper(entity: haEntity.Entity, options?: Options): MappedProps<P>,
 }
 
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
@@ -30,7 +32,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
     // So we have to type assert here :(
     let mappedProps: MappedProps<P> | undefined;
     if (WrappedTile.prototype as MappableProps<P>) {
-        mappedProps = WrappedTile.prototype.propsMapper(entity);
+        mappedProps = WrappedTile.prototype.propsMapper(entity, options);
     }
 
     const props = {

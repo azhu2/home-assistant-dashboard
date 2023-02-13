@@ -4,11 +4,15 @@ import * as authContext from '../../../services/auth-context';
 import { AuthContextConsumer } from '../../../services/auth-context';
 import * as base from '../../base';
 import { HlsStream } from '../../hls-stream/hls-stream';
+import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
 import './camera.css';
 
 type Props = base.BaseEntityProps & {
+    /** Snapshot to show while stream loading/offline */
     snapshotURL?: string,
+    /** Switch that controls whether saving recordings is on (custom setup for Unifi Protect cameras) */
+    recordingSwitch?: haEntity.Entity,
 };
 
 type State = {
@@ -29,11 +33,13 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         super(props);
         this.state = { ...initialState };
         this.setupStream = this.setupStream.bind(this);
+        this.onToggleRecording = this.onToggleRecording.bind(this);
     }
 
-    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
         return {
             snapshotURL: entity.attributes['entity_picture'],
+            recordingSwitch: options.secondaryEntities && options.secondaryEntities.length > 0 ? options.secondaryEntities[0] : undefined,
         };
     }
 
@@ -52,9 +58,18 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         }
     }
 
+    onToggleRecording() {
+        authContext.callWebsocketOrWarn(this.context, 'switch', 'toggle', {}, this.props.recordingSwitch?.entityID);
+    }
+
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
+                {this.props.recordingSwitch &&
+                    <button className='toggle' onClick={this.onToggleRecording}>
+                        <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
+                    </button>
+                }
                 <AuthContextConsumer>
                     {auth => {
                         const { restAPI } = auth;

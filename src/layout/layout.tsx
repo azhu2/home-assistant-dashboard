@@ -14,16 +14,32 @@ type Props = {
     entityMap: Map<string, haEntity.Entity>
 }
 
+type Options = {
+    secondaryEntityIDs?: string[],
+}
+
 export const Layout = (props: Props) => {
     /** Construct a tile for a given tile type and entity ID. */
-    const getTile = <P extends base.BaseEntityProps>(Tile: ComponentType<P>, entityID: string, options?: tile.Options) => {
+    const getTile = <P extends base.BaseEntityProps>(Tile: ComponentType<P>, entityID: string, tileOptions?: tile.Options, options?: Options) => {
+        const entity = getEntityForEntityID(entityID);
+        if (!entity) {
+            return;     // TODO Return unavailable tile
+        }
+        if (options?.secondaryEntityIDs) {
+            const secondaryEntities = options.secondaryEntityIDs
+                .map(getEntityForEntityID)
+                // Weird hack to get typescript to understand we're filtering out undefineds - https://www.benmvp.com/blog/filtering-undefined-elements-from-array-typescript/
+                .filter((e): e is haEntity.Entity => !!e);
+            tileOptions = { ...tileOptions, secondaryEntities };
+        }
+        return tile.wrapTile(entity, tileOptions)(Tile);
+    }
+
+    const getEntityForEntityID = (entityID: string) => {
         if (props.entityMap.size === 0) {
-            return;
+            return undefined;
         }
-        const entity = props.entityMap.get(entityID);
-        if (entity) {
-            return tile.wrapTile(entity, options)(Tile);
-        }
+        return props.entityMap.get(entityID);
     }
 
     return (
@@ -54,9 +70,9 @@ export const Layout = (props: Props) => {
                 {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
             </Room>
             <Room title='Cameras'>
-                {getTile(Camera, 'camera.garage_cam_high', { showName: true })}
-                {getTile(Camera, 'camera.family_room_cam_high', { showName: true })}
-                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true })}
+                {getTile(Camera, 'camera.garage_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.garage_cam_recording'] })}
+                {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
+                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
             </Room>
             <Room title='System'>
                 {getTile(Gauge, 'sensor.synology_nas_cpu_utilization_total', { showName: true })}
