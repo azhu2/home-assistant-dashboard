@@ -10,17 +10,24 @@ import * as localStorage from '../../services/local-storage/local-storage';
 import * as restAPI from '../../services/rest-api/rest-api';
 import * as websocket from '../../services/websocket/websocket';
 
+const HEALTH_CHECK_MS = 5000;
+
 type State = authContext.AuthContextType;
 
-const initialState: State = authContext.emptyAuthContext;
+const initialState: State = {
+    ...authContext.emptyAuthContext,
+};
 
 /** Wrapper that provides an AuthContext. */
 class AuthWrapper extends Component<{}, State> {
+    wsHealthCheckTimer?: NodeJS.Timer;
+
     constructor(props: {}) {
         super(props);
         this.state = { ...initialState };
         this.setWebsocketAuth = this.setWebsocketAuth.bind(this);
         this.setRestAuth = this.setRestAuth.bind(this);
+        this.wsHealthCheck = this.wsHealthCheck.bind(this);
     }
 
     /** Try to set up connections from data in local storage. */
@@ -33,12 +40,18 @@ class AuthWrapper extends Component<{}, State> {
         if (!(this.state.websocketConnection instanceof Error)) {
             this.state.websocketConnection.close();
         }
+        if (this.wsHealthCheckTimer) {
+            clearInterval(this.wsHealthCheckTimer);
+        }
     }
 
     /** Check websocket auth, set connection or error in state, and return result. */
     async setWebsocketAuth(haURL?: string): Promise<websocket.Connection> {
         return this.checkWebsocketAuth(haURL)
             .then(connection => {
+                if (!this.wsHealthCheckTimer) {
+                    this.wsHealthCheckTimer = setInterval(this.wsHealthCheck, HEALTH_CHECK_MS);
+                }
                 this.setState({
                     ...this.state,
                     websocketConnection: connection,
@@ -76,6 +89,22 @@ class AuthWrapper extends Component<{}, State> {
             }
             throw new Error('Unrecognized error', { cause: err });
         }
+    }
+
+    async wsHealthCheck() {
+        if (this.state.websocketAPI instanceof Error) {
+            this.setWebsocketAuth();
+            return;
+        }
+        this.state.websocketAPI.ping()
+            .catch(() => {
+                const err = new Error('Websocket API unreachable');
+                if (!(this.state.websocketAPI instanceof Error)) {
+                    // if error, already broken, so don't re-log to reduce clutter
+                    console.error(err);
+                }
+                this.setState({ ...this.state, websocketAPI: err, websocketConnection: err });
+            });
     }
 
     /** Set and return authed rest API. */

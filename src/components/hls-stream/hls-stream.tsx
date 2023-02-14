@@ -65,8 +65,8 @@ export class HlsStream extends Component<Props, State> {
                         this.setState({...this.state, err: 'Stream network error'});
                         if (this.props.refreshSourceCallback) {
                             this.props.refreshSourceCallback();
+                            hls.detachMedia();
                         }
-                        return;
                 }
                 hls.startLoad();
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {

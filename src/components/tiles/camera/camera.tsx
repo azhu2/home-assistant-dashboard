@@ -8,6 +8,8 @@ import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
 import './camera.css';
 
+const FAILED_STREAM_REFRESH_MS = 5000;
+
 type Props = base.BaseEntityProps & {
     /** Snapshot to show while stream loading/offline */
     snapshotURL?: string,
@@ -16,15 +18,15 @@ type Props = base.BaseEntityProps & {
 };
 
 type State = {
-    streamURL?: string,
+    streamURL: string | Error,
 };
 
 const initialState: State = {
-    streamURL: undefined,
+    streamURL: new Error('initializing...'),
 };
 
 export class Camera extends Component<Props, State> implements tile.MappableProps<Props>{
-    streamURL?: string;
+    failedStreamRefreshTimer?: NodeJS.Timer;
 
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
@@ -47,14 +49,39 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         this.setupStream();
     }
 
+    componentWillUnmount() {
+        this.clearFailedStreamRefreshTimer();
+    }
+
     setupStream() {
         if (this.context) {
             const { websocketAPI } = this.context;
-            if (!(websocketAPI instanceof Error)) {
+            if (websocketAPI instanceof Error) {
+                console.error('Could not fetch stream URL', 'Websocket API offline.');
+                this.setState({ ...this.state, streamURL: new Error('no stream URL') });
+                this.setupFailedStreamRefreshTimer();
+            } else {
                 websocketAPI.getStreamURL(this.props.entityID).then(stream => {
                     this.setState({ ...this.state, streamURL: stream.url });
+                    this.clearFailedStreamRefreshTimer();
+                }).catch(e => {
+                    console.error('Could not fetch stream URL', e);
+                    this.setState({ ...this.state, streamURL: new Error('no stream URL') });
+                    this.setupFailedStreamRefreshTimer();
                 });
             }
+        }
+    }
+
+    setupFailedStreamRefreshTimer() {
+        if (!this.failedStreamRefreshTimer) {
+            this.failedStreamRefreshTimer = setInterval(this.setupStream, FAILED_STREAM_REFRESH_MS);
+        }
+    }
+
+    clearFailedStreamRefreshTimer() {
+        if (this.failedStreamRefreshTimer) {
+            clearInterval(this.failedStreamRefreshTimer);
         }
     }
 
@@ -76,28 +103,30 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                         if (restAPI instanceof Error) {
                             return <>Loading...</>;
                         }
-                        if (this.props.snapshotURL && this.state.streamURL) {
-                            return (
-                                <HlsStream
-                                    src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
-                                    poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                    refreshSourceCallback={this.setupStream}
-                                />
-                            );
-                        } else {
-                            return (
-                                <>
-                                    <img
-                                        className='camera-snapshot'
-                                        src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                        alt={this.props.friendlyName}
+
+                        if (this.state.streamURL) {
+                            if (typeof this.state.streamURL === 'string') {
+                                return (
+                                    <HlsStream
+                                        src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
+                                        poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                        refreshSourceCallback={this.setupStream}
                                     />
-                                    <div>
-                                        Stream loading...
-                                    </div>
-                                </>
-                            );
+                                );
+                            }
                         }
+                        return (
+                            <>
+                                <img
+                                    className='camera-snapshot'
+                                    src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                    alt={this.props.friendlyName}
+                                />
+                                <div>
+                                    {this.state.streamURL instanceof Error ? this.state.streamURL.message : 'Stream loading...'}
+                                </div>
+                            </>
+                        );
                     }}
                 </AuthContextConsumer>
             </div>

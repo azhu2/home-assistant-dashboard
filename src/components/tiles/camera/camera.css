@@ -23,3 +23,8 @@
 .camera .toggle .icon {
     filter: drop-shadow(0 0 0.2em red);
 }
+
+.camera-snapshot {
+    max-height: 100%;
+    max-width: 100%;
+}
