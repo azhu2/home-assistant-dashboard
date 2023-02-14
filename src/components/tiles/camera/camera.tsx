@@ -81,6 +81,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                                 <HlsStream
                                     src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
                                     poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                    refreshSourceCallback={this.setupStream}
                                 />
                             );
                         } else {

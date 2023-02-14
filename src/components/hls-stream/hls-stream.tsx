@@ -5,6 +5,7 @@ import './hls-stream.css';
 type Props = {
     src: string,
     poster?: string;
+    refreshSourceCallback?: () => void;
 }
 
 type State = {
@@ -62,7 +63,10 @@ export class HlsStream extends Component<Props, State> {
                     default:
                         console.error(`Other stream network error for ${data.url} - ${data.details}. Will retry.`)
                         this.setState({...this.state, err: 'Stream network error'});
-                        break;
+                        if (this.props.refreshSourceCallback) {
+                            this.props.refreshSourceCallback();
+                        }
+                        return;
                 }
                 hls.startLoad();
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
