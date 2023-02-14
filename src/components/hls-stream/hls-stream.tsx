@@ -49,6 +49,7 @@ export class HlsStream extends Component<Props, State> {
             if (!data.fatal) {
                 return;
             }
+            /// TODO Call detachMedia on retryable errors with ratelimit
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
                 switch (data.details) {
                     case Hls.ErrorDetails.MANIFEST_LOAD_ERROR: {
