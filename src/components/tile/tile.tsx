@@ -11,6 +11,7 @@ export type Options = {
     fetchHistory?: boolean,
     /** Second entity to provide to a tile */
     secondaryEntities?: haEntity.Entity[],
+    color?: string | color.Color,
 };
 
 type AdditionalMappedProps = {

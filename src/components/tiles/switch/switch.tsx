@@ -1,13 +1,15 @@
 import { Component, ContextType, MouseEvent as ReactMouseEvent } from 'react';
+import * as color from '../../../entities/color';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
 
-type Props = base.BaseEntityProps & {
+export type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
+    color: string | color.Color;
 }
 
 export class Switch extends Component<Props, {}> implements tile.MappableProps<Props>{
@@ -19,9 +21,10 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
         this.onClick = this.onClick.bind(this);
     }
 
-    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
         return {
             state: entity.state === 'on',
+            color: options.color || '000000',   // TODO default color
             backgroundColor: entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
         };
     }
@@ -41,7 +44,7 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
                 onClick={this.onClick}
                 onContextMenu={this.onClick}
             >
-                <Icon name={icon} />
+                <Icon name={icon} color={this.props.color} />
             </div>
         );
     }

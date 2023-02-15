@@ -6,7 +6,7 @@ import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
-import { Light } from '../components/tiles/light/light';
+import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import * as haEntity from '../entities/ha-entity';
 import './layout.css';
@@ -53,8 +53,8 @@ export const Layout = (props: Props) => {
                 {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
             </Room>
             <Room title='Family Room'>
-                {getTile(Light, 'light.family_room_lights', { icon: 'philips-hue-go' })}
-                {getTile(Light, 'light.family_room_chandelier', { icon: 'luminaria-led' })}
+                {getTile(DimmableLight, 'light.family_room_lights', { icon: 'philips-hue-go' })}
+                {getTile(DimmableLight, 'light.family_room_chandelier', { icon: 'luminaria-led' })}
                 {getTile(Light, 'switch.cat_den', { icon: 'animal-shelter' })}
                 {getTile(Gauge, 'sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
             </Room>
@@ -63,7 +63,7 @@ export const Layout = (props: Props) => {
                 {getTile(Light, 'switch.kitchen_chandelier', { icon: 'chandelier' })}
             </Room>
             <Room title='Master Bedroom'>
-                {getTile(Light, 'light.master_light', { icon: 'chandelier' })}
+                {getTile(DimmableLight, 'light.master_light', { icon: 'chandelier' })}
                 {getTile(Switch, 'switch.air_purifier', { icon: 'air-quality' })}
                 {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>

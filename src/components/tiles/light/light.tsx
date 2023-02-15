@@ -5,32 +5,42 @@ import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
+import { Switch } from '../switch/switch';
+import * as switchTile from '../switch/switch';
 import { BrightnessSlider } from './brightness-slider';
 import './light.css';
 
 /** Default color for lights that are on. Lights with brightness are a scaled varion of this color.
  * I have no RGB lights in HA, so not dealing with those for now.
  */
-const ON_COLOR = '#BBBB22';     // TODO lights color
+export const ON_COLOR = '#BBBB22';     // TODO lights color
 
 type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
     /** 0-255 if dimmer available */
-    brightness?: number,
-}
+    brightness: number,
+};
 
 type State = {
     /** Tracks whether brightness slider is expanded */
     isExpanded: boolean,
-}
+};
 
 const initialState: State = {
     isExpanded: false,
-}
+};
 
-export class Light extends Component<Props, State> implements tile.MappableProps<Props>{
-    isDimmable: boolean;
+export class Light extends Switch {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<switchTile.Props> {
+        if (entity.state === 'on') {
+            options = {...options, color: ON_COLOR};
+        }
+        return super.propsMapper(entity, options);
+    }
+};
+
+export class DimmableLight extends Component<Props, State> implements tile.MappableProps<Props> {
     ref: RefObject<HTMLDivElement>;
 
     context!: ContextType<typeof authContext.AuthContext>
@@ -39,7 +49,6 @@ export class Light extends Component<Props, State> implements tile.MappableProps
     constructor(props: Props) {
         super(props);
         this.state = { ...initialState };
-        this.isDimmable = this.props.entityID.domain === 'light';
         this.onClick = this.onClick.bind(this);
         this.onClickOutside = this.onClickOutside.bind(this);
         this.onSetBrightness = this.onSetBrightness.bind(this);
@@ -68,9 +77,7 @@ export class Light extends Component<Props, State> implements tile.MappableProps
         e.preventDefault();
         // Right-click on a dimmable light toggles brightness slider
         if (e.button > 0) {
-            if (this.isDimmable) {
-                this.setState({ ...this.state, isExpanded: !this.state.isExpanded });
-            }
+            this.setState({ ...this.state, isExpanded: !this.state.isExpanded });
             return;
         }
         // Use home assistant domain for generic toggle (works for lights and switches)
@@ -93,11 +100,7 @@ export class Light extends Component<Props, State> implements tile.MappableProps
 
     color() {
         var scaleFactor: number;
-        if (!this.isDimmable || !this.props.brightness) {
-            scaleFactor = this.props.state ? 1 : 0;
-        } else {
-            scaleFactor = this.props.brightness / 255;
-        }
+        scaleFactor = this.props.brightness / 255;
         return new color.Color(ON_COLOR).scale(scaleFactor);
     }
 
@@ -112,17 +115,15 @@ export class Light extends Component<Props, State> implements tile.MappableProps
                 ref={this.ref}
             >
                 <Icon name={icon} color={this.color()} />
-                {this.isDimmable &&
-                    <BrightnessSlider
-                        brightness={this.props.brightness || 0}
-                        color={this.color()}
-                        isExpanded={this.state.isExpanded}
-                        onSetBrightness={this.onSetBrightness}
-                        // Reset key on open/close or entity brightness change to force creating new component
-                        key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
-                    />
-                }
+                <BrightnessSlider
+                    brightness={this.props.brightness || 0}
+                    color={this.color()}
+                    isExpanded={this.state.isExpanded}
+                    onSetBrightness={this.onSetBrightness}
+                    // Reset key on open/close or entity brightness change to force creating new component
+                    key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
+                />
             </div>
         );
     }
-}
+};
