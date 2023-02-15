@@ -7,6 +7,7 @@ import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
 import { Light } from '../components/tiles/light/light';
+import { Switch } from '../components/tiles/switch/switch';
 import * as haEntity from '../entities/ha-entity';
 import './layout.css';
 
@@ -48,6 +49,7 @@ export const Layout = (props: Props) => {
             <Room title='Living Room'>
                 {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
                 {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}
+                {getTile(Switch, 'switch.fan', { icon: 'fan-speed--v2' })}
                 {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
             </Room>
             <Room title='Family Room'>
@@ -62,6 +64,7 @@ export const Layout = (props: Props) => {
             </Room>
             <Room title='Master Bedroom'>
                 {getTile(Light, 'light.master_light', { icon: 'chandelier' })}
+                {getTile(Switch, 'switch.air_purifier', { icon: 'air-quality' })}
                 {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
