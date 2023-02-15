@@ -42,6 +42,10 @@ export class HlsStream extends Component<Props, State> {
 
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
             hls.loadSource(this.props.src);
+        });
+
+        hls.on(Hls.Events.FRAG_LOADED, () => {
+            // Assume this means stream online
             this.setState({ ...this.state, err: undefined });
         });
 
