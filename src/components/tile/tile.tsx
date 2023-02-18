@@ -2,6 +2,7 @@ import { ComponentType } from 'react';
 import * as color from '../../entities/color';
 import * as haEntity from '../../entities/ha-entity';
 import * as base from '../base';
+import { Icon } from '../icon/icon';
 import './tile.css';
 
 /** Additional options for tile customzation. */
@@ -12,6 +13,7 @@ export type Options = {
     /** Second entity to provide to a tile */
     secondaryEntities?: haEntity.Entity[],
     color?: string | color.Color,
+    hideIfUnavailable?: boolean,
 };
 
 type AdditionalMappedProps = {
@@ -29,6 +31,29 @@ export interface MappableProps<P extends base.BaseEntityProps> {
 
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
 export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
+    const tileType = WrappedTile.name.toLowerCase();
+
+    if (entity.state === 'unavailable') {
+        if (options?.hideIfUnavailable) {
+            return (
+                <></>
+            )
+        }
+        return (
+            <div className={`tile tile-${tileType}`} style={{ backgroundColor: '#dddddd' }}>
+                {options?.showName && <div className='name'>{entity.friendlyName}</div>}
+                <div className='content'>
+                    {options?.icon &&
+                        <Icon name={options.icon} color='#aaaaaa' />
+                    }
+                    <div className='entity-unavailable'>
+                        Unavaialble
+                    </div>
+                </div>
+            </div>
+        )
+    }
+
     // Would love to define an abstract TileComponent that extends Component and implements (static) PropsMappable, but, alas, not in Typescript.
     // So we have to type assert here :(
     let mappedProps: MappedProps<P> | undefined;
@@ -43,7 +68,6 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
         ...mappedProps,
     }
 
-    const tileType = WrappedTile.name.toLowerCase();
     let backgroundColor = 'transparent';
     if (mappedProps?.backgroundColor) {
         const colorVar = mappedProps.backgroundColor;

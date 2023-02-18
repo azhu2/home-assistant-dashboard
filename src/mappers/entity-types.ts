@@ -12,6 +12,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'light.master_light': EntityType.Light,
     'switch.front_door_lights': EntityType.Light,
     'switch.outdoor_lights': EntityType.Light,
+    'switch.christmas_tree': EntityType.Light,
     'sensor.synology_nas_cpu_utilization_total': EntityType.Gauge,
     'sensor.synology_nas_memory_usage_real': EntityType.Gauge,
     'sensor.udr_memory_utilization': EntityType.Gauge,

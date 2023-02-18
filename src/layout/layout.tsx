@@ -49,6 +49,7 @@ export const Layout = (props: Props) => {
             <Room title='Living Room'>
                 {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
                 {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}
+                {getTile(Light, 'switch.christmas_tree', { icon: 'christmas-tree', hideIfUnavailable: true })}
                 {getTile(Switch, 'switch.fan', { icon: 'fan-speed--v2' })}
                 {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
             </Room>
@@ -64,7 +65,7 @@ export const Layout = (props: Props) => {
             </Room>
             <Room title='Master Bedroom'>
                 {getTile(DimmableLight, 'light.master_light', { icon: 'chandelier' })}
-                {getTile(Switch, 'switch.air_purifier', { icon: 'air-quality' })}
+                {getTile(Switch, 'switch.air_purifier', { icon: 'air-quality', hideIfUnavailable: true })}
                 {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
