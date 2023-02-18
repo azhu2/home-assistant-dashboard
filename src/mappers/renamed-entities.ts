@@ -13,7 +13,7 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.adguard_home_dns_queries_blocked_ratio': 'AdGuard Blocked',
     'switch.lawn_schedule': 'Lawn',
     'switch.roses_schedule_2': 'Roses',
-    'switch.backyard_priamry': 'Back 1',
+    'switch.backyard_primary': 'Back 1',
     'switch.backyard_secondary': 'Back 2',
     'switch.front_yard_primary': 'Front 1',
     'switch.front_yard_secondary': 'Front 2',

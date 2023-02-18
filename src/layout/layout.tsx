@@ -74,19 +74,19 @@ export const Layout = (props: Props) => {
                 {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
                 {getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
             </Room>
+            <Room title='Cameras'>
+                {getTile(Camera, 'camera.garage_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.garage_cam_recording'] })}
+                {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
+                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
+            </Room>
             <Room title='Irrigation'>
                 {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
                 {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: 'rose-bouquet' })}
                 {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: 'garden-sprinkler' })}
                 {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: 'garden-sprinkler' })}
-                {getTile(Switch, 'switch.backyard_priamry', { showName: true, icon: 'garden-sprinkler' })}
+                {getTile(Switch, 'switch.backyard_primary', { showName: true, icon: 'garden-sprinkler' })}
                 {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: 'garden-sprinkler' })}
                 {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: 'plant-under-rain' })}
-            </Room>
-            <Room title='Cameras'>
-                {getTile(Camera, 'camera.garage_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
-                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
             </Room>
             <Room title='System'>
                 {getTile(Gauge, 'sensor.synology_nas_cpu_utilization_total', { showName: true })}
