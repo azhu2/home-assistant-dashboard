@@ -10,7 +10,7 @@ export type Options = {
     icon?: string,
     showName?: boolean,
     fetchHistory?: boolean,
-    /** Second entity to provide to a tile */
+    /** Second entity to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
     color?: string | color.Color,
     hideIfUnavailable?: boolean,

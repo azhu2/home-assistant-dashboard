@@ -72,6 +72,16 @@ export const Layout = (props: Props) => {
                 {getTile(Garage, 'cover.garage_door')}
                 {getTile(Light, 'switch.front_door_lights', { icon: 'lights' })}
                 {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
+                {getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
+            </Room>
+            <Room title='Irrigation'>
+                {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
+                {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: 'rose-bouquet' })}
+                {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: 'garden-sprinkler' })}
+                {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: 'garden-sprinkler' })}
+                {getTile(Switch, 'switch.backyard_priamry', { showName: true, icon: 'garden-sprinkler' })}
+                {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: 'garden-sprinkler' })}
+                {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: 'plant-under-rain' })}
             </Room>
             <Room title='Cameras'>
                 {getTile(Camera, 'camera.garage_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.garage_cam_recording'] })}

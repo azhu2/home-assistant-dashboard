@@ -11,4 +11,11 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.master_bedroom_temperature_sensor_temperature': 'Temp',
     'sensor.thermostat_humidity': 'Humidity',
     'sensor.adguard_home_dns_queries_blocked_ratio': 'AdGuard Blocked',
+    'switch.lawn_schedule': 'Lawn',
+    'switch.roses_schedule_2': 'Roses',
+    'switch.backyard_priamry': 'Back 1',
+    'switch.backyard_secondary': 'Back 2',
+    'switch.front_yard_primary': 'Front 1',
+    'switch.front_yard_secondary': 'Front 2',
+    'switch.backyard_drip': 'Drip',
 };

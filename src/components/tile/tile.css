@@ -19,6 +19,8 @@
     flex: 9 4;
     min-height: 0; /* prevents overflowing flex parent */
     position: relative;
+    display: flex;
+    justify-content: center;
 }
 
 .entity-unavailable {

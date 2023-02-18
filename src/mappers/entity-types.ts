@@ -38,4 +38,12 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'switch.bedroom_cam_recording': EntityType.Switch,
     'switch.air_purifier': EntityType.Switch,
     'switch.fan': EntityType.Switch,
+    'switch.trash_day': EntityType.Switch,
+    'switch.lawn_schedule': EntityType.Switch,
+    'switch.roses_schedule_2': EntityType.Switch,
+    'switch.backyard_priamry': EntityType.Switch,
+    'switch.backyard_secondary': EntityType.Switch,
+    'switch.front_yard_primary': EntityType.Switch,
+    'switch.front_yard_secondary': EntityType.Switch,
+    'switch.backyard_drip': EntityType.Switch,
 };
