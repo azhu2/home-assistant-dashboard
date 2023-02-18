@@ -100,7 +100,7 @@ export class DimmableLight extends Component<Props, State> implements tile.Mappa
 
     color() {
         var scaleFactor: number;
-        scaleFactor = this.props.brightness / 255;
+        scaleFactor = this.props.brightness / 255 || 0;
         return new color.Color(ON_COLOR).scale(scaleFactor);
     }
 
