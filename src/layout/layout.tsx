@@ -5,7 +5,7 @@ import { Room } from '../components/room/room';
 import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
-import { Gauge } from '../components/tiles/gauge/gauge';
+import { Gauge, HistoryGauge } from '../components/tiles/gauge/gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import * as haEntity from '../entities/ha-entity';
@@ -93,7 +93,7 @@ export const Layout = (props: Props) => {
                 {getTile(Gauge, 'sensor.synology_nas_volume_1_volume_used', { showName: true })}
                 {getTile(Gauge, 'sensor.udr_storage_utilization', { showName: true })}
                 {getTile(Gauge, 'sensor.online_devices', { showName: true })}
-                {getTile(Gauge, 'sensor.1m_download_max', { showName: true })}
+                {getTile(HistoryGauge, 'sensor.1m_download_max', { showName: true })}
                 {getTile(Gauge, 'sensor.1m_upload_max', { showName: true })}
                 {getTile(Gauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>

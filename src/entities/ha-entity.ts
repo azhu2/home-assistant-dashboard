@@ -56,3 +56,10 @@ export function fromHassEntity(e: haWebsocket.HassEntity, t: EntityType): Entity
 export type Stream = {
     url: string;
 };
+
+export type History = HistoryEntry[];
+
+type HistoryEntry = {
+    timestamp: Date,
+    value: string | number,
+};

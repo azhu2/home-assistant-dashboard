@@ -1,6 +1,6 @@
 export interface RestAPI {
     getBaseURL: () => string;
-    healthCheck: () => Promise<boolean>
+    healthCheck: () => Promise<boolean>;
 };
 
 class RestAPIImpl implements RestAPI {
@@ -17,7 +17,7 @@ class RestAPIImpl implements RestAPI {
         this.authToken = authToken;
         this.authHeaders = new Headers({
             'Authorization': `Bearer ${this.authToken}`,
-            'content-type': 'application/json',
+            'Content-Type': 'application/json',
         });
     }
 
@@ -26,9 +26,7 @@ class RestAPIImpl implements RestAPI {
     }
 
     async healthCheck() {
-        await fetch(new Request(`${this.baseURL}/api/`, {
-            headers: this.authHeaders,
-        }));
+        await fetch(new Request(`${this.baseURL}/api/`, { headers: this.authHeaders }));
         return true;
     };
 };
