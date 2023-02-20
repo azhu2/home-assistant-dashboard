@@ -15,19 +15,17 @@ type Props = {
     entityMap: Map<string, haEntity.Entity>
 }
 
-type Options = {
-    secondaryEntityIDs?: string[],
-}
+type SecondaryEntityIDs = string[];
 
 export const Layout = (props: Props) => {
     /** Construct a tile for a given tile type and entity ID. */
-    const getTile = <P extends base.BaseEntityProps>(Tile: ComponentType<P>, entityID: string, tileOptions?: tile.Options, options?: Options) => {
+    const getTile = <P extends base.BaseEntityProps>(Tile: ComponentType<P>, entityID: string, tileOptions?: tile.Options, secondaryEntityIDs?: SecondaryEntityIDs) => {
         const entity = getEntityForEntityID(entityID);
         if (!entity) {
             return;     // TODO Return unavailable tile
         }
-        if (options?.secondaryEntityIDs) {
-            const secondaryEntities = options.secondaryEntityIDs
+        if (secondaryEntityIDs) {
+            const secondaryEntities = secondaryEntityIDs
                 .map(getEntityForEntityID)
                 // Weird hack to get typescript to understand we're filtering out undefineds - https://www.benmvp.com/blog/filtering-undefined-elements-from-array-typescript/
                 .filter((e): e is haEntity.Entity => !!e);
@@ -75,9 +73,9 @@ export const Layout = (props: Props) => {
                 {getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
             </Room>
             <Room title='Cameras'>
-                {getTile(Camera, 'camera.garage_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
-                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, { secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
+                {getTile(Camera, 'camera.garage_cam_high', { showName: true }, ['switch.garage_cam_recording'])}
+                {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, ['switch.family_room_cam_recording'])}
+                {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, ['switch.bedroom_cam_recording'])}
             </Room>
             <Room title='Irrigation'>
                 {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
