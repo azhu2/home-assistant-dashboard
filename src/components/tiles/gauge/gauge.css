@@ -11,3 +11,11 @@
     font-size: x-small;
     padding: 0 0.1em;
 }
+
+.history-background {
+    position: absolute;
+    background-color: rgba(240, 240, 255, 128);
+    height: 100%;
+    width: 100%;
+    z-index: -1;
+}

@@ -1,4 +1,4 @@
-import { Component, ContextType } from 'react';
+import { Component, ContextType, createRef, ReactElement, RefObject } from 'react';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
@@ -13,6 +13,8 @@ type Props = base.BaseEntityProps & {
 type State = {
     unsubFunc?: () => void,
     history?: haEntity.History,
+    componentHeight?: number,
+    componentWidth?: number,
 }
 
 const initialState: State = {
@@ -37,7 +39,7 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         return this.renderHelper();
     }
 
-    renderHelper(historyElement?: HTMLElement) {
+    renderHelper(historyElement?: ReactElement) {
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
                 <>
@@ -56,8 +58,13 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
 export class HistoryGauge extends Gauge {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
+    ref: RefObject<HTMLDivElement>;
 
-    state = {...initialState};
+    constructor(props: Props) {
+        super(props);
+        this.state = {...initialState};
+        this.ref = createRef();
+    }
 
     componentDidMount() {
         if (!(this.context.websocketAPI instanceof Error)) {
@@ -70,11 +77,25 @@ export class HistoryGauge extends Gauge {
                 console.error(`Failed to set up history subscription for ${this.props.entityID.getCanonicalized()}`, err)
             );
         }
+        this.setState({
+            ...this.state,
+            componentHeight: this.ref.current?.clientHeight,
+            componentWidth: this.ref.current?.clientWidth,
+        })
     }
 
     componentWillUnmount() {
         if (this.state.unsubFunc) {
             this.state.unsubFunc();
         }
+    }
+
+    render() {
+        const historyElement = (
+            <div className='history-background' ref={this.ref}>
+                {this.state.componentHeight} x {this.state.componentWidth}
+            </div>
+        );
+        return this.renderHelper(historyElement);
     }
 }
