@@ -1,3 +1,7 @@
+#room-system .tile-gauge, .tile-historygauge {
+    height: 4em;
+}
+
 .gauge {
     height: 100%;
     flex: auto;
