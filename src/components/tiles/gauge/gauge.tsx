@@ -213,6 +213,7 @@ const buildSVG = (buckets: HistoryBucket[]): ReactElement => {
         preserveAspectRatio='none'
         // Flip since built with 0 as baseline (bottom)
         transform='scale(1, -1)'>
-        <path d={pathStr} stroke='#aaaadd' fill='rgba(240, 240, 255, 128)' />
+        <path d={pathStr} stroke='rgba(192, 192, 240, 128)' fill='rgba(240, 240, 255, 64)' />
     </svg>;
+    // TODO Colors
 }
