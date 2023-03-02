@@ -14,8 +14,12 @@
 
 .history-background {
     position: absolute;
-    background-color: rgba(240, 240, 255, 128);
     height: 100%;
     width: 100%;
     z-index: -1;
+}
+
+svg {
+    height: 100%;
+    width: 100%;
 }

@@ -94,7 +94,7 @@ export const Layout = (props: Props) => {
                 {getTile(Gauge, 'sensor.udr_storage_utilization', { showName: true })}
                 {getTile(Gauge, 'sensor.online_devices', { showName: true })}
                 {getTile(HistoryGauge, 'sensor.1m_download_max', { showName: true })}
-                {getTile(Gauge, 'sensor.1m_upload_max', { showName: true })}
+                {getTile(HistoryGauge, 'sensor.1m_upload_max', { showName: true })}
                 {getTile(Gauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { showName: true })}
             </Room>
             <div>
