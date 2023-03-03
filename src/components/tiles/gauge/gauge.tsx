@@ -1,4 +1,4 @@
-import { Component, ContextType, createRef, ReactElement, RefObject } from 'react';
+import { Component, ContextType, ReactElement } from 'react';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
@@ -215,5 +215,4 @@ const buildSVG = (buckets: HistoryBucket[]): ReactElement => {
         transform='scale(1, -1)'>
         <path d={pathStr} stroke='rgba(192, 192, 240, 128)' fill='rgba(240, 240, 255, 64)' />
     </svg>;
-    // TODO Colors
 }
