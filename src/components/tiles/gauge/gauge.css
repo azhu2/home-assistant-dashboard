@@ -4,31 +4,43 @@
 
 .gauge {
     height: 100%;
+    width: 100%;
     flex: auto;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.unit {
-    vertical-align: super;
-    font-size: x-small;
-    padding: 0 0.1em;
+.gauge .value-container {
+    max-height: 100%;
+    max-width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.1em;
 }
 
-.gauge-background {
+.gauge .value {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.gauge .unit {
+    font-size: x-small;
+}
+
+.gauge .background {
     position: absolute;
     height: 100%;
     width: 100%;
     z-index: -1;
 }
 
-svg {
+.gauge svg {
     height: 100%;
     width: 100%;
 }
 
-path.history {
+.gauge svg path.history {
     stroke: rgba(192, 192, 240, 128);
     fill: rgba(240, 240, 255, 64);
 }

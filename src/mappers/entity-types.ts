@@ -21,6 +21,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.online_devices': EntityType.Gauge,
     'sensor.1m_download_max': EntityType.Gauge,
     'sensor.1m_upload_max': EntityType.Gauge,
+    'sensor.top_download_device': EntityType.Gauge,
+    'sensor.top_upload_device': EntityType.Gauge,
     'camera.garage_cam_high': EntityType.Camera,
     'camera.family_room_cam_high': EntityType.Camera,
     'camera.bedroom_cam_high': EntityType.Camera,

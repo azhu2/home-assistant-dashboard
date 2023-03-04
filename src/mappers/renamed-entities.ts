@@ -7,6 +7,8 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.udr_storage_utilization': 'UDR Storage',
     'sensor.1m_download_max': 'Download',
     'sensor.1m_upload_max': 'Upload',
+    'sensor.top_download_device': 'Top Download',
+    'sensor.top_upload_device': 'Top Upload',
     'sensor.nest_temperature_sensor_family_room_temperature': 'Temp',
     'sensor.master_bedroom_temperature_sensor_temperature': 'Temp',
     'sensor.thermostat_humidity': 'Humidity',

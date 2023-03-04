@@ -31,6 +31,7 @@ export interface MappableProps<P extends base.BaseEntityProps> {
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
 export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
     const tileType = WrappedTile.name.toLowerCase();
+    const entityID = entity.entityID.getCanonicalized().replaceAll(/[\._]/g, '-');
 
     if (entity.state === 'unavailable') {
         if (options?.hideIfUnavailable) {
@@ -39,7 +40,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
             )
         }
         return (
-            <div className={`tile tile-${tileType}`} style={{ backgroundColor: '#dddddd' }}>
+            <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor: '#dddddd' }}>
                 {options?.showName && <div className='name'>{entity.friendlyName}</div>}
                 <div className='content'>
                     {options?.icon &&
@@ -78,7 +79,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
         // "Don't use HOCs inside the render method" (https://reactjs.org/docs/higher-order-components.html#dont-use-hocs-inside-the-render-method)
         // and React will unmount + remount the whole component every update since we're recreated a whole NEW object.
         // Returning a raw JSX.Element doesn't trigger this and the WrappedTile inside only updates its props, never unmounting the whole component.
-        <div className={`tile tile-${tileType}`} style={{ backgroundColor }}>
+        <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor }}>
             {options?.showName && <div className='name'>{entity.friendlyName}</div>}
             <div className='content'>
                 <WrappedTile

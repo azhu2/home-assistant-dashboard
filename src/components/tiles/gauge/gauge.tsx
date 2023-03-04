@@ -42,11 +42,11 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
                 <>
-                    <div className='gauge-background'>
+                    <div className='background'>
                         {background}
                     </div>
                     {/* extra div so superscript works with flexbox used to vertical-center values */}
-                    <div>
+                    <div className='value-container'>
                         <span className='value'>{this.props.state}</span>
                         {this.props.unit && <span className='unit'>{this.props.unit || ''}</span>}
                     </div>

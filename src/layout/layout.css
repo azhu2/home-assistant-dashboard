@@ -17,3 +17,8 @@
 #room-system .tile {
     flex-basis: 5em;
 }
+
+.tile-sensor-top-download-device .gauge .value,
+.tile-sensor-top-upload-device .gauge .value {
+    font-size: 0.8em;
+}
