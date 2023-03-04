@@ -61,20 +61,24 @@ export class PercentGauage extends Gauge {
         let background;
         if (typeof parseFloat(this.props.state) === 'number') {
             const pct = parseFloat(this.props.state) / 100;
+
             // TODO Sync with colors from graph
-            const fillColor = new color.Color(240 + (255-240) * pct, 240 - 240 * pct, 255 - 255 * pct, 64);
-            const strokeColor = new color.Color(192 + (255-192) * pct, 192 - 192 * pct, 240 - 240 * pct, 128);
+            const fillColor = new color.Color(240 + (255 - 240) * pct, 240 - 240 * pct, 255 - 255 * pct, 64);
+
             background =
                 <svg
-                    viewBox='0 0 1 1'
+                    viewBox='0 0 1 0.5'
                     preserveAspectRatio='none'
-                    // Flip since built with 0 as baseline (bottom)
-                    transform='scale(1, -1)'>
-                    <rect className='percent'
-                        width='1' height={pct}
-                        strokeWidth='0.01'
-                        stroke={strokeColor.rgbString(true)}
-                        fill={fillColor.rgbString(true)}
+                >
+                    {/* Base circle */}
+                    <circle cx='0.5' cy='0.5' r='0.5' fill={fillColor.rgbString(true)} />
+                    {/* Inner circle */}
+                    <circle cx='0.5' cy='0.5' r='0.3' fill='white' />
+                    {/* Cover unused part of dial with rotated rectangle */}
+                    <rect
+                        x='0' y='0.5' width='1.5' height='0.5' fill='white'
+                        transform={`rotate(-${Math.trunc((1 - pct) * 180)})`}
+                        transform-box='view-box' transform-origin='bottom'
                     />
                 </svg>;
         }
@@ -236,7 +240,8 @@ const buildHistorySVG = (buckets: HistoryBucket[]): ReactElement => {
         viewBox={`0 ${min} ${buckets.length - 1} ${overall.max - min}`}
         preserveAspectRatio='none'
         // Flip since built with 0 as baseline (bottom)
-        transform='scale(1, -1)'>
+        transform='scale(1, -1)'
+    >
         <path className='history' d={pathStr} />
     </svg>;
 }
