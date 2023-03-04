@@ -66,10 +66,7 @@ export class PercentGauage extends Gauge {
             const fillColor = new color.Color(240 + (255 - 240) * pct, 240 - 240 * pct, 255 - 255 * pct, 64);
 
             background =
-                <svg
-                    viewBox='0 0 1 0.5'
-                    preserveAspectRatio='none'
-                >
+                <svg viewBox='0 0 1 0.5'>
                     {/* Base circle */}
                     <circle cx='0.5' cy='0.5' r='0.5' fill={fillColor.rgbString(true)} />
                     {/* Inner circle */}
@@ -78,6 +75,11 @@ export class PercentGauage extends Gauge {
                     <rect
                         x='0' y='0.5' width='1.5' height='0.5' fill='white'
                         transform={`rotate(-${Math.trunc((1 - pct) * 180)})`}
+                        transform-box='view-box' transform-origin='bottom'
+                    />
+                    {/* Needle */}
+                    <path d='M0 0.5 L0.49 0.49 Q0.5 0.5 0.49 0.51 Z' fill='black'
+                        transform={`rotate(${Math.trunc(pct * 180)})`}
                         transform-box='view-box' transform-origin='bottom'
                     />
                 </svg>;
