@@ -87,7 +87,7 @@ export class PercentGauage extends Gauge {
                         transform-box='view-box' transform-origin='bottom'
                     />
                     {/* Needle */}
-                    <path d='M0 0.5 L0.49 0.49 Q0.5 0.5 0.49 0.51 Z' fill='black'
+                    <path d='M0 0.5 L0.46 0.48 Q0.5 0.5 0.46 0.52 Z' fill='black'
                         transform={`rotate(${Math.trunc(pct * 180)})`}
                         transform-box='view-box' transform-origin='bottom'
                     />
