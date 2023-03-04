@@ -1,4 +1,5 @@
 import { Component, ContextType, ReactElement } from 'react';
+import * as color from '../../../entities/color';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
@@ -13,8 +14,6 @@ type Props = base.BaseEntityProps & {
 type State = {
     unsubFunc?: () => void,
     history?: haEntity.History,
-    componentHeight?: number,
-    componentWidth?: number,
 }
 
 const initialState: State = {
@@ -39,11 +38,13 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         return this.renderHelper();
     }
 
-    renderHelper(historyElement?: ReactElement) {
+    renderHelper(background?: ReactElement) {
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
                 <>
-                    {historyElement}
+                    <div className='gauge-background'>
+                        {background}
+                    </div>
                     {/* extra div so superscript works with flexbox used to vertical-center values */}
                     <div>
                         <span className='value'>{this.props.state}</span>
@@ -55,12 +56,40 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 }
 
+export class PercentGauage extends Gauge {
+    render() {
+        let background;
+        if (typeof parseFloat(this.props.state) === 'number') {
+            const pct = parseFloat(this.props.state) / 100;
+            // TODO Sync with colors from graph
+            const fillColor = new color.Color(240 + (255-240) * pct, 240 - 240 * pct, 255 - 255 * pct, 64);
+            const strokeColor = new color.Color(192 + (255-192) * pct, 192 - 192 * pct, 240 - 240 * pct, 128);
+            background =
+                <svg
+                    viewBox='0 0 1 1'
+                    preserveAspectRatio='none'
+                    // Flip since built with 0 as baseline (bottom)
+                    transform='scale(1, -1)'>
+                    <rect className='percent'
+                        width='1' height={pct}
+                        strokeWidth='0.01'
+                        stroke={strokeColor.rgbString(true)}
+                        fill={fillColor.rgbString(true)}
+                    />
+                </svg>;
+        }
+
+        return this.renderHelper(background);
+    }
+}
+
 interface HistoryBucket {
     start: Date;
     max?: number;
     min?: number;
     avg?: number;
 }
+
 export class HistoryGauge extends Gauge {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
@@ -154,15 +183,10 @@ export class HistoryGauge extends Gauge {
         if (this.state.history) {
             // TODO Customizable how many buckets
             const buckets = this.buildBuckets(100);
-            svg = buildSVG(buckets);
+            svg = buildHistorySVG(buckets);
         }
 
-        const historyElement = (
-            <div className='history-background'>
-                {svg}
-            </div>
-        );
-        return this.renderHelper(historyElement);
+        return this.renderHelper(svg);
     }
 }
 
@@ -173,7 +197,7 @@ interface OverallStats {
     last?: number;
 }
 
-const buildSVG = (buckets: HistoryBucket[]): ReactElement => {
+const buildHistorySVG = (buckets: HistoryBucket[]): ReactElement => {
     const overall = buckets
         .map(entry => entry.avg)
         .filter((val): val is number => !!val)
@@ -213,6 +237,6 @@ const buildSVG = (buckets: HistoryBucket[]): ReactElement => {
         preserveAspectRatio='none'
         // Flip since built with 0 as baseline (bottom)
         transform='scale(1, -1)'>
-        <path d={pathStr} stroke='rgba(192, 192, 240, 128)' fill='rgba(240, 240, 255, 64)' />
+        <path className='history' d={pathStr} />
     </svg>;
 }

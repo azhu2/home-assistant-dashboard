@@ -1,4 +1,4 @@
-#room-system .tile-gauge, .tile-historygauge {
+#room-system .tile-gauge, .tile-historygauge, .tile-percentgauge {
     height: 4em;
 }
 
@@ -16,7 +16,7 @@
     padding: 0 0.1em;
 }
 
-.history-background {
+.gauge-background {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -26,4 +26,9 @@
 svg {
     height: 100%;
     width: 100%;
+}
+
+path.history {
+    stroke: rgba(192, 192, 240, 128);
+    fill: rgba(240, 240, 255, 64);
 }
