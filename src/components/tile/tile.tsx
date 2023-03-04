@@ -31,7 +31,7 @@ export interface MappableProps<P extends base.BaseEntityProps> {
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
 export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
     const tileType = WrappedTile.name.toLowerCase();
-    const entityID = entity.entityID.getCanonicalized().replaceAll(/[\._]/g, '-');
+    const entityID = entity.entityID.getCanonicalized().replaceAll(/[._]/g, '-');
 
     if (entity.state === 'unavailable') {
         if (options?.hideIfUnavailable) {
