@@ -62,8 +62,17 @@ export class PercentGauage extends Gauge {
         if (typeof parseFloat(this.props.state) === 'number') {
             const pct = parseFloat(this.props.state) / 100;
 
-            // TODO Sync with colors from graph
-            const fillColor = new color.Color(240 + (255 - 240) * pct, 240 - 240 * pct, 255 - 255 * pct, 64);
+            /*
+             * Green -> Yellow -> Red scaling scheme
+             * pct 0.0 -> 0.5 -> 1.0
+             * r   0   -> 255 -> 255
+             * g   255 -> 255 -> 0
+             */
+            const fillColor = new color.Color(
+                Math.min(255, 256 * Math.min(1, (pct * 2))),
+                Math.min(255, 256 * Math.min(1, (2 - pct * 2))),
+                0,
+                64);
 
             background =
                 <svg viewBox='0 0 1 0.5'>
