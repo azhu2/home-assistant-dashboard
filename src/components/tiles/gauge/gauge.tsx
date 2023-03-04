@@ -112,14 +112,24 @@ export class HistoryGauge extends Gauge {
     constructor(props: Props) {
         super(props);
         this.state = { ...initialState };
-        this.buildBuckets = this.buildBuckets.bind(this);
+        this.setupSubscription = this.setupSubscription.bind(this);
     }
 
     componentDidMount() {
         if (!(this.context.websocketAPI instanceof Error)) {
             this.context.websocketAPI.subscribeHistory(
                 this.props.entityID,
-                history => this.setState({ ...this.state, history })
+                history => {
+                    if (history.length <= 1) {
+                        // Sometimes erroneously only returns one history and subscriptions appears to break, so try to resubscribe
+                        if (this.state.unsubFunc) {
+                            this.state.unsubFunc();
+                        }
+                        this.setupSubscription();
+                    } else {
+                        this.setState({ ...this.state, history })
+                    }
+                }
             ).then(unsubFunc =>
                 this.setState({ ...this.state, unsubFunc })
             ).catch(err =>
@@ -134,75 +144,88 @@ export class HistoryGauge extends Gauge {
         }
     }
 
-    buildBuckets(numBuckets: number): HistoryBucket[] {
-        let buckets = new Array<HistoryBucket>(numBuckets);
-        // TODO Dynamic time ranges
-        const timeRangeMs = 24 * 60 * 60 * 1000;
-        const bucketWidthMs = timeRangeMs / numBuckets;
-        const startMs = Date.now() - timeRangeMs;
-
-        let curIdx = 0;
-        let curMin: number | undefined = undefined;
-        let curMax: number | undefined = undefined;
-        let curSum = 0;
-        let curCnt = 0;
-
-        this.state.history?.forEach(entry => {
-            if (typeof entry.value !== 'number') {
-                // Can't graph
-                return;
-            }
-            if (entry.timestamp.getTime() < startMs) {
-                // Before time range
-                return;
-            }
-            if (entry.timestamp.getTime() > startMs + (curIdx + 1) * bucketWidthMs) {
-                // Aggregate previous bucket
-                buckets[curIdx] = {
-                    start: new Date(startMs + curIdx * bucketWidthMs),
-                    min: curMin,
-                    max: curMax,
-                    avg: curCnt > 0 ? curSum / curCnt : undefined,
-                };
-
-                // Clear current bucket
-                curIdx++;
-                curMin = undefined;
-                curMax = undefined;
-                curSum = 0;
-                curCnt = 0;
-            }
-            // Add value to current bucket
-            if (!curMin || entry.value < curMin) {
-                curMin = entry.value;
-            }
-            if (!curMax || entry.value > curMax) {
-                curMax = entry.value;
-            }
-            curSum += entry.value;
-            curCnt++;
-        });
-        // Aggregate last bucket TODO DRY
-        buckets[curIdx] = {
-            start: new Date(startMs + curIdx * bucketWidthMs),
-            min: curMin,
-            max: curMax,
-            avg: curCnt > 0 ? curSum / curCnt : undefined,
-        };
-
-        return buckets;
+    setupSubscription() {
+        if (!(this.context.websocketAPI instanceof Error)) {
+            this.context.websocketAPI.subscribeHistory(
+                this.props.entityID,
+                history => this.setState({ ...this.state, history })
+            ).then(unsubFunc =>
+                this.setState({ ...this.state, unsubFunc })
+            ).catch(err =>
+                console.error(`Failed to set up history subscription for ${this.props.entityID.getCanonicalized()}`, err)
+            );
+        }
     }
 
     render() {
         let svg;
         if (this.state.history) {
             // TODO Customizable how many buckets
-            const buckets = this.buildBuckets(100);
+            const buckets = buildBuckets(this.state.history, 100);
             svg = buildHistorySVG(buckets);
         }
 
         return this.renderHelper(svg);
     }
+}
+
+const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBucket[] => {
+    let buckets = new Array<HistoryBucket>(numBuckets);
+    // TODO Dynamic time ranges
+    const timeRangeMs = 24 * 60 * 60 * 1000;
+    const bucketWidthMs = timeRangeMs / numBuckets;
+    const startMs = Date.now() - timeRangeMs;
+
+    let curIdx = 0;
+    let curMin: number | undefined = undefined;
+    let curMax: number | undefined = undefined;
+    let curSum = 0;
+    let curCnt = 0;
+
+    history.forEach(entry => {
+        if (typeof entry.value !== 'number') {
+            // Can't graph
+            return;
+        }
+        if (entry.timestamp.getTime() < startMs) {
+            // Before time range
+            return;
+        }
+        if (entry.timestamp.getTime() > startMs + (curIdx + 1) * bucketWidthMs) {
+            // Aggregate previous bucket
+            buckets[curIdx] = {
+                start: new Date(startMs + curIdx * bucketWidthMs),
+                min: curMin,
+                max: curMax,
+                avg: curCnt > 0 ? curSum / curCnt : undefined,
+            };
+
+            // Clear current bucket
+            curIdx++;
+            curMin = undefined;
+            curMax = undefined;
+            curSum = 0;
+            curCnt = 0;
+        }
+        // Add value to current bucket
+        if (!curMin || entry.value < curMin) {
+            curMin = entry.value;
+        }
+        if (!curMax || entry.value > curMax) {
+            curMax = entry.value;
+        }
+        curSum += entry.value;
+        curCnt++;
+    });
+    // Aggregate last bucket TODO DRY
+    buckets[curIdx] = {
+        start: new Date(startMs + curIdx * bucketWidthMs),
+        min: curMin,
+        max: curMax,
+        avg: curCnt > 0 ? curSum / curCnt : undefined,
+    };
+
+    return buckets;
 }
 
 interface OverallStats {
