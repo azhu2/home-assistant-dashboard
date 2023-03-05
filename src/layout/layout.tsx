@@ -59,7 +59,7 @@ export const Layout = (props: Props) => {
             </Room>
             <Room title='Family Room'>
                 {getTile(DimmableLight, 'light.family_room_lights', { icon: 'philips-hue-go' })}
-                {getTile(DimmableLight, 'light.family_room_chandelier', { icon: 'luminaria-led' })}
+                {getTile(DimmableLight, 'light.family_room_chandelier', { icon: { name: 'luminaria-led', filled: true } })}
                 {getTile(Light, 'switch.cat_den', { icon: 'animal-shelter' })}
                 {getTile(Gauge, 'sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
             </Room>
