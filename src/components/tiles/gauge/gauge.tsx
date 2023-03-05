@@ -276,6 +276,10 @@ const buildHistorySVG = (buckets: HistoryBucket[]): ReactElement => {
         // Flip since built with 0 as baseline (bottom)
         transform='scale(1, -1)'
     >
-        <path className='history' d={pathStr} />
+        <path
+            className='history'
+            d={pathStr}
+            vectorEffect='non-scaling-stroke'
+        />
     </svg>;
 }
