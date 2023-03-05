@@ -63,7 +63,6 @@ export const Layout = (props: Props) => {
             </Room>
             <Room title='Master Bedroom'>
                 {getTile(DimmableLight, 'light.master_light', { icon: 'chandelier' })}
-                {getTile(Switch, 'switch.air_purifier', { icon: 'air-quality', hideIfUnavailable: true })}
                 {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
             </Room>
             <Room title='Outside'>
