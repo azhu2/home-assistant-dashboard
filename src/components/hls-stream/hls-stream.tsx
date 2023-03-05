@@ -56,12 +56,12 @@ export class HlsStream extends Component<Props, State> {
             /// TODO Call detachMedia on retryable errors with ratelimit
             if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
                 switch (data.details) {
-                    case Hls.ErrorDetails.MANIFEST_LOAD_ERROR: {
+                    case Hls.ErrorDetails.MANIFEST_LOAD_ERROR, Hls.ErrorDetails.LEVEL_LOAD_ERROR: {
                         console.error(`Error starting stream for ${data.url} - ${JSON.stringify(data.response)}. Will retry.`);
                         this.setState({...this.state, err: 'Error starting stream'});
                         break;
                     }
-                    case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
+                    case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT, Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT:
                         console.error(`Timeout starting stream for ${data.url}. Will retry.`)
                         this.setState({...this.state, err: 'Timeout starting stream'});
                         break;
