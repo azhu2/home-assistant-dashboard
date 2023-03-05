@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import './room.css';
 
-export type Props = {
+type Props = {
     title: string,
     children: ReactNode,
 };
