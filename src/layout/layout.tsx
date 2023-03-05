@@ -41,6 +41,8 @@ export const Layout = (props: Props) => {
         return props.entityMap.get(entityID);
     }
 
+    const trashDayValue = getEntityForEntityID('select.trash_day');
+
     return (
         <>
             <div>Home Assistant Dashboard</div>
@@ -69,7 +71,7 @@ export const Layout = (props: Props) => {
                 {getTile(Garage, 'cover.garage_door')}
                 {getTile(Light, 'switch.front_door_lights', { icon: 'lights' })}
                 {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
-                {getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
+                {trashDayValue && trashDayValue.state != 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
             </Room>
             <Room title='Cameras'>
                 {getTile(Camera, 'camera.garage_cam_high', { showName: true }, ['switch.garage_cam_recording'])}

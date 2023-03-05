@@ -41,6 +41,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'switch.air_purifier': EntityType.Switch,
     'switch.fan': EntityType.Switch,
     'switch.trash_day': EntityType.Switch,
+    'select.trash_day': EntityType.Select,
     'switch.lawn_schedule': EntityType.Switch,
     'switch.roses_schedule_2': EntityType.Switch,
     'switch.backyard_primary': EntityType.Switch,
