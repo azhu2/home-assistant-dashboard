@@ -9,7 +9,7 @@ import { Gauge, HistoryGauge, PercentGauage } from '../components/tiles/gauge/ga
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import { Thermostat } from '../components/tiles/thermostat/thermostat';
-import * as haEntity from '../entities/ha-entity';
+import * as haEntity from '../types/ha-entity';
 import './layout.css';
 
 type Props = {

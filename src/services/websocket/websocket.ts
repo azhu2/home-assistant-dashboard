@@ -1,5 +1,5 @@
 import * as haWebsocket from 'home-assistant-js-websocket';
-import * as haEntity from '../../entities/ha-entity';
+import * as haEntity from '../../types/ha-entity';
 import * as localStorage from '../local-storage/local-storage';
 
 const TIMEOUT_MS = 2000;

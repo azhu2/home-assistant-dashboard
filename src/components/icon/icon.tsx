@@ -1,4 +1,4 @@
-import * as color from '../../entities/color';
+import * as color from '../../types/color';
 import './icon.css';
 
 export type Props = {

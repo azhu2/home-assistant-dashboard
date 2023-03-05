@@ -1,7 +1,7 @@
 import * as haWebsocket from 'home-assistant-js-websocket';
 import { Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import * as haEntity from '../../entities/ha-entity';
+import * as haEntity from '../../types/ha-entity';
 import { Layout } from '../../layout/layout';
 import * as entityTypeMapper from '../../mappers/entity-types';
 import * as authContext from '../../services/auth-context';

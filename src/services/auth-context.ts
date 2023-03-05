@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import * as haEntity from '../entities/ha-entity';
+import * as haEntity from '../types/ha-entity';
 import * as restApi from './rest-api/rest-api';
 import * as websocket from './websocket/websocket';
 

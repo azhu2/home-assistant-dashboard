@@ -1,5 +1,5 @@
 import { Component, ContextType, MouseEvent as ReactMouseEvent } from 'react';
-import * as haEntity from '../../../entities/ha-entity';
+import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import * as icon from '../../icon/icon';

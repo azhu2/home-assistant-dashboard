@@ -1,7 +1,7 @@
 import { Component, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '../../components/icon/icon';
-import * as color from '../../entities/color';
+import * as color from '../../types/color';
 import { AuthContextConsumer } from '../../services/auth-context';
 import * as localStorage from '../../services/local-storage/local-storage';
 import * as restApi from '../../services/rest-api/rest-api';

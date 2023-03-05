@@ -1,6 +1,6 @@
 import { ComponentType } from 'react';
-import * as color from '../../entities/color';
-import * as haEntity from '../../entities/ha-entity';
+import * as color from '../../types/color';
+import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
 import { Icon } from '../icon/icon';
 import * as icon from '../icon/icon';

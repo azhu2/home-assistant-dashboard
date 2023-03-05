@@ -1,5 +1,5 @@
-import * as color from '../entities/color';
-import * as haEntity from '../entities/ha-entity';
+import * as color from '../types/color';
+import * as haEntity from '../types/ha-entity';
 import * as icon from './icon/icon';
 
 /** A set of base props for any entity-specific component. */

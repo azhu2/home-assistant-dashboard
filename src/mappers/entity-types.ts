@@ -1,4 +1,4 @@
-import { EntityType } from '../entities/ha-entity';
+import { EntityType } from '../types/ha-entity';
 
 /** Maps entities to their type. Only entities in this map are tracked. */
 export const entityTypeMap: {[key: string]: EntityType} = {

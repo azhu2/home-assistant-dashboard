@@ -1,6 +1,6 @@
 import { Component, ContextType, createRef, MouseEvent as ReactMouseEvent, RefObject } from 'react';
-import * as color from '../../../entities/color';
-import * as haEntity from '../../../entities/ha-entity';
+import * as color from '../../../types/color';
+import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import * as icon from '../../icon/icon';
