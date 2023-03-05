@@ -15,22 +15,6 @@ import './light.css';
  */
 export const ON_COLOR = '#BBBB22';     // TODO lights color
 
-type Props = base.BaseEntityProps & {
-    /** on(true) or off(false) */
-    state: boolean,
-    /** 0-255 if dimmer available */
-    brightness: number,
-};
-
-type State = {
-    /** Tracks whether brightness slider is expanded */
-    isExpanded: boolean,
-};
-
-const initialState: State = {
-    isExpanded: false,
-};
-
 export class Light extends Switch {
     propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<switchTile.Props> {
         if (entity.state === 'on') {
@@ -40,13 +24,29 @@ export class Light extends Switch {
     }
 };
 
-export class DimmableLight extends Component<Props, State> implements tile.MappableProps<Props> {
+type DimmableProps = base.BaseEntityProps & {
+    /** on(true) or off(false) */
+    state: boolean,
+    /** 0-255 if dimmer available */
+    brightness: number,
+};
+
+type DimmableState = {
+    /** Tracks whether brightness slider is expanded */
+    isExpanded: boolean,
+};
+
+const initialState: DimmableState = {
+    isExpanded: false,
+};
+
+export class DimmableLight extends Component<DimmableProps, DimmableState> implements tile.MappableProps<DimmableProps> {
     ref: RefObject<HTMLDivElement>;
 
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 
-    constructor(props: Props) {
+    constructor(props: DimmableProps) {
         super(props);
         this.state = { ...initialState };
         this.onClick = this.onClick.bind(this);
@@ -55,7 +55,7 @@ export class DimmableLight extends Component<Props, State> implements tile.Mappa
         this.ref = createRef();
     }
 
-    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity): tile.MappedProps<DimmableProps> {
         return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
