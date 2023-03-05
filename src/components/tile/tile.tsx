@@ -12,7 +12,6 @@ export type Options = {
     showName?: boolean,
     /** Second entity to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
-    color?: string | color.Color,
     hideIfUnavailable?: boolean,
 };
 

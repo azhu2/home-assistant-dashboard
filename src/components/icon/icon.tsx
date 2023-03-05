@@ -7,11 +7,12 @@ export type Props = {
     filled?: boolean;
 }
 
+/** Constructs an Icon from either a name or full set of props and optional override color. */
 export function buildIcon(props: string | Props, color?: color.Color | string) {
     if (typeof props === 'string') {
         return <Icon name={props} color={color} />
     }
-    return <Icon {...props} color={color} />
+    return <Icon {...props} color={color ? color : props.color} />
 }
 
 export function Icon(props: Props) {

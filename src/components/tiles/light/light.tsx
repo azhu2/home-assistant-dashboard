@@ -18,10 +18,27 @@ export const ON_COLOR = '#BBBB22';     // TODO lights color
 
 export class Light extends Switch {
     propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<switchTile.Props> {
-        if (entity.state === 'on') {
-            options = {...options, color: ON_COLOR};
+        let opts = options;
+        if (options.icon && entity.state === 'on') {
+            if (typeof options.icon === 'string') {
+                opts = {
+                    ...options,
+                    icon: {
+                        name: options.icon,
+                        color: ON_COLOR,
+                    },
+                };
+            } else {
+                opts = {
+                    ...options,
+                    icon: {
+                        ...options.icon,
+                        color: ON_COLOR,
+                    },
+                };
+            }
         }
-        return super.propsMapper(entity, options);
+        return super.propsMapper(entity, opts);
     }
 };
 
@@ -108,7 +125,7 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
     render() {
         let iconElement;
         if (this.props.icon) {
-            iconElement = icon.buildIcon(this.props.icon);
+            iconElement = icon.buildIcon(this.props.icon, this.color());
         } else {
             const iconName = this.props.state ? 'light-on' : 'light-off';
             iconElement = <Icon name={iconName} color={this.color()} />
