@@ -3,10 +3,11 @@ import * as color from '../../../entities/color';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
+import * as icon from '../../icon/icon';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
-import { Switch } from '../switch/switch';
 import * as switchTile from '../switch/switch';
+import { Switch } from '../switch/switch';
 import { BrightnessSlider } from './brightness-slider';
 import './light.css';
 
@@ -105,7 +106,13 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
     }
 
     render() {
-        const icon = this.props.icon ? this.props.icon : this.props.state ? 'light-on' : 'light-off';
+        let iconElement;
+        if (this.props.icon) {
+            iconElement = icon.buildIcon(this.props.icon);
+        } else {
+            const iconName = this.props.state ? 'light-on' : 'light-off';
+            iconElement = <Icon name={iconName} color={this.color()} />
+        }
 
         return (
             <div className={`light light-${this.props.state ? 'on' : 'off'}`}
@@ -114,7 +121,7 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
                 onContextMenu={this.onClick}
                 ref={this.ref}
             >
-                <Icon name={icon} color={this.color()} />
+                {iconElement}
                 <BrightnessSlider
                     brightness={this.props.brightness || 0}
                     color={this.color()}

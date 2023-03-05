@@ -1,10 +1,17 @@
 import * as color from '../../entities/color';
 import './icon.css';
 
-type Props = {
+export type Props = {
     name: string;
     color?: color.Color | string;
     filled?: boolean;
+}
+
+export function buildIcon(props: string | Props, color?: color.Color | string) {
+    if (typeof props === 'string') {
+        return <Icon name={props} color={color} />
+    }
+    return <Icon {...props} color={color} />
 }
 
 export function Icon(props: Props) {

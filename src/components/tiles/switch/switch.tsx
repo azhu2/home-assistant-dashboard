@@ -4,6 +4,7 @@ import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import { Icon } from '../../icon/icon';
+import * as icon from '../../icon/icon';
 import * as tile from '../../tile/tile';
 
 export type Props = base.BaseEntityProps & {
@@ -36,7 +37,13 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
     }
 
     render() {
-        const icon = this.props.icon ? this.props.icon : this.props.state ? 'light-on' : 'light-off';
+        let iconElement;
+        if (this.props.icon) {
+            iconElement = icon.buildIcon(this.props.icon);
+        } else {
+            const iconName = this.props.state ? 'light-on' : 'light-off';
+            iconElement = <Icon name={iconName} color={this.props.color} />
+        }
 
         return (
             <div className={`switch switch-${this.props.state ? 'on' : 'off'}`}
@@ -44,7 +51,7 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
                 onClick={this.onClick}
                 onContextMenu={this.onClick}
             >
-                <Icon name={icon} color={this.props.color} />
+                {iconElement}
             </div>
         );
     }

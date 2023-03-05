@@ -2,6 +2,7 @@ import { Component, ContextType, MouseEvent as ReactMouseEvent } from 'react';
 import * as haEntity from '../../../entities/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
+import * as icon from '../../icon/icon';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
 import './thermostat.css';
@@ -51,20 +52,36 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         let icon;
         switch (mode) {
             case Mode.Heat:
-                icon = 'gas';
+                icon = {
+                    name: 'gas',
+                    color: 'ff6666',
+                    filled: true,
+                };
                 break;
             case Mode.Cool:
-                icon = 'winter';
+                icon = {
+                    name: 'winter',
+                    color: '8888ff',
+                    filled: true,
+                };
                 break;
             case Mode.Off:
-                icon = 'offline';
+                icon = {
+                    name: 'offline',
+                    color: '6644aa',
+                    filled: true,
+                };
                 break;
             default:
-                icon = 'temperature--v1';
+                icon = {
+                    name: 'temperature--v1',
+                    color: '6644aa',
+                    filled: true,
+                };
         }
         return {
-            icon: icon,
-            mode: mode,
+            icon,
+            mode,
             targetTemperature: parseFloat(entity.attributes['temperature']),
             unit: '°F',
         };
@@ -86,20 +103,24 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     }
 
     render() {
-        return <div className='thermostat'>
-            <Icon name={this.props.icon!} filled color='6644aa' />
-            <div className='value-container'>
-                {this.state.targetTemperature}
-                <span className='unit'>{this.props.unit}</span>
+        return (
+            <div className='thermostat'>
+                <>
+                    {this.props.icon && icon.buildIcon(this.props.icon)}
+                    <div className='value-container'>
+                        {this.state.targetTemperature}
+                        <span className='unit'>{this.props.unit}</span>
+                    </div>
+                    <div className='ctrl-buttons'>
+                        <div onClick={this.onClick(Operation.TempUp)}>
+                            <Icon name='chevron-up' filled color='6644aa' />
+                        </div>
+                        <div onClick={this.onClick(Operation.TempDown)}>
+                            <Icon name='chevron-down' filled color='6644aa' />
+                        </div>
+                    </div>
+                </>
             </div>
-            <div className='ctrl-buttons'>
-                <div onClick={this.onClick(Operation.TempUp)}>
-                    <Icon name='chevron-up' filled color='6644aa' />
-                </div>
-                <div onClick={this.onClick(Operation.TempDown)}>
-                    <Icon name='chevron-down' filled color='6644aa' />
-                </div>
-            </div>
-        </div>
+        );
     }
 }

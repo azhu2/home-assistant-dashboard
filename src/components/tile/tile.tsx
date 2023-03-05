@@ -3,11 +3,12 @@ import * as color from '../../entities/color';
 import * as haEntity from '../../entities/ha-entity';
 import * as base from '../base';
 import { Icon } from '../icon/icon';
+import * as icon from '../icon/icon';
 import './tile.css';
 
 /** Additional options for tile customzation. */
 export type Options = {
-    icon?: string,
+    icon?: string | icon.Props,
     showName?: boolean,
     /** Second entity to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
@@ -20,7 +21,7 @@ type AdditionalMappedProps = {
 }
 
 /** Stripping all BaseEntityProps by default unless they should be passed to propsMapper. */
-type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEntityProps> & Pick<base.BaseEntityProps, 'backgroundColor' | 'icon'>;
+type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEntityProps> & Pick<base.BaseEntityProps, 'backgroundColor'> & Pick<Options, 'icon'>;
 /** All  */
 export type MappedProps<P extends base.BaseEntityProps> = StrippedProps<P> & AdditionalMappedProps;
 
@@ -33,6 +34,15 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
     const tileType = WrappedTile.name.toLowerCase();
     const entityID = entity.entityID.getCanonicalized().replaceAll(/[._]/g, '-');
 
+    let icon;
+    if (options?.icon) {
+        if (typeof options.icon === 'string') {
+            icon = <Icon name={options.icon} color='#aaaaaa' />;
+        } else {
+            icon = <Icon {...options.icon} />
+        }
+    }
+
     if (entity.state === 'unavailable') {
         if (options?.hideIfUnavailable) {
             return (
@@ -43,9 +53,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
             <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor: '#dddddd' }}>
                 {options?.showName && <div className='name'>{entity.friendlyName}</div>}
                 <div className='content'>
-                    {options?.icon &&
-                        <Icon name={options.icon} color='#aaaaaa' />
-                    }
+                    {icon}
                     <div className='entity-unavailable'>
                         Unavaialble
                     </div>
