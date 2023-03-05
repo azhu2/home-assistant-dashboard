@@ -7,7 +7,7 @@ import * as tile from '../../tile/tile';
 import './gauge.css';
 
 type Props = base.BaseEntityProps & {
-    state: string,
+    state: string | number,
     unit?: string,
 }
 
@@ -28,8 +28,12 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 
     propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
+        let state: string | number = entity.state;
+        if (!Number.isNaN(parseFloat(state))) {
+            state = parseFloat(state);
+        }
         return {
-            state: entity.state,
+            state: state,
             unit: entity.attributes['unit_of_measurement'],
         };
     }
@@ -59,8 +63,8 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
 export class PercentGauage extends Gauge {
     render() {
         let background;
-        if (typeof parseFloat(this.props.state) === 'number') {
-            const pct = parseFloat(this.props.state) / 100;
+        if (typeof this.props.state === 'number') {
+            const pct = this.props.state / 100;
 
             /*
              * Green -> Yellow -> Red scaling scheme
