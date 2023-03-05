@@ -8,6 +8,7 @@ import { Garage } from '../components/tiles/garage/garage';
 import { Gauge, HistoryGauge, PercentGauage } from '../components/tiles/gauge/gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
+import { Thermostat } from '../components/tiles/thermostat/thermostat';
 import * as haEntity from '../entities/ha-entity';
 import './layout.css';
 
@@ -46,6 +47,9 @@ export const Layout = (props: Props) => {
     return (
         <>
             <div>Home Assistant Dashboard</div>
+            <Room title='Overall'>
+                {getTile(Thermostat, 'climate.thermostat', { showName: true })}
+            </Room>
             <Room title='Living Room'>
                 {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
                 {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}

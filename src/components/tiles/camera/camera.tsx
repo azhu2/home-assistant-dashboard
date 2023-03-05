@@ -80,9 +80,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
     }
 
     clearFailedStreamRefreshTimer() {
-        if (this.failedStreamRefreshTimer) {
-            clearInterval(this.failedStreamRefreshTimer);
-        }
+        clearInterval(this.failedStreamRefreshTimer);
     }
 
     onToggleRecording() {

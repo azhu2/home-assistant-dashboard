@@ -1,0 +1,27 @@
+.tile-thermostat {
+    width: 5em;
+}
+
+.thermostat {
+    display: flex;
+    align-items: center;
+    gap: 0.2em;
+}
+
+.tile-thermostat img.icon {
+    height: 1em;
+    width: 1em;
+}
+
+.ctrl-buttons {
+    display: flex;
+    flex-direction: column;
+}
+
+.ctrl-buttons > * {
+    font-size: 0.75em;
+}
+
+.ctrl-buttons img.icon {
+    display: block;
+}

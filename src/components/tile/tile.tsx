@@ -20,7 +20,7 @@ type AdditionalMappedProps = {
 }
 
 /** Stripping all BaseEntityProps by default unless they should be passed to propsMapper. */
-type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEntityProps> & Pick<base.BaseEntityProps, 'backgroundColor'>;
+type StrippedProps<P extends base.BaseEntityProps> = Omit<P, keyof base.BaseEntityProps> & Pick<base.BaseEntityProps, 'backgroundColor' | 'icon'>;
 /** All  */
 export type MappedProps<P extends base.BaseEntityProps> = StrippedProps<P> & AdditionalMappedProps;
 

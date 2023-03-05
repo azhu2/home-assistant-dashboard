@@ -35,12 +35,13 @@ export class EntityID {
 
 /** Internal representation of a Home Assistant entity type. */
 export enum EntityType {
-    Light = 'light',
-    Gauge = 'gauge',
     Camera = 'camera',
     Garage = 'garage',
-    Switch = 'switch',
+    Gauge = 'gauge',
+    Light = 'light',
     Select = 'select',
+    Switch = 'switch',
+    Thermostat = 'thermostat',
 }
 
 /** Converts from built-in HassEntity type to our HaEntity type. */

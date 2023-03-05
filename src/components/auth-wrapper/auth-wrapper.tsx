@@ -40,9 +40,7 @@ class AuthWrapper extends Component<{}, State> {
         if (!(this.state.websocketConnection instanceof Error)) {
             this.state.websocketConnection.close();
         }
-        if (this.wsHealthCheckTimer) {
-            clearInterval(this.wsHealthCheckTimer);
-        }
+        clearInterval(this.wsHealthCheckTimer);
     }
 
     /** Check websocket auth, set connection or error in state, and return result. */
