@@ -59,29 +59,30 @@ export class HlsStream extends Component<Props, State> {
                     case Hls.ErrorDetails.MANIFEST_LOAD_ERROR:
                     case Hls.ErrorDetails.LEVEL_LOAD_ERROR:
                         console.error(`Error starting stream for ${data.url} - ${JSON.stringify(data.response)}. Will retry.`);
-                        this.setState({...this.state, err: 'Error starting stream'});
+                        this.setState({ ...this.state, err: 'Error starting stream' });
                         break;
                     case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
                     case Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT:
                         console.error(`Timeout starting stream for ${data.url}. Will retry.`)
-                        this.setState({...this.state, err: 'Timeout starting stream'});
+                        this.setState({ ...this.state, err: 'Timeout starting stream' });
                         break;
                     default:
                         console.error(`Other stream network error for ${data.url} - ${data.details}. Will retry.`)
-                        this.setState({...this.state, err: 'Stream network error'});
-                        if (this.props.refreshSourceCallback) {
-                            this.props.refreshSourceCallback();
-                            hls.detachMedia();
-                        }
+                        this.setState({ ...this.state, err: 'Stream network error' });
                 }
-                hls.startLoad();
+                if (this.props.refreshSourceCallback) {
+                    this.props.refreshSourceCallback();
+                    hls.detachMedia();
+                }
+                // Supposedly retryable but doesn't seem to work
+                // hls.startLoad();
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
                 console.error(`Stream media error for ${this.props.src} - ${data.details}. Will try to recover.`)
-                this.setState({...this.state, err: 'Media error'});
+                this.setState({ ...this.state, err: 'Media error' });
                 hls.recoverMediaError();
             } else {
                 console.error(`Other stream error for ${this.props.src} - ${data.details}`)
-                this.setState({...this.state, err: 'Error playing stream'});
+                this.setState({ ...this.state, err: 'Error playing stream' });
             }
         });
     }
