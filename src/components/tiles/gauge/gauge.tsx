@@ -121,10 +121,7 @@ export class HistoryGauge extends Gauge {
     componentDidMount() {
         if (!(this.context.websocketAPI instanceof Error)) {
             const collection = this.context.websocketAPI.subscribeHistory(this.props.entityID);
-            const unsubFunc = collection.subscribe(history => {
-                console.log(`[tile] History updated at ${new Date()}`);
-                this.setState({ ...this.state, history })
-            })
+            const unsubFunc = collection.subscribe(history => this.setState({ ...this.state, history }))
             this.setState({ ...this.state, unsubFunc });
         }
     }

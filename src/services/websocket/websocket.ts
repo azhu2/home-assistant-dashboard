@@ -65,7 +65,6 @@ export class WebsocketAPIImpl implements WebsocketAPI {
                 ).then(mapToHistoryType),
             (conn, store) =>
                 conn.subscribeMessage<HistoryStreamMessage>(stream => {
-                    console.log(`[websocket] Updating history at ${new Date}`);
                     const history = mapToHistoryType(stream.states)
                     const prev = store.state || [];
                     const updated = prev.concat(...history);
