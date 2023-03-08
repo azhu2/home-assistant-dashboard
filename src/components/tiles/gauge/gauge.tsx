@@ -116,48 +116,22 @@ export class HistoryGauge extends Gauge {
     constructor(props: Props) {
         super(props);
         this.state = { ...initialState };
-        this.setupSubscription = this.setupSubscription.bind(this);
     }
 
     componentDidMount() {
         if (!(this.context.websocketAPI instanceof Error)) {
-            this.context.websocketAPI.subscribeHistory(
-                this.props.entityID,
-                history => {
-                    if (history.length <= 1) {
-                        // Sometimes erroneously only returns one history and subscriptions appears to break, so try to resubscribe
-                        if (this.state.unsubFunc) {
-                            this.state.unsubFunc();
-                        }
-                        this.setupSubscription();
-                    } else {
-                        this.setState({ ...this.state, history })
-                    }
-                }
-            ).then(unsubFunc =>
-                this.setState({ ...this.state, unsubFunc })
-            ).catch(err =>
-                console.error(`Failed to set up history subscription for ${this.props.entityID.getCanonicalized()}`, err)
-            );
+            const collection = this.context.websocketAPI.subscribeHistory(this.props.entityID);
+            const unsubFunc = collection.subscribe(history => {
+                console.log(`[tile] History updated at ${new Date()}`);
+                this.setState({ ...this.state, history })
+            })
+            this.setState({ ...this.state, unsubFunc });
         }
     }
 
     componentWillUnmount() {
         if (this.state.unsubFunc) {
             this.state.unsubFunc();
-        }
-    }
-
-    setupSubscription() {
-        if (!(this.context.websocketAPI instanceof Error)) {
-            this.context.websocketAPI.subscribeHistory(
-                this.props.entityID,
-                history => this.setState({ ...this.state, history })
-            ).then(unsubFunc =>
-                this.setState({ ...this.state, unsubFunc })
-            ).catch(err =>
-                console.error(`Failed to set up history subscription for ${this.props.entityID.getCanonicalized()}`, err)
-            );
         }
     }
 
