@@ -2,6 +2,7 @@ import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
 import * as base from '../components/base';
 import { Room } from '../components/room/room';
+import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
@@ -45,51 +46,55 @@ export const Layout = (props: Props) => {
     const trashDayValue = getEntityForEntityID('select.trash_day');
 
     return (
-        <>
+        <div id='dashboard'>
             <div>Home Assistant Dashboard</div>
             <Room title='Overall'>
                 {getTile(Thermostat, 'climate.thermostat', { showName: true })}
             </Room>
-            <Room title='Living Room'>
-                {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
-                {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}
-                {getTile(Light, 'switch.christmas_tree', { icon: 'christmas-tree', hideIfUnavailable: true })}
-                {getTile(Switch, 'switch.fan', { icon: 'fan-speed--v2' })}
-                {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
-            </Room>
-            <Room title='Family Room'>
-                {getTile(DimmableLight, 'light.family_room_lights', { icon: 'philips-hue-go' })}
-                {getTile(DimmableLight, 'light.family_room_chandelier', { icon: { name: 'luminaria-led', filled: true } })}
-                {getTile(Light, 'switch.cat_den', { icon: 'animal-shelter' })}
-                {getTile(Gauge, 'sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
-            </Room>
-            <Room title='Kitchen'>
-                {getTile(Light, 'switch.kitchen_lights', { icon: 'philips-hue-go' })}
-                {getTile(Light, 'switch.kitchen_chandelier', { icon: 'chandelier' })}
-            </Room>
-            <Room title='Master Bedroom'>
-                {getTile(DimmableLight, 'light.master_light', { icon: 'chandelier' })}
-                {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
-            </Room>
-            <Room title='Outside'>
-                {getTile(Garage, 'cover.garage_door')}
-                {getTile(Light, 'switch.front_door_lights', { icon: 'lights' })}
-                {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
-                {trashDayValue && trashDayValue.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
-            </Room>
+            <Section title='Indoors'>
+                <Room title='Living Room'>
+                    {getTile(Light, 'switch.marble_lamp', { icon: 'table-lights' })}
+                    {getTile(Light, 'switch.pendant_lamp', { icon: 'desk-lamp' })}
+                    {getTile(Light, 'switch.christmas_tree', { icon: 'christmas-tree', hideIfUnavailable: true })}
+                    {getTile(Switch, 'switch.fan', { icon: 'fan-speed--v2' })}
+                    {getTile(Gauge, 'sensor.thermostat_humidity', { showName: true })}
+                </Room>
+                <Room title='Family Room'>
+                    {getTile(DimmableLight, 'light.family_room_lights', { icon: 'philips-hue-go' })}
+                    {getTile(DimmableLight, 'light.family_room_chandelier', { icon: { name: 'luminaria-led', filled: true } })}
+                    {getTile(Light, 'switch.cat_den', { icon: 'animal-shelter' })}
+                    {getTile(Gauge, 'sensor.nest_temperature_sensor_family_room_temperature', { showName: true })}
+                </Room>
+                <Room title='Kitchen'>
+                    {getTile(Light, 'switch.kitchen_lights', { icon: 'philips-hue-go' })}
+                    {getTile(Light, 'switch.kitchen_chandelier', { icon: 'chandelier' })}
+                </Room>
+                <Room title='Master Bedroom'>
+                    {getTile(DimmableLight, 'light.master_light', { icon: 'chandelier' })}
+                    {getTile(Gauge, 'sensor.master_bedroom_temperature_sensor_temperature', { showName: true })}
+                </Room>
+            </Section>
+            <Section title='Outside'>
+                <Room title='Switches'>
+                    {getTile(Garage, 'cover.garage_door')}
+                    {getTile(Light, 'switch.front_door_lights', { icon: 'lights' })}
+                    {getTile(Light, 'switch.outdoor_lights', { icon: 'external-lights' })}
+                    {trashDayValue && trashDayValue.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
+                </Room>
+                <Room title='Irrigation'>
+                    {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
+                    {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: 'rose-bouquet' })}
+                    {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: 'garden-sprinkler' })}
+                    {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: 'garden-sprinkler' })}
+                    {getTile(Switch, 'switch.backyard_primary', { showName: true, icon: 'garden-sprinkler' })}
+                    {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: 'garden-sprinkler' })}
+                    {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: 'plant-under-rain' })}
+                </Room>
+            </Section>
             <Room title='Cameras'>
                 {getTile(Camera, 'camera.garage_cam_high', { showName: true }, ['switch.garage_cam_recording'])}
                 {getTile(Camera, 'camera.family_room_cam_high', { showName: true }, ['switch.family_room_cam_recording'])}
                 {getTile(Camera, 'camera.bedroom_cam_high', { showName: true }, ['switch.bedroom_cam_recording'])}
-            </Room>
-            <Room title='Irrigation'>
-                {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
-                {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: 'rose-bouquet' })}
-                {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: 'garden-sprinkler' })}
-                {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: 'garden-sprinkler' })}
-                {getTile(Switch, 'switch.backyard_primary', { showName: true, icon: 'garden-sprinkler' })}
-                {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: 'garden-sprinkler' })}
-                {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: 'plant-under-rain' })}
             </Room>
             <Room title='System'>
                 {getTile(PercentGauage, 'sensor.synology_nas_cpu_utilization_total', { showName: true })}
@@ -107,6 +112,6 @@ export const Layout = (props: Props) => {
                 <p><Link to='/settings'>Settings</Link></p>
                 <p>TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a></p>
             </div>
-        </>
+        </div>
     );
 }

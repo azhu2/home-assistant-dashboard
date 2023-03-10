@@ -1,5 +1,5 @@
-.room {
-    max-width: 24em;
+#dashboard > * {
+    margin: 0.5em;
 }
 
 #room-cameras {
