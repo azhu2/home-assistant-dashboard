@@ -30,8 +30,11 @@ type Props = base.BaseEntityProps & {
 }
 
 type State = {
-    targetTemperature: number,
+    /** Store not-yet-dispatched temperature changes */
+    pendingTargetTemperature?: number,
 }
+
+const initialState: State = {}
 
 export class Thermostat extends Component<Props, State> implements tile.MappableProps<Props>{
     context!: ContextType<typeof authContext.AuthContext>
@@ -41,7 +44,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
 
     constructor(props: Props) {
         super(props);
-        this.state = { targetTemperature: props.targetTemperature };
+        this.state = {...initialState};
         this.onClick = this.onClick.bind(this);
         this.debouncedChangeTemperature = this.debouncedChangeTemperature.bind(this);
     }
@@ -90,16 +93,19 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     onClick(operation: Operation) {
         return (e: ReactMouseEvent) => {
             e.preventDefault();
-            const newTemp = this.state.targetTemperature + (operation === Operation.TempUp ? 1 : -1);
+            const newTemp = this.state.pendingTargetTemperature || this.props.targetTemperature + (operation === Operation.TempUp ? 1 : -1);
             this.debouncedChangeTemperature(newTemp);
-            this.setState({ ...this.state, targetTemperature: newTemp });
+            this.setState({ ...this.state, pendingTargetTemperature: newTemp });
         }
     }
 
-    /** Debounce actually send temperature to HA to avoid ratelimiting */
+    /** Debounce actually sending temperature to HA to avoid ratelimiting */
     debouncedChangeTemperature(temperature: number) {
         clearTimeout(this.changeTemperatureTimeout);
-        this.changeTemperatureTimeout = setTimeout(() => authContext.callWebsocketOrWarn(this.context, 'climate', 'set_temperature', { temperature }, this.props.entityID), DEBOUNCE_MS);
+        this.changeTemperatureTimeout = setTimeout(() => {
+            authContext.callWebsocketOrWarn(this.context, 'climate', 'set_temperature', { temperature }, this.props.entityID);
+            this.setState({ ...this.state, pendingTargetTemperature: undefined });
+        }, DEBOUNCE_MS);
     }
 
     render() {
@@ -108,7 +114,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                 <>
                     {this.props.icon && icon.buildIcon(this.props.icon)}
                     <div className='value-container'>
-                        {this.state.targetTemperature}
+                        {this.state.pendingTargetTemperature || this.props.targetTemperature}
                         <span className='unit'>{this.props.unit}</span>
                     </div>
                     <div className='ctrl-buttons'>
