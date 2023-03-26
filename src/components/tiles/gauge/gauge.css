@@ -1,5 +1,9 @@
-#room-system .tile-gauge, .tile-historygauge, .tile-percentgauge {
-    height: 4em;
+.tile-historygauge {
+    /* TODO Add regular tile padding instead of hard-coding it */
+    padding: 0;
+    width: 3.4em;
+    height: 3.4em;
+    flex-basis: 3.4em;
 }
 
 .gauge {

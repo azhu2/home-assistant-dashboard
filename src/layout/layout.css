@@ -14,8 +14,21 @@
     max-width: 30em;
 }
 
+#room-system .room-contents {
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-flow: row;
+    justify-items: center;
+}
+
 #room-system .tile {
-    flex-basis: 5em;
+    width: 5em;
+    height: 4em;
+}
+
+#room-system .tile-historygauge {
+    width: 5.4em;
+    height: 4.4em;
 }
 
 .tile-sensor-top-download-device .gauge .value,
