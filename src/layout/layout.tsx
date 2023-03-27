@@ -82,13 +82,13 @@ export const Layout = (props: Props) => {
                     {trashDayValue && trashDayValue.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { icon: 'waste' })}
                 </Room>
                 <Room title='Irrigation'>
-                    {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: 'grass' })}
-                    {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: 'rose-bouquet' })}
-                    {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: 'garden-sprinkler' })}
-                    {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: 'garden-sprinkler' })}
-                    {getTile(Switch, 'switch.backyard_primary', { showName: true, icon: 'garden-sprinkler' })}
-                    {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: 'garden-sprinkler' })}
-                    {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: 'plant-under-rain' })}
+                    {getTile(Switch, 'switch.lawn_schedule', { showName: true, icon: { name: 'grass', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.roses_schedule_2', { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.front_yard_primary', { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.front_yard_secondary', { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.backyard_primary', { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.backyard_secondary', { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } })}
+                    {getTile(Switch, 'switch.backyard_drip', { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } })}
                 </Room>
             </Section>
             <Room title='Cameras'>

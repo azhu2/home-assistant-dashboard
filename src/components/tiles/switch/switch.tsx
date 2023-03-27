@@ -38,7 +38,12 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
     render() {
         let iconElement;
         if (this.props.icon) {
-            iconElement = icon.buildIcon(this.props.icon);
+            if (typeof this.props.icon === 'string') {
+                iconElement = icon.buildIcon(this.props.icon);
+            } else {
+                const color = this.props.state ? this.props.icon.color : '#000000';
+                iconElement = icon.buildIcon(this.props.icon, color);
+            }
         } else {
             const iconName = this.props.state ? 'light-on' : 'light-off';
             iconElement = <Icon name={iconName} />
