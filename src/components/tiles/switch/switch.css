@@ -1,0 +1,6 @@
+.switch-off img,
+.light-off img,
+.garage-closed img
+{
+    opacity: 50%;
+}

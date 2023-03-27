@@ -5,6 +5,7 @@ import * as base from '../../base';
 import * as icon from '../../icon/icon';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
+import './switch.css';
 
 export type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */

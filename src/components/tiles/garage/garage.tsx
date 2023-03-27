@@ -59,7 +59,10 @@ export class Garage extends Component<Props> implements tile.MappableProps<Props
 
     render() {
         return (
-            <div className='Garage' id={this.props.entityID.getCanonicalized()} onClick={this.onClick}>
+            <div className={`garage garage-${this.props.state}`}
+                id={this.props.entityID.getCanonicalized()}
+                onClick={this.onClick}
+            >
                 {stateToIconMap[this.props.state]}
             </div>
         );
