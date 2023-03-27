@@ -15,6 +15,11 @@ export type Options = {
     hideIfUnavailable?: boolean,
 };
 
+/** A free-form set of props to be passed to the tile unchanged */
+export type TileProps = {
+    [key: string]: any,
+};
+
 type AdditionalMappedProps = {
     history?: any,  // TODO Build struct
 }
@@ -29,7 +34,7 @@ export interface MappableProps<P extends base.BaseEntityProps> {
 }
 
 /** Takes a tile component, wraps it in a Tile, and populates its props from its entity. */
-export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
+export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?: TileProps) => <P extends base.BaseEntityProps>(WrappedTile: ComponentType<P>) => {
     const tileType = WrappedTile.name.toLowerCase();
     const entityID = entity.entityID.getCanonicalized().replaceAll(/[._]/g, '-');
 
@@ -73,6 +78,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options) => <P exten
         friendlyName: entity.friendlyName,
         icon: options?.icon,
         ...mappedProps,
+        ...tileProps,
     }
 
     let backgroundColor = 'transparent';

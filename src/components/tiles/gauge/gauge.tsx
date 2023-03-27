@@ -9,6 +9,8 @@ import './gauge.css';
 type Props = base.BaseEntityProps & {
     state: string | number,
     unit?: string,
+    /** Set to make history graph baseline zero instead of minimum value */
+    setBaselineToZero?: boolean;
 }
 
 type State = {
@@ -137,7 +139,7 @@ export class HistoryGauge extends Gauge {
         if (this.state.history) {
             // TODO Customizable how many buckets
             const buckets = buildBuckets(this.state.history, 100);
-            svg = buildHistorySVG(buckets);
+            svg = buildHistorySVG(buckets, this.props.setBaselineToZero || false);
         }
 
         return this.renderHelper(svg);
@@ -210,7 +212,7 @@ interface OverallStats {
     last?: number;
 }
 
-const buildHistorySVG = (buckets: HistoryBucket[]): ReactElement => {
+const buildHistorySVG = (buckets: HistoryBucket[], setZeroBaseline: boolean): ReactElement => {
     const overall = buckets
         .map(entry => entry.avg)
         .filter((val): val is number => !!val)
@@ -242,8 +244,8 @@ const buildHistorySVG = (buckets: HistoryBucket[]): ReactElement => {
     // Close path outside viewbox
     pathStr += `L${buckets.length},${overall.last} L${buckets.length},0 Z`
 
-    // Use 0 baseline if no negative values
-    const min = overall.min < 0 ? overall.min : 0;
+    // Use 0 baseline if set
+    const min = setZeroBaseline ? 0 : overall.min;
     return <svg
         // Set viewbox based on data and let viewport resize
         viewBox={`0 ${min} ${buckets.length - 1} ${overall.max - min}`}
