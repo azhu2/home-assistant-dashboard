@@ -160,15 +160,16 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
     let curCnt = 0;
 
     history.forEach(entry => {
+        const ts = entry.timestamp.getTime();
         if (typeof entry.value !== 'number') {
             // Can't graph
             return;
         }
-        if (entry.timestamp.getTime() < startMs) {
+        if (ts < startMs) {
             // Before time range
             return;
         }
-        if (entry.timestamp.getTime() > startMs + (curIdx + 1) * bucketWidthMs) {
+        if (ts > startMs + (curIdx + 1) * bucketWidthMs) {
             // Aggregate previous bucket
             buckets[curIdx] = {
                 start: new Date(startMs + curIdx * bucketWidthMs),
@@ -178,7 +179,7 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
             };
 
             // Clear current bucket
-            curIdx++;
+            curIdx = Math.floor((ts - startMs) / bucketWidthMs);
             curMin = undefined;
             curMax = undefined;
             curSum = 0;
