@@ -89,12 +89,12 @@ export class PercentGauage extends Gauge {
                     {/* Cover unused part of dial with rotated rectangle */}
                     <rect
                         x='0' y='0.5' width='1.5' height='0.5' fill='white'
-                        transform={`rotate(-${Math.trunc((1 - pct) * 180)})`}
+                        transform={`rotate(-${Math.round((1 - pct) * 180)})`}
                         transform-box='view-box' transform-origin='bottom'
                     />
                     {/* Needle */}
                     <path d='M0 0.5 L0.46 0.48 Q0.5 0.5 0.46 0.52 Z' fill='black'
-                        transform={`rotate(${Math.trunc(pct * 180)})`}
+                        transform={`rotate(${Math.round(pct * 180)})`}
                         transform-box='view-box' transform-origin='bottom'
                     />
                 </svg>;
@@ -135,14 +135,16 @@ export class HistoryGauge extends Gauge {
     }
 
     render() {
-        let svg;
         if (this.state.history) {
             // TODO Customizable how many buckets
             const buckets = buildBuckets(this.state.history, 100);
-            svg = buildHistorySVG(buckets, this.props.setBaselineToZero || false);
+            const overall = buildOverallStats(buckets);
+            if (overall) {
+                const graph = buildHistoryGraph(buckets, overall, this.props.setBaselineToZero || false);
+                return this.renderHelper(graph);
+            }
         }
-
-        return this.renderHelper(svg);
+        return this.renderHelper();
     }
 }
 
@@ -207,14 +209,14 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
 }
 
 interface OverallStats {
-    min?: number;
-    max?: number;
+    min: number;
+    max: number;
     first?: number;
     last?: number;
 }
 
-const buildHistorySVG = (buckets: HistoryBucket[], setZeroBaseline: boolean): ReactElement => {
-    const overall = buckets
+const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
+    return buckets
         .map(entry => entry.avg)
         .filter((val): val is number => !!val)
         .reduce<OverallStats>((overall, val) => {
@@ -230,34 +232,44 @@ const buildHistorySVG = (buckets: HistoryBucket[], setZeroBaseline: boolean): Re
             }
             changes = { ...changes, last: val };
             return { ...overall, ...changes };
-        }, {});
+        }, {
+            min: Number.MAX_VALUE,
+            max: Number.MIN_VALUE,
+        });
+}
+
+const buildHistoryGraph = (buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean): ReactElement => {
     if (!overall.first || !overall.last || !overall.min || !overall.max) {
         return <>Error - no history</>;
     }
 
+    const baseline = zeroBaseline ? 0 : overall.min;
+
     // Start path outside viewbox, lift up to first datapoint
-    let pathStr = `M-1,0 L0,${overall.first} `;
+    let pathStr = `M-1,${baseline - 1} L0,${overall.first} `;
     buckets.forEach((bucket, idx) => {
         if (bucket.avg) {
             pathStr += `L${idx},${bucket.avg}`
         }
     });
     // Close path outside viewbox
-    pathStr += `L${buckets.length},${overall.last} L${buckets.length},0 Z`
+    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 1} Z`
 
-    // Use 0 baseline if set
-    const min = setZeroBaseline ? 0 : overall.min;
-    return <svg
-        // Set viewbox based on data and let viewport resize
-        viewBox={`0 ${min} ${buckets.length - 1} ${overall.max - min}`}
-        preserveAspectRatio='none'
-        // Flip since built with 0 as baseline (bottom)
-        transform='scale(1, -1)'
-    >
-        <path
-            className='history'
-            d={pathStr}
-            vectorEffect='non-scaling-stroke'
-        />
-    </svg>;
+    return <>
+        <div className='graph-label max'>{Math.round(overall.max)}</div>
+        <svg
+            // Set viewbox based on data and let viewport resize
+            viewBox={`0 ${baseline} ${buckets.length - 1} ${overall.max - baseline}`}
+            preserveAspectRatio='none'
+            // Flip since built with 0 as baseline (bottom)
+            transform='scale(1, -1)'
+        >
+            <path
+                className='history'
+                d={pathStr}
+                vectorEffect='non-scaling-stroke'
+            />
+        </svg>
+        <div className='graph-label min'>{Math.round(baseline)}</div>
+    </>;
 }
