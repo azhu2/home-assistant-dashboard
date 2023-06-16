@@ -145,7 +145,7 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
                     isExpanded={this.state.isExpanded}
                     onSetBrightness={this.onSetBrightness}
                     // Reset key on open/close or entity brightness change to force creating new component
-                    key={`${this.props.entityID}|${this.state.isExpanded}|${this.props.brightness}`}
+                    key={`${this.props.entityID.getCanonicalized()}|${this.state.isExpanded}|${this.props.brightness}`}
                 />
             </div>
         );
