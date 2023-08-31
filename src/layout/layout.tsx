@@ -60,9 +60,10 @@ export const Layout = (props: Props) => {
             <Section title='Indoors'>
                 <Room title='Living Room'>
                     {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
+                    {getTile(Light, 'light.standing_lamp', { tileOptions: {icon: 'table-lights' }})}
                     {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                     {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
-                    {getTile(Switch, 'switch.fan', { tileOptions: { icon: 'fan-speed--v2' } })}
+                    {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
                     {getTile(Gauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
                 </Room>
                 <Room title='Family Room'>
