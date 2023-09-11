@@ -59,6 +59,7 @@ export const Layout = (props: Props) => {
             </Room>
             <Section title='Indoors'>
                 <Room title='Living Room'>
+                    {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
                     {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
                     {getTile(Light, 'light.standing_lamp', { tileOptions: {icon: 'table-lights' }})}
                     {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
