@@ -16,3 +16,7 @@
     justify-items: center;
     padding: 0.5em;
 }
+
+.section-row {
+    display: flex;
+}

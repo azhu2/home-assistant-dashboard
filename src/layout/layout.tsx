@@ -54,10 +54,19 @@ export const Layout = (props: Props) => {
     return (
         <div id='dashboard'>
             <div>Home Assistant Dashboard</div>
-            <Room title='Overall'>
-                {getTile(Thermostat, 'climate.thermostat', { tileOptions: { showName: true } })}
-            </Room>
+
             <Section title='Indoors'>
+                <div className='section-row'>
+                    <Room title='Overall'>
+                        {getTile(Thermostat, 'climate.thermostat', { tileOptions: { showName: true } })}
+                    </Room>
+                    <Room title='Family Room'>
+                        {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                        {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
+                        {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
+                        {getTile(HistoryGauge, 'sensor.nest_temperature_sensor_family_room_temperature', { tileOptions: { showName: true } })}
+                    </Room>
+                </div>
                 <Room title='Living Room'>
                     {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
                     {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
@@ -66,12 +75,6 @@ export const Layout = (props: Props) => {
                     {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
                     {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
                     {getTile(Gauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
-                </Room>
-                <Room title='Family Room'>
-                    {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                    {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
-                    {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                    {getTile(HistoryGauge, 'sensor.nest_temperature_sensor_family_room_temperature', { tileOptions: { showName: true } })}
                 </Room>
                 <Room title='Kitchen'>
                     {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
