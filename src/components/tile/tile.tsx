@@ -38,23 +38,22 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
     const tileType = WrappedTile.name.toLowerCase();
     const entityID = entity.entityID.getCanonicalized().replaceAll(/[._]/g, '-');
 
-    let icon;
-    if (options?.icon) {
-        if (typeof options.icon === 'string') {
-            icon = <Icon name={options.icon} color='#aaaaaa' />;
-        } else {
-            icon = <Icon {...options.icon} />
-        }
-    }
-
     if (entity.state === 'unavailable') {
         if (options?.hideIfUnavailable) {
             return (
                 <></>
             )
         }
+        let icon;
+        if (options?.icon) {
+            if (typeof options.icon === 'string') {
+                icon = <Icon name={options.icon} color='#cccccc' />;
+            } else {
+                icon = <Icon {...options.icon} />
+            }
+        }
         return (
-            <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor: '#dddddd' }}>
+            <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor: '#aaaaaa' }}>
                 {options?.showName && <div className='name'>{entity.friendlyName}</div>}
                 <div className='content'>
                     {icon}

@@ -61,7 +61,7 @@ export const Layout = (props: Props) => {
                 <Room title='Living Room'>
                     {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
                     {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
-                    {getTile(Light, 'light.standing_lamp', { tileOptions: {icon: 'table-lights' }})}
+                    {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                     {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                     {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
                     {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
@@ -84,7 +84,7 @@ export const Layout = (props: Props) => {
             </Section>
             <Section title='Outside'>
                 <Room title='Switches'>
-                    {getTile(Garage, 'cover.garage_door')}
+                    {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })}
                     {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                     {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
                     {trashDayValue && trashDayValue.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
@@ -111,8 +111,8 @@ export const Layout = (props: Props) => {
                 {getTile(PercentGauage, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
                 {getTile(PercentGauage, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
                 {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: {setBaselineToZero: true} })}
-                {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: {setBaselineToZero: true} })}
+                {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
+                {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
                 {getTile(Gauge, 'sensor.top_download_device', { tileOptions: { showName: true } })}
                 {getTile(Gauge, 'sensor.top_upload_device', { tileOptions: { showName: true } })}
             </Room>
