@@ -110,8 +110,9 @@ export const Layout = (props: Props) => {
                         <Room title='System'>
                             {getTile(PercentGauage, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
                             {getTile(PercentGauage, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauage, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
                             {getTile(PercentGauage, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauage, 'sensor.uck_g2_plus_storage_utilization', { tileOptions: { showName: true } })}
+                            {getTile(Gauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true } })}
                             {getTile(PercentGauage, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}

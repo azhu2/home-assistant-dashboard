@@ -20,4 +20,6 @@ export const renamedEntityMap: {[key: string]: string} = {
     'switch.front_yard_primary': 'Front 1',
     'switch.front_yard_secondary': 'Front 2',
     'switch.backyard_drip': 'Drip',
+    'sensor.uck_g2_plus_cpu_temperature': 'UCK CPU Temp',
+    'sensor.uck_g2_plus_storage_utilization': 'UCK Disk Util',
 };
