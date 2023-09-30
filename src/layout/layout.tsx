@@ -6,7 +6,7 @@ import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
-import { Gauge, HistoryGauge, PercentGauage } from '../components/tiles/gauge/gauge';
+import { Gauge, HistoryGauge, PercentGauge as PercentGauge } from '../components/tiles/gauge/gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import { Thermostat } from '../components/tiles/thermostat/thermostat';
@@ -108,12 +108,12 @@ export const Layout = (props: Props) => {
                     </Section>
                     <Section title='System' hideTitle={true}>
                         <Room title='System'>
-                            {getTile(PercentGauage, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauage, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauage, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauage, 'sensor.uck_g2_plus_storage_utilization', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.uck_g2_plus_storage_utilization', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauage, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}

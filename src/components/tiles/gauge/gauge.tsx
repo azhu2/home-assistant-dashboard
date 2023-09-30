@@ -62,7 +62,7 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 }
 
-export class PercentGauage extends Gauge {
+export class PercentGauge extends Gauge {
     render() {
         let background;
         if (typeof this.props.state === 'number') {
