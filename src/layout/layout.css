@@ -1,11 +1,18 @@
-#dashboard > * {
-    margin: 0.5em;
-}
-
 #title {
     text-align: center;
     font-size: 2em;
     font-weight: bold;
+}
+
+#tiles {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#tiles > * {
+    display: flex;
+    flex-direction: column;
 }
 
 #room-cameras {
@@ -14,6 +21,13 @@
 
 #room-irrigation {
     max-width: 30em;
+}
+
+/* TODO Automatically kill grid if there's only one element */
+#section-system .section-contents,
+#section-cameras .section-contents {
+    display: flex;
+    justify-content: center;
 }
 
 #room-system {

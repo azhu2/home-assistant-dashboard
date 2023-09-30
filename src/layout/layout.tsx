@@ -56,73 +56,83 @@ export const Layout = (props: Props) => {
         <div id='dashboard'>
             <div id='title'>{homeEntity?.attributes['friendly_name']}</div>
 
-            <Section title='Indoors'>
-                <div className='section-row'>
-                    <Room title='Overall'>
-                        {getTile(Gauge, 'sensor.time', { tileOptions: { showName: true } })}
-                        {getTile(Thermostat, 'climate.thermostat', { tileOptions: { showName: true } })}
-                    </Room>
-                    <Room title='Family Room'>
-                        {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                        {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
-                        {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                        {getTile(HistoryGauge, 'sensor.nest_temperature_sensor_family_room_temperature', { tileOptions: { showName: true } })}
-                    </Room>
+            <div id='tiles'>
+                <div>
+                    <Section title='Indoors'>
+                        <div className='section-row'>
+                            <Room title='Overall'>
+                                {getTile(Gauge, 'sensor.time', { tileOptions: { showName: true } })}
+                                {getTile(Thermostat, 'climate.thermostat', { tileOptions: { showName: true } })}
+                            </Room>
+                            <Room title='Family Room'>
+                                {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                                {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
+                                {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
+                                {getTile(HistoryGauge, 'sensor.nest_temperature_sensor_family_room_temperature', { tileOptions: { showName: true } })}
+                            </Room>
+                        </div>
+                        <Room title='Living Room'>
+                            {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
+                            {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
+                            {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
+                            {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
+                            {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
+                            {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
+                            {getTile(Gauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
+                        </Room>
+                        <Room title='Kitchen'>
+                            {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                            {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
+                        </Room>
+                        <Room title='Master Bedroom'>
+                            {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
+                            {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_sensor_temperature', { tileOptions: { showName: true } })}
+                        </Room>
+                    </Section>
+                    <Section title='Outside'>
+                        <Room title='Switches'>
+                            {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })}
+                            {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
+                            {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
+                            {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
+                        </Room>
+                        <Room title='Irrigation'>
+                            {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.front_yard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.front_yard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.backyard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.backyard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                            {getTile(Switch, 'switch.backyard_drip', { tileOptions: { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } } })}
+                        </Room>
+                    </Section>
+                    <Section title='System' hideTitle={true}>
+                        <Room title='System'>
+                            {getTile(PercentGauage, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauage, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauage, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauage, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauage, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
+                            {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(Gauge, 'sensor.top_download_device', { tileOptions: { showName: true } })}
+                            {getTile(Gauge, 'sensor.top_upload_device', { tileOptions: { showName: true } })}
+                        </Room>
+                    </Section>
                 </div>
-                <Room title='Living Room'>
-                    {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
-                    {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
-                    {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
-                    {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
-                    {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
-                    {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
-                    {getTile(Gauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
-                </Room>
-                <Room title='Kitchen'>
-                    {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                    {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
-                </Room>
-                <Room title='Master Bedroom'>
-                    {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
-                    {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_sensor_temperature', { tileOptions: { showName: true } })}
-                </Room>
-            </Section>
-            <Section title='Outside'>
-                <Room title='Switches'>
-                    {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })}
-                    {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
-                    {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
-                    {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
-                </Room>
-                <Room title='Irrigation'>
-                    {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.front_yard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.front_yard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.backyard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.backyard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                    {getTile(Switch, 'switch.backyard_drip', { tileOptions: { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } } })}
-                </Room>
-            </Section>
-            <Room title='Cameras'>
-                {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
-                {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
-                {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
-                {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                {getTile(Camera, 'camera.litterbox_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.litterbox_cam_recording'] })}
-            </Room>
-            <Room title='System'>
-                {getTile(PercentGauage, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
-                {getTile(PercentGauage, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
-                {getTile(PercentGauage, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
-                {getTile(PercentGauage, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
-                {getTile(PercentGauage, 'sensor.udr_storage_utilization', { tileOptions: { showName: true } })}
-                {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
-                {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
-                {getTile(Gauge, 'sensor.top_download_device', { tileOptions: { showName: true } })}
-                {getTile(Gauge, 'sensor.top_upload_device', { tileOptions: { showName: true } })}
-            </Room>
+                <div>
+                    <Section title='Cameras' hideTitle={true}>
+                        <Room title='Cameras'>
+                            {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
+                            {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
+                            {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
+                            {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
+                            {getTile(Camera, 'camera.litterbox_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.litterbox_cam_recording'] })}
+                        </Room>
+                    </Section>
+                </div>
+            </div>
             <div>
                 <p><Link to='/settings'>Settings</Link></p>
                 <p>TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a></p>
