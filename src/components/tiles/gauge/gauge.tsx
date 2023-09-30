@@ -10,7 +10,11 @@ type Props = base.BaseEntityProps & {
     state: string | number,
     unit?: string,
     /** Set to make history graph baseline zero instead of minimum value */
-    setBaselineToZero?: boolean;
+    setBaselineToZero?: boolean,
+    /** Used for NeedleGauge */
+    min?: number,
+    /** Used for NeedleGauge */
+    max?: number,
 }
 
 type State = {
@@ -62,11 +66,13 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 }
 
-export class PercentGauge extends Gauge {
+export class NeedleGauge extends Gauge {
     render() {
         let background;
-        if (typeof this.props.state === 'number') {
-            const pct = this.props.state / 100;
+        if (typeof this.props.state === 'number' &&
+            typeof this.props.min === 'number' &&
+            typeof this.props.max === 'number') {
+            const pct = (this.props.state - this.props.min) / (this.props.max - this.props.min);
 
             /*
              * Green -> Yellow -> Red scaling scheme
@@ -101,6 +107,14 @@ export class PercentGauge extends Gauge {
         }
 
         return this.renderHelper(background);
+    }
+}
+
+export class PercentGauge extends Gauge {
+    render() {
+        return (
+            <NeedleGauge {...this.props} min={0} max={100} />
+        )
     }
 }
 
