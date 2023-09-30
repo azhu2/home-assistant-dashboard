@@ -58,7 +58,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
                 <div className='content'>
                     {icon}
                     <div className='entity-unavailable'>
-                        Unavaialble
+                        Unavailable
                     </div>
                 </div>
             </div>
