@@ -49,15 +49,17 @@ export const Layout = (props: Props) => {
         return props.entityMap.get(entityID);
     }
 
-    const trashDayValue = getEntityForEntityID('select.trash_day');
+    const homeEntity = getEntityForEntityID('zone.home')
+    const trashDayEntity = getEntityForEntityID('select.trash_day');
 
     return (
         <div id='dashboard'>
-            <div>Home Assistant Dashboard</div>
+            <div id='title'>{homeEntity?.attributes['friendly_name']}</div>
 
             <Section title='Indoors'>
                 <div className='section-row'>
                     <Room title='Overall'>
+                        {getTile(Gauge, 'sensor.time', { tileOptions: { showName: true } })}
                         {getTile(Thermostat, 'climate.thermostat', { tileOptions: { showName: true } })}
                     </Room>
                     <Room title='Family Room'>
@@ -90,7 +92,7 @@ export const Layout = (props: Props) => {
                     {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })}
                     {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                     {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
-                    {trashDayValue && trashDayValue.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
+                    {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
                 </Room>
                 <Room title='Irrigation'>
                     {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}

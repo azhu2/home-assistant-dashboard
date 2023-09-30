@@ -2,6 +2,12 @@
     margin: 0.5em;
 }
 
+#title {
+    text-align: center;
+    font-size: 2em;
+    font-weight: bold;
+}
+
 #room-cameras {
     max-width: 50em;
 }
