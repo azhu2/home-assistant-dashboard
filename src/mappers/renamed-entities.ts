@@ -22,4 +22,9 @@ export const renamedEntityMap: {[key: string]: string} = {
     'switch.backyard_drip': 'Drip',
     'sensor.uck_g2_plus_cpu_temperature': 'UCK CPU Temp',
     'sensor.uck_g2_plus_storage_utilization': 'UCK Storage',
+    'camera.garage_cam_high': 'Garage Cam',
+    'camera.family_room_cam_high': 'Family Room Cam',
+    'camera.bedroom_cam_high': 'Bedroom Cam',
+    'camera.kitchen_cam_high': 'Kitchen Cam',
+    'camera.litterbox_cam_high': 'Litterbox Cam',
 };
