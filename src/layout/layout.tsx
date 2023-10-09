@@ -111,8 +111,8 @@ export const Layout = (props: Props) => {
                             {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.udr_cpu', { tileOptions: { showName: true } })}
                             {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true }, tileProps: {min: 90, max: 200} })}
-                            {getTile(PercentGauge, 'sensor.uck_g2_plus_storage_utilization', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
