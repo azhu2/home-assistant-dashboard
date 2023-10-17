@@ -5,7 +5,6 @@ import './hls-stream.css';
 type Props = {
     src: string,
     poster?: string;
-    refreshSourceCallback?: () => void;
 }
 
 type State = {
@@ -23,9 +22,14 @@ export class HlsStream extends Component<Props, State> {
         super(props);
         this.state = { ...initialState };
         this.videoRef = createRef();
+        this.loadVideo = this.loadVideo.bind(this);
     }
 
     componentDidMount() {
+        this.loadVideo();
+    }
+
+    loadVideo() {
         if (!this.videoRef.current) {
             console.error('HlsStream component not rendered yet!');
             return;
@@ -69,12 +73,12 @@ export class HlsStream extends Component<Props, State> {
                         console.error(`Other stream network error for ${data.url} - ${data.details}. Will retry.`)
                         this.setState({ ...this.state, err: 'Stream network error' });
                 }
-                if (this.props.refreshSourceCallback) {
-                    this.props.refreshSourceCallback();
-                    hls.detachMedia();
-                }
-                // Supposedly retryable but doesn't seem to work
-                // hls.startLoad();
+                // Just rebuild the whole stream element?
+                setTimeout(() => {
+                    console.error(`Refreshing hls stream for ${data.url}.`)
+                    hls.destroy();
+                    this.loadVideo();
+                }, 10000);
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
                 console.error(`Stream media error for ${this.props.src} - ${data.details}. Will try to recover.`)
                 this.setState({ ...this.state, err: 'Media error' });
@@ -85,6 +89,8 @@ export class HlsStream extends Component<Props, State> {
             }
         });
     }
+
+    // hls.destroy() in componentWillUnmount()?
 
     render() {
         return (

@@ -49,38 +49,21 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         this.setupStream();
     }
 
-    componentWillUnmount() {
-        this.clearFailedStreamRefreshTimer();
-    }
-
     setupStream() {
         if (this.context) {
             const { websocketAPI } = this.context;
             if (websocketAPI instanceof Error) {
                 console.error('Could not fetch stream URL', 'Websocket API offline.');
                 this.setState({ ...this.state, streamURL: new Error('no stream URL') });
-                this.setupFailedStreamRefreshTimer();
             } else {
                 websocketAPI.getStreamURL(this.props.entityID).then(stream => {
                     this.setState({ ...this.state, streamURL: stream.url });
-                    this.clearFailedStreamRefreshTimer();
                 }).catch(e => {
                     console.error('Could not fetch stream URL', e);
                     this.setState({ ...this.state, streamURL: new Error('no stream URL') });
-                    this.setupFailedStreamRefreshTimer();
                 });
             }
         }
-    }
-
-    setupFailedStreamRefreshTimer() {
-        if (!this.failedStreamRefreshTimer) {
-            this.failedStreamRefreshTimer = setInterval(this.setupStream, FAILED_STREAM_REFRESH_MS);
-        }
-    }
-
-    clearFailedStreamRefreshTimer() {
-        clearInterval(this.failedStreamRefreshTimer);
     }
 
     onToggleRecording() {
@@ -108,7 +91,6 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                                     <HlsStream
                                         src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
                                         poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                        refreshSourceCallback={this.setupStream}
                                     />
                                 );
                             }
