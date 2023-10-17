@@ -39,7 +39,6 @@ export class HlsStream extends Component<Props, State> {
             backBufferLength: 30,
         });
         hls.attachMedia(this.videoRef.current);
-
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
             hls.loadSource(this.props.src);
         });
@@ -63,7 +62,7 @@ export class HlsStream extends Component<Props, State> {
                         break;
                     case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
                     case Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT:
-                        console.error(`Timeout starting stream for ${data.url}. Will retry.`)
+                        console.error(`Timeout starting stream for ${data.url} - ${data.details}. Will retry.`)
                         this.setState({ ...this.state, err: 'Timeout starting stream' });
                         break;
                     default:
