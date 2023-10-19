@@ -8,8 +8,6 @@ import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
 import './camera.css';
 
-const FAILED_STREAM_REFRESH_MS = 5000;
-
 type Props = base.BaseEntityProps & {
     /** Snapshot to show while stream loading/offline */
     snapshotURL?: string,
@@ -91,6 +89,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                                     <HlsStream
                                         src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
                                         poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                        reloadElementCallback={this.setupStream}
                                     />
                                 );
                             }

@@ -4,7 +4,8 @@ import './hls-stream.css';
 
 type Props = {
     src: string,
-    poster?: string;
+    poster?: string,
+    reloadElementCallback?: () => void,
 }
 
 type State = {
@@ -61,6 +62,12 @@ export class HlsStream extends Component<Props, State> {
                 switch (data.details) {
                     case Hls.ErrorDetails.MANIFEST_LOAD_ERROR:
                     case Hls.ErrorDetails.LEVEL_LOAD_ERROR:
+                        // @ts-ignore data.response is incorrect type
+                        if (data.response.code == 404 && this.props.reloadElementCallback) {
+                            this.props.reloadElementCallback();
+                            console.error(`Received not found starting stream for ${data.url}. Reloading element to pick up new url.`)
+                            return;
+                        }
                         console.error(`Error starting stream for ${data.url} - ${JSON.stringify(data.response)}. Will retry.`);
                         this.setState({ ...this.state, err: 'Error starting stream' });
                         break;
