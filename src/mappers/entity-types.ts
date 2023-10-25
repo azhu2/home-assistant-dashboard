@@ -32,7 +32,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'camera.bedroom_cam_high': EntityType.Camera,
     'camera.kitchen_cam_high': EntityType.Camera,
     'camera.litterbox_cam_high': EntityType.Camera,
-    // 'camera.front_door': Type.Camera,
+    'camera.front_door': EntityType.Camera,
     // 'camera.front_yard_camera_2': Type.Camera,
     // 'camera.backyard_cam': Type.Camera,
     // 'camera.living_room_camera_2': Type.Camera,
