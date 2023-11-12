@@ -78,7 +78,7 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
                             {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
-                            {getTile(Gauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.thermostat_humidity', { tileOptions: { showName: true } })}
                         </Room>
                         <Room title='Kitchen'>
                             {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
