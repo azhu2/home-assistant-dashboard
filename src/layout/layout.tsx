@@ -91,7 +91,7 @@ export const Layout = (props: Props) => {
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>
-                            {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })}
+                            {/* {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })} */}
                             {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                             {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
                             {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
