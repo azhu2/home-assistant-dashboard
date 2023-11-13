@@ -49,7 +49,8 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
             if (typeof options.icon === 'string') {
                 icon = <Icon name={options.icon} color='#cccccc' />;
             } else {
-                icon = <Icon {...options.icon} />
+                const iconOopts = { ...options.icon, color: '#cccccc' }
+                icon = <Icon {...iconOopts} />
             }
         }
         return (
