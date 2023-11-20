@@ -231,20 +231,21 @@ interface OverallStats {
 
 const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
     return buckets
-        .map(entry => entry.avg)
-        .filter((val): val is number => !!val)
         .reduce<OverallStats>((overall, val) => {
+            if (val.avg === undefined || val.max === undefined || val.min === undefined) {
+                return overall;
+            }
             let changes = {};
             if (!overall.first) {
-                changes = { ...changes, first: val };
+                changes = { ...changes, first: val.avg };
             }
-            if (!overall.min || val < overall.min) {
-                changes = { ...changes, min: val };
+            if (!overall.min || val.min < overall.min) {
+                changes = { ...changes, min: val.min };
             }
-            if (!overall.max || val > overall.max) {
-                changes = { ...changes, max: val };
+            if (!overall.max || val.max > overall.max) {
+                changes = { ...changes, max: val.max };
             }
-            changes = { ...changes, last: val };
+            changes = { ...changes, last: val.avg };
             return { ...overall, ...changes };
         }, {
             min: Number.MAX_VALUE,
