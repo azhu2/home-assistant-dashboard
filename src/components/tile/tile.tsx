@@ -10,10 +10,8 @@ import './tile.css';
 export type Options = {
     icon?: string | icon.Props,
     showName?: boolean,
-    /** Second entities to provide to a tile props mapper */
+    /** Secondary entities to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
-    /** Second icons to provide to a tile props mapper */
-    secondaryIcons?: (string | icon.Props)[],
     hideIfUnavailable?: boolean,
 };
 

@@ -1,4 +1,4 @@
-.tile-historygauge {
+.tile-historygauge, .tile-tempsensorgauge {
     /* TODO Add regular tile padding instead of hard-coding it */
     padding: 0;
     width: 3.4em;

@@ -20,8 +20,8 @@ type Props = base.BaseEntityProps & {
     /** Extra toggle-able icon */
     toggleIcon?: {
         entity: haEntity.Entity,
-        onIcon: string | icon.Props,
-        offIcon: string | icon.Props,
+        onIcon: ReactElement,
+        offIcon: ReactElement,
     },
 }
 
@@ -46,19 +46,9 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         if (!Number.isNaN(Number(state))) {
             state = Number(state);
         }
-        let toggleIcon;
-        if (options.secondaryEntities && options.secondaryEntities.length > 0 &&
-            options.secondaryIcons && options.secondaryIcons.length > 1) {
-            toggleIcon = {
-                entity: options.secondaryEntities[0],
-                onIcon: options.secondaryIcons[0],
-                offIcon: options.secondaryIcons[1],
-            }
-        }
         return {
             state: state,
             unit: entity.attributes['unit_of_measurement'],
-            toggleIcon: toggleIcon,
         };
     }
 
@@ -67,25 +57,15 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 
     renderHelper(background?: ReactElement) {
-        let toggleIcon;
-        if (this.props.toggleIcon) {
-            const iconProps = this.props.toggleIcon.entity.state === 'on' ? this.props.toggleIcon.onIcon : this.props.toggleIcon.offIcon;
-            if (typeof(iconProps) === 'string') {
-                toggleIcon = <Icon name={iconProps} />;
-            } else {
-                toggleIcon = <Icon {...iconProps} />;
-            }
-        }
-
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
                 <>
                     <div className='background'>
                         {background}
                     </div>
-                    {toggleIcon &&
+                    {this.props.toggleIcon &&
                         <div className='toggle-icon'>
-                            {toggleIcon}
+                            {this.props.toggleIcon.entity.state === 'on' ? this.props.toggleIcon.onIcon : this.props.toggleIcon.offIcon}
                         </div>
                     }
                     {/* extra div so superscript works with flexbox used to vertical-center values */}
@@ -320,4 +300,32 @@ const buildHistoryGraph = (buckets: HistoryBucket[], overall: OverallStats, zero
         </svg>
         <div className='graph-label min'>{Math.round(baseline)}</div>
     </>;
+}
+
+/** A HistoryGauge with an icon to indicate room occupancy */
+export class TempSensorGauge extends Gauge {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
+        const gaugeProps = super.propsMapper(entity, options);
+
+        let toggleIcon;
+        if (options.secondaryEntities && options.secondaryEntities.length > 0) {
+            let iconProps = {
+                name: 'user-male-circle',
+                color: '6644aa',
+            };
+            toggleIcon = {
+                entity: options.secondaryEntities[0],
+                onIcon: <Icon {...iconProps} filled={true} />,
+                offIcon: <Icon {...iconProps} filled={false} />,
+            }
+        }
+
+        return {...gaugeProps, toggleIcon};
+    }
+
+    render() {
+        return (
+            <HistoryGauge {...this.props} />
+        )
+    }
 }
