@@ -4,6 +4,8 @@ import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
 import * as tile from '../../tile/tile';
+import { Icon } from '../../icon/icon';
+import * as icon from '../../icon/icon';
 import './gauge.css';
 
 type Props = base.BaseEntityProps & {
@@ -15,6 +17,12 @@ type Props = base.BaseEntityProps & {
     min?: number,
     /** Used for NeedleGauge */
     max?: number,
+    /** Extra toggle-able icon */
+    toggleIcon?: {
+        entity: haEntity.Entity,
+        onIcon: string | icon.Props,
+        offIcon: string | icon.Props,
+    },
 }
 
 type State = {
@@ -33,14 +41,24 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         this.renderHelper = this.renderHelper.bind(this);
     }
 
-    propsMapper(entity: haEntity.Entity): tile.MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
         let state: string | number = entity.state;
         if (!Number.isNaN(Number(state))) {
             state = Number(state);
         }
+        let toggleIcon;
+        if (options.secondaryEntities && options.secondaryEntities.length > 0 &&
+            options.secondaryIcons && options.secondaryIcons.length > 1) {
+            toggleIcon = {
+                entity: options.secondaryEntities[0],
+                onIcon: options.secondaryIcons[0],
+                offIcon: options.secondaryIcons[1],
+            }
+        }
         return {
             state: state,
             unit: entity.attributes['unit_of_measurement'],
+            toggleIcon: toggleIcon,
         };
     }
 
@@ -49,12 +67,27 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     }
 
     renderHelper(background?: ReactElement) {
+        let toggleIcon;
+        if (this.props.toggleIcon) {
+            const iconProps = this.props.toggleIcon.entity.state === 'on' ? this.props.toggleIcon.onIcon : this.props.toggleIcon.offIcon;
+            if (typeof(iconProps) === 'string') {
+                toggleIcon = <Icon name={iconProps} />;
+            } else {
+                toggleIcon = <Icon {...iconProps} />;
+            }
+        }
+
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
                 <>
                     <div className='background'>
                         {background}
                     </div>
+                    {toggleIcon &&
+                        <div className='toggle-icon'>
+                            {toggleIcon}
+                        </div>
+                    }
                     {/* extra div so superscript works with flexbox used to vertical-center values */}
                     <div className='value-container'>
                         <span className='value'>{this.props.state}</span>

@@ -50,3 +50,13 @@
 .gauge .graph-label.min {
     bottom: 0;
 }
+
+.gauge .toggle-icon {
+    position: absolute;
+    width: 0.8em;
+    top: -0.3em;
+    background-color: transparent;
+    padding: 0;
+    border: none;
+    z-index: 1;
+}

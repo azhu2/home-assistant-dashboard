@@ -36,6 +36,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'climate.living_room_2': EntityType.Thermostat,
     'sensor.living_room_current_temperature': EntityType.Gauge,
     'sensor.living_room_temperature': EntityType.Gauge,
+    'binary_sensor.living_room_occupancy_2': EntityType.Gauge,
     'sensor.living_room_humidity': EntityType.Gauge,
     'sensor.living_room_air_quality_index': EntityType.Gauge,
     'sensor.living_room_carbon_dioxide': EntityType.Gauge,
@@ -49,7 +50,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.guest_bedroom_temperature_2': EntityType.Gauge,
     'binary_sensor.guest_bedroom_occupancy_2': EntityType.Gauge,
     'sensor.little_room_temperature_2': EntityType.Gauge,
-    'binary_sensor.little_room_occupancy_2': EntityType.Gauge,
+    'binary_sensor.little_room_occupancy': EntityType.Gauge,    // not available through api for some reason
     'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
     'sensor.uck_g2_plus_cpu_temperature': EntityType.Gauge,
     'sensor.uck_g2_plus_storage_utilization': EntityType.Gauge,

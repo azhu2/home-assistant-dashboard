@@ -74,23 +74,68 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
                             {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_temperature', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.living_room_temperature', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.living_room_occupancy_2']
+                            })}
                         </Room>
                         <Room title='Family Room'>
                             {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
                             {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
                             {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                            {getTile(HistoryGauge, 'sensor.family_room_temperature_2', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.family_room_temperature_2', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.family_room_occupancy_2']
+                            })}
                         </Room>
                         <div className='section-row'>
                             <Room title='Office'>
-                                {getTile(HistoryGauge, 'sensor.office_temperature_2', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.office_temperature_2', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.office_occupancy_2']
+                            })}
                             </Room>
                             <Room title='Little'>
-                                {getTile(HistoryGauge, 'sensor.little_room_temperature_2', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.little_room_temperature_2', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.little_room_occupancy']
+                            })}
                             </Room>
                             <Room title='Guest'>
-                                {getTile(HistoryGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.guest_bedroom_temperature_2', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.guest_bedroom_occupancy_2']
+                            })}
                             </Room>
                         </div>
                         <Room title='Kitchen'>
@@ -99,7 +144,16 @@ export const Layout = (props: Props) => {
                         </Room>
                         <Room title='Master Bedroom'>
                             {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
-                            {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_2', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_2', {
+                                tileOptions: {
+                                    showName: true,
+                                    secondaryIcons: [
+                                        {name: 'user-male-circle', filled: true, color: '6644aa'},
+                                        {name: 'user-male-circle', filled: false, color: '6644aa'},
+                                    ],
+                                },
+                                secondaryEntityIDs: ['binary_sensor.master_bedroom_occupancy_2']
+                            })}
                         </Room>
                     </Section>
                     <Section title='Outside'>
@@ -125,7 +179,7 @@ export const Layout = (props: Props) => {
                             {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.udr_cpu', { tileOptions: { showName: true } })}
-                            {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true }, tileProps: {min: 90, max: 200} })}
+                            {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
                             {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
@@ -142,7 +196,7 @@ export const Layout = (props: Props) => {
                             {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
                             {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
                             {getTile(Camera, 'camera.litterbox_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.litterbox_cam_recording'] })}
-                            {getTile(Camera, 'camera.front_door', { tileOptions: { showName: true }})}
+                            {getTile(Camera, 'camera.front_door', { tileOptions: { showName: true } })}
                         </Room>
                     </Section>
                 </div>
