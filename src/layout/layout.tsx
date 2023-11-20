@@ -77,7 +77,7 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
                             {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
-                            {getTile(TempSensorGauge, 'sensor.living_room_temperature', { tileOptions: { showName: false }, secondaryEntityIDs: ['binary_sensor.living_room_occupancy_2'] })}
+                            {getTile(TempSensorGauge, 'sensor.living_room_temperature', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.living_room_occupancy_2'] })}
                         </Room>
                         <Room title='Family Room'>
                             {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
