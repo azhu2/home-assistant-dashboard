@@ -33,6 +33,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'camera.kitchen_cam_high': EntityType.Camera,
     'camera.litterbox_cam_high': EntityType.Camera,
     'camera.front_door': EntityType.Camera,
+    'climate.living_room_2': EntityType.Thermostat,
+    'sensor.living_room_current_temperature': EntityType.Gauge,
     'sensor.living_room_temperature': EntityType.Gauge,
     'sensor.living_room_humidity': EntityType.Gauge,
     'sensor.living_room_air_quality_index': EntityType.Gauge,

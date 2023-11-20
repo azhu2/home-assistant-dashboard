@@ -59,20 +59,9 @@ export const Layout = (props: Props) => {
             <div id='tiles'>
                 <div>
                     <Section title='Indoors'>
-                        <Room title='Overall'>
-                            {getTile(Gauge, 'sensor.time', { tileOptions: { showName: true } })}
-                        </Room>
-                        <Room title='Master Bedroom'>
-                            {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
-                            {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_2', { tileOptions: { showName: true } })}
-                        </Room>
-                        <Room title='Family Room'>
-                            {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                            {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
-                            {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                            {getTile(HistoryGauge, 'sensor.family_room_temperature_2', { tileOptions: { showName: true } })}
-                        </Room>
                         <Room title='Climate'>
+                            {getTile(Thermostat, 'climate.living_room_2', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.living_room_current_temperature', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.living_room_humidity', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true } })}
@@ -87,21 +76,31 @@ export const Layout = (props: Props) => {
                             {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
                             {getTile(HistoryGauge, 'sensor.living_room_temperature', { tileOptions: { showName: true } })}
                         </Room>
+                        <Room title='Family Room'>
+                            {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                            {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
+                            {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
+                            {getTile(HistoryGauge, 'sensor.family_room_temperature_2', { tileOptions: { showName: true } })}
+                        </Room>
                         <div className='section-row'>
+                            <Room title='Office'>
+                                {getTile(HistoryGauge, 'sensor.office_temperature_2', { tileOptions: { showName: true } })}
+                            </Room>
+                            <Room title='Little'>
+                                {getTile(HistoryGauge, 'sensor.little_room_temperature_2', { tileOptions: { showName: true } })}
+                            </Room>
+                            <Room title='Guest'>
+                                {getTile(HistoryGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true } })}
+                            </Room>
+                        </div>
                         <Room title='Kitchen'>
                             {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
                             {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
                         </Room>
-                        <Room title='Office'>
-                            {getTile(HistoryGauge, 'sensor.office_temperature_2', { tileOptions: { showName: true } })}
+                        <Room title='Master Bedroom'>
+                            {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
+                            {getTile(HistoryGauge, 'sensor.master_bedroom_temperature_2', { tileOptions: { showName: true } })}
                         </Room>
-                        <Room title='Little'>
-                            {getTile(HistoryGauge, 'sensor.little_room_temperature_2', { tileOptions: { showName: true } })}
-                        </Room>
-                        <Room title='Guest'>
-                            {getTile(HistoryGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true } })}
-                        </Room>
-                        </div>
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>

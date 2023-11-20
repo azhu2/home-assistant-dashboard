@@ -9,6 +9,8 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.1m_upload_max': 'Upload',
     'sensor.top_download_device': 'Top Download',
     'sensor.top_upload_device': 'Top Upload',
+    'climate.living_room_2': 'Thermostat',
+    'sensor.living_room_current_temperature': 'Average',
     'sensor.living_room_temperature': 'Temp',
     'sensor.living_room_humidity': 'Humidity',
     'sensor.living_room_air_quality_index': 'AQI',
