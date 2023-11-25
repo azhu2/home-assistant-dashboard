@@ -94,6 +94,7 @@ export const Layout = (props: Props) => {
                             </Room>
                             <Room title='Guest'>
                                 {getTile(TempSensorGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.guest_bedroom_occupancy_2'] })}
+                                {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
                             </Room>
                         </div>
                         <Room title='Kitchen'>
@@ -107,6 +108,7 @@ export const Layout = (props: Props) => {
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>
+                            {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
                             {/* {getTile(Garage, 'cover.garage_door', { tileOptions: { icon: 'garage-door' } })} */}
                             {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                             {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}

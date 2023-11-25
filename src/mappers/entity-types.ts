@@ -51,6 +51,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'binary_sensor.guest_bedroom_occupancy_2': EntityType.Gauge,
     'sensor.little_room_temperature_2': EntityType.Gauge,
     'binary_sensor.little_room_occupancy': EntityType.Gauge,    // not available through api for some reason
+    'binary_sensor.front_door_contact': EntityType.Switch,
+    'binary_sensor.guest_bathroom_window_contact': EntityType.Switch,
     'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
     'sensor.uck_g2_plus_cpu_temperature': EntityType.Gauge,
     'sensor.uck_g2_plus_storage_utilization': EntityType.Gauge,

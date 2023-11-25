@@ -10,6 +10,7 @@ import './switch.css';
 export type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
+    offIcon?: string | icon.Props,
 }
 
 export class Switch extends Component<Props, {}> implements tile.MappableProps<Props>{
@@ -25,6 +26,7 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
         return {
             state: entity.state === 'on',
             icon: options.icon,
+            offIcon: options.secondaryIcons?.at(0),
             backgroundColor: entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
         };
     }
@@ -37,12 +39,16 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
 
     render() {
         let iconElement;
-        if (this.props.icon) {
-            if (typeof this.props.icon === 'string') {
-                iconElement = icon.buildIcon(this.props.icon);
+        let selectedIcon = this.props.icon;
+        if (!this.props.state && this.props.offIcon) {
+            selectedIcon = this.props.offIcon;
+        }
+        if (selectedIcon) {
+            if (typeof selectedIcon === 'string') {
+                iconElement = icon.buildIcon(selectedIcon);
             } else {
-                const color = this.props.state ? this.props.icon.color : '#000000';
-                iconElement = icon.buildIcon(this.props.icon, color);
+                const color = this.props.state ? selectedIcon.color : '#000000';
+                iconElement = icon.buildIcon(selectedIcon, color);
             }
         } else {
             const iconName = this.props.state ? 'light-on' : 'light-off';

@@ -12,6 +12,7 @@ export type Options = {
     showName?: boolean,
     /** Secondary entities to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
+    secondaryIcons?: (string | icon.Props)[],
     hideIfUnavailable?: boolean,
 };
 
