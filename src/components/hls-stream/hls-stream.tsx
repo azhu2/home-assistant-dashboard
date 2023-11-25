@@ -9,6 +9,7 @@ type Props = {
 }
 
 type State = {
+    hls?: Hls;
     err?: string,
 }
 
@@ -27,10 +28,13 @@ export class HlsStream extends Component<Props, State> {
     }
 
     componentDidMount() {
-        this.loadVideo();
+        const hls = this.loadVideo();
+        if (hls) {
+            this.setState({ ...this.state, hls });
+        }
     }
 
-    loadVideo() {
+    loadVideo(): Hls | undefined {
         if (!this.videoRef.current) {
             console.error('HlsStream component not rendered yet!');
             return;
@@ -97,9 +101,16 @@ export class HlsStream extends Component<Props, State> {
                 this.setState({ ...this.state, err: 'Error playing stream' });
             }
         });
+
+        return hls;
     }
 
-    // hls.destroy() in componentWillUnmount()?
+    componentWillUnmount() {
+        if (this.state.hls) {
+            this.state.hls.destroy();
+            this.setState({ ...this.state, hls: undefined });
+        }
+    }
 
     render() {
         return (
