@@ -27,6 +27,8 @@ type Props = base.BaseEntityProps & {
     targetTemperature: number,
     // TODO Pull temp unit from HA config
     unit: string,
+    preset?: string,
+    presetOptions?: string[],
 }
 
 type State = {
@@ -44,7 +46,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
 
     constructor(props: Props) {
         super(props);
-        this.state = {...initialState};
+        this.state = { ...initialState };
         this.onClick = this.onClick.bind(this);
         this.debouncedChangeTemperature = this.debouncedChangeTemperature.bind(this);
     }
@@ -87,6 +89,8 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
             mode,
             targetTemperature: parseFloat(entity.attributes['temperature']),
             unit: '°F',
+            preset: entity.attributes['preset_mode'],
+            presetOptions: entity.attributes['preset_modes'],
         };
     }
 
@@ -112,19 +116,32 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         return (
             <div className='thermostat'>
                 <>
-                    {this.props.icon && icon.buildIcon(this.props.icon)}
-                    <div className='value-container'>
-                        {this.state.pendingTargetTemperature || this.props.targetTemperature}
-                        <span className='unit'>{this.props.unit}</span>
-                    </div>
-                    <div className='ctrl-buttons'>
-                        <div onClick={this.onClick(Operation.TempUp)}>
-                            <Icon name='chevron-up' filled color='6644aa' />
+                    <div className='temperature'>
+                        {this.props.icon && icon.buildIcon(this.props.icon)}
+                        <div className='value-container'>
+                            {this.state.pendingTargetTemperature || this.props.targetTemperature}
+                            <span className='unit'>{this.props.unit}</span>
                         </div>
-                        <div onClick={this.onClick(Operation.TempDown)}>
-                            <Icon name='chevron-down' filled color='6644aa' />
+                        <div className='ctrl-buttons'>
+                            <div onClick={this.onClick(Operation.TempUp)}>
+                                <Icon name='chevron-up' filled color='6644aa' />
+                            </div>
+                            <div onClick={this.onClick(Operation.TempDown)}>
+                                <Icon name='chevron-down' filled color='6644aa' />
+                            </div>
                         </div>
                     </div>
+                    {this.props.preset &&
+                        <div className='preset'>
+                            {this.props.presetOptions ?
+                                <select defaultValue={this.props.preset}>
+                                    {this.props.presetOptions.map(opt => (
+                                        <option value={opt} key={opt}>{opt}</option>
+                                    ))}
+                                </select> :
+                                this.props.preset}
+                        </div>
+                    }
                 </>
             </div>
         );
