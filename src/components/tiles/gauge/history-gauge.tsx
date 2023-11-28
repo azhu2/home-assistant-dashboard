@@ -118,18 +118,18 @@ interface OverallStats {
 const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
     return buckets
         .reduce<OverallStats>((overall, val) => {
-            if (val.avg === undefined || val.max === undefined || val.min === undefined) {
+            if (val.avg === undefined) {
                 return overall;
             }
             let changes = {};
             if (!overall.first) {
                 changes = { ...changes, first: val.avg };
             }
-            if (!overall.min || val.min < overall.min) {
-                changes = { ...changes, min: val.min };
+            if (!overall.min || val.avg < overall.min) {
+                changes = { ...changes, min: val.avg };
             }
-            if (!overall.max || val.max > overall.max) {
-                changes = { ...changes, max: val.max };
+            if (!overall.max || val.avg > overall.max) {
+                changes = { ...changes, max: val.avg };
             }
             changes = { ...changes, last: val.avg };
             return { ...overall, ...changes };
