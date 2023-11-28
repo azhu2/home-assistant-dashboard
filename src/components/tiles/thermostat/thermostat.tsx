@@ -1,4 +1,4 @@
-import { Component, ContextType, MouseEvent as ReactMouseEvent } from 'react';
+import { Component, ContextType, MouseEvent as ReactMouseEvent, ChangeEvent as ReactChangeEvent } from 'react';
 import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as base from '../../base';
@@ -47,8 +47,9 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     constructor(props: Props) {
         super(props);
         this.state = { ...initialState };
-        this.onClick = this.onClick.bind(this);
+        this.onClickTemperatureArrow = this.onClickTemperatureArrow.bind(this);
         this.debouncedChangeTemperature = this.debouncedChangeTemperature.bind(this);
+        this.onChangePreset = this.onChangePreset.bind(this);
     }
 
     propsMapper(entity: haEntity.Entity, _options: tile.Options): tile.MappedProps<Props> {
@@ -94,7 +95,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         };
     }
 
-    onClick(operation: Operation) {
+    onClickTemperatureArrow(operation: Operation) {
         return (e: ReactMouseEvent) => {
             e.preventDefault();
             const newTemp = this.state.pendingTargetTemperature || this.props.targetTemperature + (operation === Operation.TempUp ? 1 : -1);
@@ -112,6 +113,11 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         }, DEBOUNCE_MS);
     }
 
+    onChangePreset(e: ReactChangeEvent<HTMLSelectElement>) {
+        const selected = e.target.value;
+        authContext.callWebsocketOrWarn(this.context, 'climate', 'set_preset_mode', { preset_mode: selected }, this.props.entityID);
+    }
+
     render() {
         return (
             <div className='thermostat'>
@@ -123,10 +129,10 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                             <span className='unit'>{this.props.unit}</span>
                         </div>
                         <div className='ctrl-buttons'>
-                            <div onClick={this.onClick(Operation.TempUp)}>
+                            <div onClick={this.onClickTemperatureArrow(Operation.TempUp)}>
                                 <Icon name='chevron-up' filled color='6644aa' />
                             </div>
-                            <div onClick={this.onClick(Operation.TempDown)}>
+                            <div onClick={this.onClickTemperatureArrow(Operation.TempDown)}>
                                 <Icon name='chevron-down' filled color='6644aa' />
                             </div>
                         </div>
@@ -134,7 +140,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                     {this.props.preset &&
                         <div className='preset'>
                             {this.props.presetOptions ?
-                                <select defaultValue={this.props.preset}>
+                                <select defaultValue={this.props.preset} onChange={this.onChangePreset}>
                                     {this.props.presetOptions.map(opt => (
                                         <option value={opt} key={opt}>{opt}</option>
                                     ))}
