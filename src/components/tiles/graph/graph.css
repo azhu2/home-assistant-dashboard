@@ -1,4 +1,11 @@
+#temperature-graph .graph {
+    height: 5em;
+    width: 35em;
+    position: relative;
+    border: 1px solid black;
+}
+
 #temperature-graph .history-sensor-living_room_current_temperature {
-    stroke: rgba(128, 128, 192, 192);
-    stroke-width: 0.2em;
+    stroke: rgba(128, 128, 192, 128);
+    stroke-width: 0.15em;
 }
