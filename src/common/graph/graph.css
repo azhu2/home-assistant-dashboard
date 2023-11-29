@@ -5,6 +5,10 @@ svg {
 
 svg path.history {
     stroke: rgba(192, 192, 240, 128);
+    fill: none;
+}
+
+svg path.history.filled {
     fill: rgba(240, 240, 255, 64);
 }
 

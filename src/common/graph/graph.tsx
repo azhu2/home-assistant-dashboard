@@ -170,20 +170,20 @@ const buildSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overa
     const baseline = zeroBaseline ? 0 : overall.min;
 
     // Start path outside viewbox, lift up to first datapoint
-    let pathStr = `M-1,${baseline - 1} L0,${overall.first} `;
+    let pathStr = `M-1,${baseline - 10} L0,${overall.first} `;
     buckets.forEach((bucket, idx) => {
         if (bucket.avg) {
             pathStr += `L${idx},${bucket.avg}`
         }
     });
     // Close path outside viewbox
-    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 1} Z`
+    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 10} Z`
 
     const entityID = typeof(e) === 'string' ? e: e.getCanonicalized()
 
     return (
         <path
-            className={`history history-${entityID}`}
+            className={`history history-${entityID.replaceAll('.', '-')} ${filled && 'filled'}`}
             key={entityID}
             d={pathStr}
             vectorEffect='non-scaling-stroke'

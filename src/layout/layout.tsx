@@ -111,10 +111,16 @@ export const Layout = (props: Props) => {
                                 {getTile(HistoryGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true } })}
                             </Room>
                         </div>
-                        <Graph>
-                            <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} color='#ff0000' />
-                            <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} color='#ff0000' />
-                        </Graph>
+                        <div id='temperature-graph'>
+                            <Graph>
+                                <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
+                            </Graph>
+                        </div>
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>

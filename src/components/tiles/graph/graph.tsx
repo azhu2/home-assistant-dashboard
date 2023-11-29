@@ -1,14 +1,11 @@
 import { Children, Component, ContextType, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react';
 import * as base from '../../base';
-import * as color from '../../../types/color';
 import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as graph from '../../../common/graph/graph';
 import './graph.css';
 
 type Props = base.BaseEntityProps & {
-    color?: color.Color | string;
-    strokeWidth?: number;
     filled?: boolean;
     // TODO Move below to graph props
     numBuckets?: number;
@@ -68,8 +65,7 @@ export class GraphElement extends Component<Props, State> {
 export function Graph(props: PropsWithChildren) {
     const [series, setSeries] = useState({} as { [key: string]: graph.SeriesResult })
 
-    const ctx = useContext(authContext.AuthContext);
-    const websocketAPI = ctx.websocketAPI;
+    const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
     // Massage children to GraphElements so we can deconstruct their props
     const childSeries = Children.map(props.children, c => c)?.
@@ -88,9 +84,12 @@ export function Graph(props: PropsWithChildren) {
             let unsubFuncs: (() => void)[] = [];
             Object.entries(childSeries).forEach(([entityID, props]) => {
                 const collection = websocketAPI.subscribeHistory(entityID);
-                const unsubFunc = collection.subscribe(history => {
-                    const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, { numBuckets: props.numBuckets || 100, filled: props.filled, setBaselineToZero: props.setBaselineToZero });
-                    setSeries({ ...series, [entityID]: seriesGraph });
+                const unsubFunc = collection.subscribe((history: haEntity.History) => {
+                    const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
+                        numBuckets: props.numBuckets || 100,
+                        filled: props.filled, setBaselineToZero: props.setBaselineToZero
+                    });
+                    setSeries(s => ({ ...s, [entityID]: seriesGraph }));
                 });
                 unsubFuncs = [...unsubFuncs, unsubFunc];
             })
@@ -98,7 +97,7 @@ export function Graph(props: PropsWithChildren) {
                 unsubFuncs.forEach(f => f());
             }
         }
-    }, [ctx]);
+    }, [childSeries, websocketAPI]);
 
     if (!childSeries || Object.keys(childSeries).length == 0) {
         return (
@@ -109,6 +108,11 @@ export function Graph(props: PropsWithChildren) {
     }
 
     return <div className='graph'>
-        {graph.buildHistoryGraph(Object.values(series), {numBuckets: 100, showLabels: true})}
+        {graph.buildHistoryGraph(Object.entries(series).
+            filter(([entityID]) => entityID in childSeries).
+            map(([k, v]) => v), {
+            numBuckets: 100,
+            showLabels: true,
+        })}
     </div>;
 }
