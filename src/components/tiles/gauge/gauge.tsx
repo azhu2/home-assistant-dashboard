@@ -37,7 +37,7 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         this.renderHelper = this.renderHelper.bind(this);
     }
 
-    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
+    propsMapper(entity: haEntity.Entity, _: tile.Options): tile.MappedProps<Props> {
         let state: string | number = entity.state;
         if (!Number.isNaN(Number(state))) {
             state = Number(state);
