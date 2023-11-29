@@ -1,8 +1,4 @@
-.graph svg {
-    z-index: -1;
-}
-
 #temperature-graph .history-sensor-living_room_current_temperature {
-    color: rgba(192, 192, 240, 128);
+    stroke: rgba(128, 128, 192, 192);
     stroke-width: 0.2em;
 }

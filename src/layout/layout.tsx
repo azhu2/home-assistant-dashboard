@@ -113,12 +113,13 @@ export const Layout = (props: Props) => {
                         </div>
                         <div id='temperature-graph'>
                             <Graph>
-                                <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
                                 <GraphElement entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
                                 <GraphElement entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
+                                <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
+                                {/* Needs to be last to be on top since SVG draws in order */}
+                                <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} />
                             </Graph>
                         </div>
                     </Section>
