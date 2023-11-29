@@ -1,0 +1,23 @@
+svg {
+    height: 100%;
+    width: 100%;
+}
+
+svg path.history {
+    stroke: rgba(192, 192, 240, 128);
+    fill: rgba(240, 240, 255, 64);
+}
+
+.graph-label {
+    font-size: 0.5em;
+    position: inherit;
+    z-index: 1;
+}
+
+.graph-label.max {
+    top: 0;
+}
+
+.graph-label.min {
+    bottom: 0;
+}

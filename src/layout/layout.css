@@ -55,3 +55,9 @@
 .tile-sensor-top-upload-device .gauge .value {
     font-size: 0.8em;
 }
+
+#section-climate .section-contents {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

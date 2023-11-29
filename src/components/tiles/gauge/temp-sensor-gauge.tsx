@@ -3,7 +3,7 @@ import * as tile from '../../tile/tile';
 import { Icon } from '../../icon/icon';
 import { Gauge } from './gauge';
 import * as gauge from './gauge';
-import { HistoryGauge } from './history-gauge';
+import { NeedleGauge } from './needle-gauge';
 
 /** A HistoryGauge with an icon to indicate room occupancy */
 export class TempSensorGauge extends Gauge {
@@ -28,7 +28,7 @@ export class TempSensorGauge extends Gauge {
 
     render() {
         return (
-            <HistoryGauge {...this.props} />
+            <NeedleGauge {...this.props} min={65} max={85} />
         )
     }
 }

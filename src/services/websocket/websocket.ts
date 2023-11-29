@@ -10,7 +10,7 @@ export interface WebsocketAPI {
     ping: () => Promise<any>,
     call: (domain: string, action: string, data?: object, target?: haEntity.EntityID) => Promise<any>,
     getStreamURL: (entityID: haEntity.EntityID, format?: string) => Promise<haEntity.Stream>,
-    subscribeHistory(entityID: haEntity.EntityID): haWebsocket.Collection<haEntity.History>,
+    subscribeHistory(entityID: haEntity.EntityID | string): haWebsocket.Collection<haEntity.History>,
 };
 
 export class WebsocketAPIImpl implements WebsocketAPI {
@@ -37,10 +37,12 @@ export class WebsocketAPIImpl implements WebsocketAPI {
         }));
     }
 
-    subscribeHistory(entityID: haEntity.EntityID): haWebsocket.Collection<haEntity.History> {
-        const buildHistoryMessage = (type: string, entityID: haEntity.EntityID, startTime: Date) => ({
+    subscribeHistory(e: haEntity.EntityID | string): haWebsocket.Collection<haEntity.History> {
+        const entityID = typeof(e) === 'string' ? e : e.getCanonicalized();
+
+        const buildHistoryMessage = (type: string, entityID: string, startTime: Date) => ({
             type,
-            entity_ids: [entityID.getCanonicalized()],
+            entity_ids: [entityID],
             // TODO Make period customizable
             start_time: new Date(startTime.getTime() - 24 * 60 * 60 * 1000).toISOString(),
             // end_time: startTime.toISOString(),
@@ -49,7 +51,7 @@ export class WebsocketAPIImpl implements WebsocketAPI {
 
         const mapToHistoryType = (history: HistoryMap) =>
             // Map to haEntity.History
-            history[entityID.getCanonicalized()].map(entry => ({
+            history[entityID].map(entry => ({
                 // API returns seconds
                 timestamp: new Date(entry.lu * 1000),
                 // Parse as number if possible
@@ -58,7 +60,7 @@ export class WebsocketAPIImpl implements WebsocketAPI {
 
         return haWebsocket.getCollection<haEntity.History>(
             this.connection,
-            `history-${entityID.getCanonicalized()}`,
+            `history-${entityID}`,
             conn =>
                 conn.sendMessagePromise<HistoryMap>(
                     buildHistoryMessage('history/history_during_period', entityID, new Date())

@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import * as haEntity from '../../types/ha-entity';
+import './graph.css';
 
 type CommonOptions = {
     numBuckets: number;
@@ -15,9 +16,9 @@ export type GraphOptions = CommonOptions & {
  * @param series Built by buildHistoryGraphSeries
  */
 export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions): ReactElement => {
-    const overall = series.map(s => s.overall).reduce((prev: OverallStats, cur: OverallStats) => ({
-        min: Math.min(prev.min, cur.min),
-        max: Math.max(prev.max, cur.max),
+    const overall = series.map(s => s.overall).reduce((acc: OverallStats, cur: OverallStats) => ({
+        min: Math.min(acc.min, cur.min),
+        max: Math.max(acc.max, cur.max),
     }),{
         min: Number.MAX_VALUE,
         max: Number.MIN_VALUE,
@@ -34,14 +35,14 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
             // Flip since built with 0 as baseline (bottom)
             transform='scale(1, -1)'
         >
-            {series.map(s => s.path)}
+            {series.map(s => s.series)}
         </svg>
         {options?.showLabels && <div className='graph-label min'>{Math.round(baseline)}</div>}
     </>;
 }
 
-interface SeriesResult {
-    path: ReactElement;
+export interface SeriesResult {
+    series: ReactElement;
     overall: OverallStats;
 }
 
@@ -54,11 +55,11 @@ export type SeriesOptions = CommonOptions & {
  * Use buildHistoryGraph to build the entire <svg> element.
  * This utility doesn't build the entire graph in case there are multiple series.
  */
-export const buildHistoryGraphSeries = (entityID: haEntity.EntityID, history: haEntity.History, options?: SeriesOptions): SeriesResult => {
+export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, history: haEntity.History, options?: SeriesOptions): SeriesResult => {
     const buckets = buildBuckets(history, options?.numBuckets || 100);
     const overall = buildOverallStats(buckets);
     return {
-        path: buildSvg(entityID, buckets, overall, options?.setBaselineToZero || false, options?.filled || false),
+        series: buildSvg(entityID, buckets, overall, options?.setBaselineToZero || false, options?.filled || false),
         overall,
     };
 }
@@ -130,7 +131,7 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
     return buckets;
 }
 
-interface OverallStats {
+export interface OverallStats {
     min: number;
     max: number;
     first?: number;
@@ -161,7 +162,7 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
         });
 }
 
-const buildSvg = (entityID: haEntity.EntityID, buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean, filled: boolean): ReactElement => {
+const buildSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean, filled: boolean): ReactElement => {
     if (!overall.first || !overall.last || !overall.min || !overall.max) {
         return <>Error - no history</>;
     }
@@ -175,15 +176,15 @@ const buildSvg = (entityID: haEntity.EntityID, buckets: HistoryBucket[], overall
             pathStr += `L${idx},${bucket.avg}`
         }
     });
-    if (filled) {
-        // Close path outside viewbox
-        pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 1} Z`
-    }
+    // Close path outside viewbox
+    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 1} Z`
+
+    const entityID = typeof(e) === 'string' ? e: e.getCanonicalized()
 
     return (
         <path
-            className='history'
-            key={entityID.getCanonicalized()}
+            className={`history history-${entityID}`}
+            key={entityID}
             d={pathStr}
             vectorEffect='non-scaling-stroke'
         />

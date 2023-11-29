@@ -7,6 +7,7 @@ import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
+import { Graph, GraphElement } from '../components/tiles/graph/graph';
 import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
 import { NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
 import { TempSensorGauge } from '../components/tiles/gauge/temp-sensor-gauge';
@@ -62,14 +63,6 @@ export const Layout = (props: Props) => {
             <div id='tiles'>
                 <div>
                     <Section title='Indoors'>
-                        <Room title='Climate'>
-                            {getTile(Thermostat, 'climate.living_room_2', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_current_temperature', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_humidity', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true } })}
-                        </Room>
                         <Room title='Living Room'>
                             {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
                             {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
@@ -79,32 +72,49 @@ export const Layout = (props: Props) => {
                             {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
                             {getTile(TempSensorGauge, 'sensor.living_room_temperature', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.living_room_occupancy_2'] })}
                         </Room>
-                        <Room title='Family Room'>
-                            {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                            {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
-                            {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                            {getTile(TempSensorGauge, 'sensor.family_room_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.family_room_occupancy_2'] })}
-                        </Room>
                         <div className='section-row'>
-                            <Room title='Office'>
-                                {getTile(TempSensorGauge, 'sensor.office_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.office_occupancy_2'] })}
+                            <Room title='Family Room'>
+                                {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                                {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'luminaria-led', filled: true } } })}
+                                {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
+                                {getTile(TempSensorGauge, 'sensor.family_room_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.family_room_occupancy_2'] })}
                             </Room>
-                            <Room title='Little'>
-                                {getTile(TempSensorGauge, 'sensor.little_room_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.little_room_occupancy'] })}
-                            </Room>
-                            <Room title='Guest'>
-                                {getTile(TempSensorGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.guest_bedroom_occupancy_2'] })}
-                                {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
+                            <Room title='Kitchen'>
+                                {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
+                                {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
                             </Room>
                         </div>
-                        <Room title='Kitchen'>
-                            {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                            {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
+                        <Room title='Office'>
+                            {getTile(TempSensorGauge, 'sensor.office_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.office_occupancy_2'] })}
+                        </Room>
+                        <Room title='Little'>
+                            {getTile(TempSensorGauge, 'sensor.little_room_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.little_room_occupancy'] })}
+                        </Room>
+                        <Room title='Guest'>
+                            {getTile(TempSensorGauge, 'sensor.guest_bedroom_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.guest_bedroom_occupancy_2'] })}
+                            {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
                         </Room>
                         <Room title='Master Bedroom'>
                             {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
                             {getTile(TempSensorGauge, 'sensor.master_bedroom_temperature_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['binary_sensor.master_bedroom_occupancy_2'] })}
                         </Room>
+                    </Section>
+                    <Section title='Climate'>
+                        <div className='section-row'>
+                        <Room title='Controls'>
+                            {getTile(Thermostat, 'climate.living_room_2', { tileOptions: { showName: true } })}
+                            </Room>
+                            <Room title='Air Quality'>
+                                {getTile(HistoryGauge, 'sensor.living_room_humidity', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true } })}
+                            </Room>
+                        </div>
+                        <Graph>
+                            <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} color='#ff0000' />
+                            <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} color='#ff0000' />
+                        </Graph>
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>
