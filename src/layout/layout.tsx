@@ -111,17 +111,21 @@ export const Layout = (props: Props) => {
                                 {getTile(HistoryGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true } })}
                             </Room>
                         </div>
-                        <div id='temperature-graph'>
-                            <Graph yAxisGridIncrement={5} xAxisGridIncrement={25}>
-                                <GraphElement entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
-                                <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
-                                {/* Needs to be last to be on top since SVG draws in order */}
-                                <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} />
-                            </Graph>
-                        </div>
+                        <Room title='Temperatures'>
+                            <div className={`tile tile-temperature-graph`} id='temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={25}>
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
+                                        {/* Needs to be last to be on top since SVG draws in order */}
+                                        <GraphElement entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} />
+                                    </Graph>
+                                </div>
+                            </div>
+                        </Room>
                     </Section>
                     <Section title='Outside'>
                         <Room title='Switches'>
