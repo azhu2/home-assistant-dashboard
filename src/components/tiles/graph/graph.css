@@ -1,4 +1,10 @@
 #temperature-graph .history-sensor-living_room_current_temperature {
-    stroke: rgba(128, 128, 192, 128);
+    stroke: rgb(128, 128, 192);
+    stroke-width: 0.15em;
+    stroke-opacity: 1;
+}
+
+#temperature-graph .history-climate-living_room_2 {
+    stroke: rgb(128, 64, 192);
     stroke-width: 0.15em;
 }

@@ -199,6 +199,7 @@ const buildSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overa
     const baseline = zeroBaseline ? 0 : overall.min;
 
     // Start path outside viewbox, lift up to first datapoint
+    // -10 is meant to account for series with different baseliens but may sometimes fail
     let pathStr = `M-1,${baseline - 10} L0,${overall.first} `;
     buckets.forEach((bucket, idx) => {
         if (bucket.avg) {

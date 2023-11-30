@@ -10,7 +10,7 @@ export interface WebsocketAPI {
     ping: () => Promise<any>,
     call: (domain: string, action: string, data?: object, target?: haEntity.EntityID) => Promise<any>,
     getStreamURL: (entityID: haEntity.EntityID, format?: string) => Promise<haEntity.Stream>,
-    subscribeHistory(entityID: haEntity.EntityID | string): haWebsocket.Collection<haEntity.History>,
+    subscribeHistory(entityID: haEntity.EntityID | string, attribute?: string): haWebsocket.Collection<haEntity.History>,
 };
 
 export class WebsocketAPIImpl implements WebsocketAPI {
@@ -37,8 +37,8 @@ export class WebsocketAPIImpl implements WebsocketAPI {
         }));
     }
 
-    subscribeHistory(e: haEntity.EntityID | string): haWebsocket.Collection<haEntity.History> {
-        const entityID = typeof(e) === 'string' ? e : e.getCanonicalized();
+    subscribeHistory(e: haEntity.EntityID | string, attribute?: string): haWebsocket.Collection<haEntity.History> {
+        const entityID = typeof (e) === 'string' ? e : e.getCanonicalized();
 
         const buildHistoryMessage = (type: string, entityID: string, startTime: Date) => ({
             type,
@@ -55,7 +55,9 @@ export class WebsocketAPIImpl implements WebsocketAPI {
                 // API returns seconds
                 timestamp: new Date(entry.lu * 1000),
                 // Parse as number if possible
-                value: parseFloat(entry.s) || entry.s
+                value: attribute ?
+                    parseFloat(entry.a[attribute]) || entry.a[attribute] :
+                    parseFloat(entry.s) || entry.s
             }));
 
         return haWebsocket.getCollection<haEntity.History>(
@@ -94,4 +96,11 @@ export const authenticate = async (haURL?: string): Promise<haWebsocket.Auth> =>
 };
 
 type HistoryStreamMessage = { states: HistoryMap };
-type HistoryMap = { [entityID: string]: { lu: number, s: string }[] };
+// From https://github.com/home-assistant/frontend/blob/f1692038f87d0a4cb012d7bf29afc05020367ca0/src/data/history.ts#L77-L86
+type HistoryMap = {
+    [entityID: string]: {
+        lu: number,
+        s: string,
+        a: { [key: string]: any },
+    }[]
+};

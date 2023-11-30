@@ -4,7 +4,8 @@ svg {
 }
 
 svg path.history {
-    stroke: rgba(192, 192, 240, 128);
+    stroke: rgb(192, 192, 240);
+    stroke-opacity: 1;
     fill: none;
 }
 
@@ -28,6 +29,6 @@ svg path.history.filled {
 
 .gridline {
     stroke: black;
-    stroke-opacity: 0.4;
+    stroke-opacity: 0.25;
     stroke-width: 0.1;
 }

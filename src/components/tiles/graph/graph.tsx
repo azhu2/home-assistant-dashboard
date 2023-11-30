@@ -6,6 +6,7 @@ import * as graph from '../../../common/graph/graph';
 import './graph.css';
 
 type ElementProps = base.BaseEntityProps & {
+    attribute?: string;
     filled?: boolean;
     numBuckets?: number;
 };
@@ -87,7 +88,7 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
         if (!(websocketAPI instanceof Error)) {
             let unsubFuncs: (() => void)[] = [];
             Object.entries(childSeries).forEach(([entityID, seriesProps]) => {
-                const collection = websocketAPI.subscribeHistory(entityID);
+                const collection = websocketAPI.subscribeHistory(entityID, seriesProps.attribute);
                 const unsubFunc = collection.subscribe((history: haEntity.History) => {
                     const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
                         numBuckets: seriesProps.numBuckets || 100,
