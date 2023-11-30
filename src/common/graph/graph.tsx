@@ -9,6 +9,8 @@ type CommonOptions = {
 
 export type GraphOptions = CommonOptions & {
     showLabels?: boolean;
+    xAxisGridIncrement?: number;
+    yAxisGridIncrement?: number;
 }
 
 /**
@@ -19,12 +21,38 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
     const overall = series.map(s => s.overall).reduce((acc: OverallStats, cur: OverallStats) => ({
         min: Math.min(acc.min, cur.min),
         max: Math.max(acc.max, cur.max),
-    }),{
+    }), {
         min: Number.MAX_VALUE,
         max: Number.MIN_VALUE,
     })
 
     const baseline = options.setBaselineToZero ? 0 : overall.min;
+
+    let gridlines: ReactElement[] = [];
+    if (options.xAxisGridIncrement && options.xAxisGridIncrement > 0) {
+        const inc = options.xAxisGridIncrement;
+        for (let i = inc; i < options.numBuckets; i += inc) {
+            gridlines = [
+                ...gridlines,
+                <line
+                    className='gridline vertical'
+                    x1={i} y1={baseline}
+                    x2={i} y2={overall.max} />
+            ];
+        }
+    }
+    if (options.yAxisGridIncrement && options.yAxisGridIncrement > 0) {
+        const inc = options.yAxisGridIncrement;
+        for (let i = Math.floor((baseline + inc) / inc) * inc; i < overall.max; i += inc) {
+            gridlines = [
+                ...gridlines,
+                <line
+                    className='gridline vertical'
+                    x1={0} y1={i}
+                    x2={options.numBuckets} y2={i} />
+            ];
+        }
+    }
 
     return <>
         {options?.showLabels && <div className='graph-label max'>{Math.round(overall.max)}</div>}
@@ -35,6 +63,7 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
             // Flip since built with 0 as baseline (bottom)
             transform='scale(1, -1)'
         >
+            {gridlines}
             {series.map(s => s.series)}
         </svg>
         {options?.showLabels && <div className='graph-label min'>{Math.round(baseline)}</div>}
@@ -179,7 +208,7 @@ const buildSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overa
     // Close path outside viewbox
     pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 10} Z`
 
-    const entityID = typeof(e) === 'string' ? e: e.getCanonicalized()
+    const entityID = typeof (e) === 'string' ? e : e.getCanonicalized()
 
     return (
         <path

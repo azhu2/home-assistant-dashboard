@@ -5,11 +5,9 @@ import * as authContext from '../../../services/auth-context';
 import * as graph from '../../../common/graph/graph';
 import './graph.css';
 
-type Props = base.BaseEntityProps & {
+type ElementProps = base.BaseEntityProps & {
     filled?: boolean;
-    // TODO Move below to graph props
     numBuckets?: number;
-    setBaselineToZero?: boolean;
 };
 
 type State = {
@@ -24,11 +22,11 @@ export const initialState: State = {
     overall: undefined,
 }
 
-export class GraphElement extends Component<Props, State> {
+export class GraphElement extends Component<ElementProps, State> {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 
-    constructor(props: Props) {
+    constructor(props: ElementProps) {
         super(props);
         this.state = { ...initialState };
     }
@@ -62,7 +60,13 @@ export class GraphElement extends Component<Props, State> {
     }
 }
 
-export function Graph(props: PropsWithChildren) {
+type GraphProps = {
+    setBaselineToZero?: boolean;
+    xAxisGridIncrement?: number;
+    yAxisGridIncrement?: number;
+}
+
+export function Graph(props: PropsWithChildren<GraphProps>) {
     const [series, setSeries] = useState({} as { [key: string]: graph.SeriesResult })
 
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
@@ -72,9 +76,9 @@ export function Graph(props: PropsWithChildren) {
         filter((c): c is ReactElement<GraphElement> => !!c).
         filter(c => c.type === GraphElement).
         reduce((arr, cur) => {
-            const props = cur.props as unknown as Props;
+            const props = cur.props as unknown as ElementProps;
             return { ...arr, [props.entityID.getCanonicalized()]: props };
-        }, {} as { string: Props })
+        }, {} as { string: ElementProps })
 
     useEffect(() => {
         if (!childSeries || Object.keys(childSeries).length == 0) {
@@ -82,12 +86,13 @@ export function Graph(props: PropsWithChildren) {
         }
         if (!(websocketAPI instanceof Error)) {
             let unsubFuncs: (() => void)[] = [];
-            Object.entries(childSeries).forEach(([entityID, props]) => {
+            Object.entries(childSeries).forEach(([entityID, seriesProps]) => {
                 const collection = websocketAPI.subscribeHistory(entityID);
                 const unsubFunc = collection.subscribe((history: haEntity.History) => {
                     const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
-                        numBuckets: props.numBuckets || 100,
-                        filled: props.filled, setBaselineToZero: props.setBaselineToZero
+                        numBuckets: seriesProps.numBuckets || 100,
+                        filled: seriesProps.filled,
+                        setBaselineToZero: props.setBaselineToZero,
                     });
                     setSeries(s => ({ ...s, [entityID]: seriesGraph }));
                 });
@@ -110,9 +115,11 @@ export function Graph(props: PropsWithChildren) {
     return <div className='graph'>
         {graph.buildHistoryGraph(Object.entries(series).
             filter(([entityID]) => entityID in childSeries).
-            map(([k, v]) => v), {
+            map(([_, v]) => v), {
             numBuckets: 100,
             showLabels: true,
+            xAxisGridIncrement: props.xAxisGridIncrement,
+            yAxisGridIncrement: props.yAxisGridIncrement,
         })}
     </div>;
 }

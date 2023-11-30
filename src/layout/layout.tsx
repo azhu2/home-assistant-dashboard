@@ -112,7 +112,7 @@ export const Layout = (props: Props) => {
                             </Room>
                         </div>
                         <div id='temperature-graph'>
-                            <Graph>
+                            <Graph yAxisGridIncrement={5} xAxisGridIncrement={25}>
                                 <GraphElement entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
                                 <GraphElement entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
                                 <GraphElement entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />

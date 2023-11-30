@@ -25,3 +25,9 @@ svg path.history.filled {
 .graph-label.min {
     bottom: 0;
 }
+
+.gridline {
+    stroke: black;
+    stroke-opacity: 0.4;
+    stroke-width: 0.1;
+}
