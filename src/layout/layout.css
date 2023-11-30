@@ -61,3 +61,7 @@
     flex-direction: column;
     align-items: center;
 }
+
+#room-air_quality .tile {
+    width: 5em;
+}
