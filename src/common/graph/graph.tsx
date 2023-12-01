@@ -2,12 +2,12 @@ import { ReactElement } from 'react';
 import * as haEntity from '../../types/ha-entity';
 import './graph.css';
 
-type CommonOptions = {
+type SeriesOptions = {
     numBuckets: number;
     setBaselineToZero?: boolean;
 }
 
-export type GraphOptions = CommonOptions & {
+export type GraphOptions = SeriesOptions & {
     showLabels?: boolean;
     xAxisGridIncrement?: number;
     yAxisGridIncrement?: number;
@@ -91,11 +91,7 @@ export interface SeriesData {
     entityID: haEntity.EntityID | string;
     seriesPath: string;
     overall: OverallStats;
-    filled: boolean;
-    focused: boolean;
-}
-
-export type SeriesOptions = CommonOptions & {
+    label?: string;
     filled?: boolean;
     focused?: boolean;
 }
@@ -112,8 +108,6 @@ export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, hi
         entityID,
         seriesPath: buildSeriesPath(buckets, overall, options?.setBaselineToZero || false),
         overall,
-        filled: options?.filled || false,
-        focused: options?.focused || false,
     };
 }
 
