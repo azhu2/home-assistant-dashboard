@@ -17,7 +17,7 @@ export type GraphOptions = CommonOptions & {
  * Builds a <svg> element for a history graph of an
  * @param series Built by buildHistoryGraphSeries
  */
-export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions): ReactElement => {
+export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): ReactElement => {
     const overall = series.map(s => s.overall).reduce((acc: OverallStats, cur: OverallStats) => ({
         min: Math.min(acc.min, cur.min),
         max: Math.max(acc.max, cur.max),
@@ -66,32 +66,54 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
             transform='scale(1, -1)'
         >
             {gridlines}
-            {series.map(s => s.series)}
+            {series.map(s => {
+                const entityID = typeof (s.entityID) === 'string' ? s.entityID : s.entityID.getCanonicalized();
+
+                return (
+                    <path
+                        className={
+                            `history history-${entityID.replaceAll('.', '-')}
+                            ${s.filled && 'filled'}
+                            ${s.focused && 'focused'}`
+                        }
+                        key={entityID}
+                        d={s.seriesPath}
+                        vectorEffect='non-scaling-stroke'
+                    />
+                );
+            })}
         </svg>
         {options?.showLabels && <div className='graph-label min'>{Math.round(baseline)}</div>}
     </>;
 }
 
-export interface SeriesResult {
-    series: ReactElement;
+export interface SeriesData {
+    entityID: haEntity.EntityID | string;
+    seriesPath: string;
     overall: OverallStats;
+    filled: boolean;
+    focused: boolean;
 }
 
 export type SeriesOptions = CommonOptions & {
     filled?: boolean;
+    focused?: boolean;
 }
 
 /**
- * Builds the svg <path> element for a single series for a history graph.
+ * Builds the d parameter for the svg <path> element for a single series for a history graph.
  * Use buildHistoryGraph to build the entire <svg> element.
  * This utility doesn't build the entire graph in case there are multiple series.
  */
-export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, history: haEntity.History, options?: SeriesOptions): SeriesResult => {
+export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, history: haEntity.History, options?: SeriesOptions): SeriesData => {
     const buckets = buildBuckets(history, options?.numBuckets || 100);
     const overall = buildOverallStats(buckets);
     return {
-        series: buildSeriesSvg(entityID, buckets, overall, options?.setBaselineToZero || false, options?.filled || false),
+        entityID,
+        seriesPath: buildSeriesPath(buckets, overall, options?.setBaselineToZero || false),
         overall,
+        filled: options?.filled || false,
+        focused: options?.focused || false,
     };
 }
 
@@ -193,11 +215,7 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
         });
 }
 
-const buildSeriesSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean, filled: boolean): ReactElement => {
-    if (!overall.first || !overall.last || !overall.min || !overall.max) {
-        return <>Error - no history</>;
-    }
-
+const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean): string => {
     const baseline = zeroBaseline ? 0 : overall.min;
 
     // Start path outside viewbox, lift up to first datapoint
@@ -211,14 +229,5 @@ const buildSeriesSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[],
     // Close path outside viewbox
     pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 10} Z`
 
-    const entityID = typeof (e) === 'string' ? e : e.getCanonicalized()
-
-    return (
-        <path
-            className={`history history-${entityID.replaceAll('.', '-')} ${filled && 'filled'}`}
-            key={entityID}
-            d={pathStr}
-            vectorEffect='non-scaling-stroke'
-        />
-    );
+    return pathStr;
 }

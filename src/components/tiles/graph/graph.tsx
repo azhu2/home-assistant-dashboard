@@ -48,7 +48,7 @@ export class GraphElement extends Component<ElementProps, State> {
 
     render() {
         if (this.state.history) {
-            const { series: path, overall } = graph.buildHistoryGraphSeries(this.props.entityID, this.state.history, {
+            const { seriesPath: path, overall } = graph.buildHistoryGraphSeries(this.props.entityID, this.state.history, {
                 numBuckets: this.props.numBuckets || 100,
                 filled: this.props.filled
             });
@@ -68,7 +68,7 @@ type GraphProps = {
 }
 
 export function Graph(props: PropsWithChildren<GraphProps>) {
-    const [series, setSeries] = useState({} as { [key: string]: graph.SeriesResult })
+    const [series, setSeries] = useState({} as { [key: string]: graph.SeriesData })
 
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
