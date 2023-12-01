@@ -105,14 +105,15 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
 
     return <div className='graph'>
         <div className='graph-context'>
-            {graph.buildHistoryGraph(Object.entries(series).
-                filter(([entityID]) => entityID in childSeries).
-                map(([_, v]) => v), {
-                numBuckets: numBuckets,
-                showLabels: true,
-                xAxisGridIncrement: props.xAxisGridIncrement,
-                yAxisGridIncrement: props.yAxisGridIncrement,
-            })}
+            {Object.keys(series).length > 0 &&
+                graph.buildHistoryGraph(Object.entries(series).
+                    filter(([entityID]) => entityID in childSeries).
+                    map(([_, v]) => v), {
+                    numBuckets: numBuckets,
+                    showLabels: true,
+                    xAxisGridIncrement: props.xAxisGridIncrement,
+                    yAxisGridIncrement: props.yAxisGridIncrement,
+                })}
         </div>
         {props.showLegend && buildLegend()}
     </div>
