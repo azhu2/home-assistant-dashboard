@@ -92,20 +92,28 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
     }
 
     const buildLegend = (): ReactElement => {
-        return <>
-            {Object.entries(series).map(([entityID, data]) => <>{data.label ? data.label : entityID}</>)}
-        </>;
+        return <div className='legend'>
+            {Object.entries(series).map(([entityID, data]) => {
+                const label = data.label ? data.label.toLowerCase() : entityID;
+                return <div className='legend-entry' key={label}>
+                    <div className={`legend-label label-${label}`}>{label}</div>
+                    <div className='legend-value'>{data.overall.last}</div>
+                </div>
+            })}
+        </div>;
     }
 
     return <div className='graph'>
-        {graph.buildHistoryGraph(Object.entries(series).
-            filter(([entityID]) => entityID in childSeries).
-            map(([_, v]) => v), {
-            numBuckets: numBuckets,
-            showLabels: true,
-            xAxisGridIncrement: props.xAxisGridIncrement,
-            yAxisGridIncrement: props.yAxisGridIncrement,
-        })}
+        <div className='graph-context'>
+            {graph.buildHistoryGraph(Object.entries(series).
+                filter(([entityID]) => entityID in childSeries).
+                map(([_, v]) => v), {
+                numBuckets: numBuckets,
+                showLabels: true,
+                xAxisGridIncrement: props.xAxisGridIncrement,
+                yAxisGridIncrement: props.yAxisGridIncrement,
+            })}
+        </div>
         {props.showLegend && buildLegend()}
-    </div>;
+    </div>
 }

@@ -226,8 +226,7 @@ const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats, zeroBa
     const baseline = zeroBaseline ? 0 : overall.min;
 
     // Start path outside viewbox, lift up to first datapoint
-    // -10 is meant to account for series with different baseliens but may sometimes fail
-    let pathStr = `M-1,${baseline - 10} L0,${overall.first} `;
+    let pathStr = `M-1,${Number.MIN_VALUE} L0,${overall.first} `;
     buckets.forEach((bucket, idx) => {
         if (bucket.avg) {
             pathStr += `L${idx},${bucket.avg}`

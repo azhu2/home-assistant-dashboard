@@ -115,14 +115,14 @@ export const Layout = (props: Props) => {
                             <div className={`tile tile-temperature-graph`} id='temperature-graph' >
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} numBuckets={288} showLegend>
-                                        <GraphElement label='office' entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
-                                        <GraphElement label='guest' entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
-                                        <GraphElement label='little' entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
-                                        <GraphElement label='master' entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
-                                        <GraphElement label='family' entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
+                                        <GraphElement label='Office' entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
+                                        <GraphElement label='Guest' entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
+                                        <GraphElement label='Little' entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
+                                        <GraphElement label='Master' entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
+                                        <GraphElement label='Family' entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
                                         {/* Summary series need to be last to be on top since SVG draws in order */}
-                                        <GraphElement label='target' entityID={new haEntity.EntityID('climate.living_room_2')} attribute='temperature' /> {/* Target */}
-                                        <GraphElement label='average' entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} /> {/* Average */}
+                                        <GraphElement label='Target' entityID={new haEntity.EntityID('climate.living_room_2')} attribute='temperature' /> {/* Target */}
+                                        <GraphElement label='Average' entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} /> {/* Average */}
                                     </Graph>
                                 </div>
                             </div>

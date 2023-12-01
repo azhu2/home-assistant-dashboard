@@ -5,7 +5,6 @@ svg {
 
 svg path.history {
     stroke: rgb(192, 192, 240);
-    stroke-opacity: 1;
     fill: none;
 }
 
