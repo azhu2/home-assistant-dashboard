@@ -36,6 +36,7 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
                 ...gridlines,
                 <line
                     className='gridline vertical'
+                    key={`gridline-vertical-${i}`}
                     x1={i} y1={baseline}
                     x2={i} y2={overall.max} />
             ];
@@ -47,7 +48,8 @@ export const buildHistoryGraph = (series: SeriesResult[], options: GraphOptions)
             gridlines = [
                 ...gridlines,
                 <line
-                    className='gridline vertical'
+                    className='gridline horizontal'
+                    key={`gridline-horizontal-${i}`}
                     x1={0} y1={i}
                     x2={options.numBuckets} y2={i} />
             ];
@@ -88,7 +90,7 @@ export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, hi
     const buckets = buildBuckets(history, options?.numBuckets || 100);
     const overall = buildOverallStats(buckets);
     return {
-        series: buildSvg(entityID, buckets, overall, options?.setBaselineToZero || false, options?.filled || false),
+        series: buildSeriesSvg(entityID, buckets, overall, options?.setBaselineToZero || false, options?.filled || false),
         overall,
     };
 }
@@ -191,7 +193,7 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
         });
 }
 
-const buildSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean, filled: boolean): ReactElement => {
+const buildSeriesSvg = (e: haEntity.EntityID | string, buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean, filled: boolean): ReactElement => {
     if (!overall.first || !overall.last || !overall.min || !overall.max) {
         return <>Error - no history</>;
     }
