@@ -114,7 +114,7 @@ export const Layout = (props: Props) => {
                         <Room title='Temperatures'>
                             <div className={`tile tile-temperature-graph`} id='temperature-graph' >
                                 <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} showLegend>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} numBuckets={288} showLegend>
                                         <GraphElement label='office' entityID={new haEntity.EntityID('sensor.office_temperature_2')} />
                                         <GraphElement label='guest' entityID={new haEntity.EntityID('sensor.guest_bedroom_temperature_2')} />
                                         <GraphElement label='little' entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />

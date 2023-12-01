@@ -116,6 +116,8 @@ interface HistoryBucket {
     max?: number;
     min?: number;
     avg?: number;
+    first?: number;
+    last?: number;
 }
 
 const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBucket[] => {
@@ -130,6 +132,8 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
     let curMax: number | undefined = undefined;
     let curSum = 0;
     let curCnt = 0;
+    let curFir: number | undefined = undefined;
+    let curLst: number | undefined = undefined;
 
     history.forEach(entry => {
         const ts = entry.timestamp.getTime();
@@ -148,6 +152,8 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
                 min: curMin,
                 max: curMax,
                 avg: curCnt > 0 ? curSum / curCnt : undefined,
+                first: curFir,
+                last: curLst,
             };
 
             // Clear current bucket
@@ -156,6 +162,7 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
             curMax = undefined;
             curSum = 0;
             curCnt = 0;
+            curFir = undefined;
         }
         // Add value to current bucket
         if (!curMin || entry.value < curMin) {
@@ -166,6 +173,10 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
         }
         curSum += entry.value;
         curCnt++;
+        if (!curFir) {
+            curFir = entry.value;
+        }
+        curLst = entry.value;
     });
     // Aggregate last bucket TODO DRY
     buckets[curIdx] = {
@@ -173,6 +184,8 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
         min: curMin,
         max: curMax,
         avg: curCnt > 0 ? curSum / curCnt : undefined,
+        first: curFir,
+        last: curLst,
     };
 
     return buckets;
@@ -193,7 +206,7 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
             }
             let changes = {};
             if (!overall.first) {
-                changes = { ...changes, first: val.avg };
+                changes = { ...changes, first: val.first };
             }
             if (!overall.min || val.avg < overall.min) {
                 changes = { ...changes, min: val.avg };
@@ -201,7 +214,7 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
             if (!overall.max || val.avg > overall.max) {
                 changes = { ...changes, max: val.avg };
             }
-            changes = { ...changes, last: val.avg };
+            changes = { ...changes, last: val.last };
             return { ...overall, ...changes };
         }, {
             min: Number.MAX_VALUE,
