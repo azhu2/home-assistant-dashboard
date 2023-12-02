@@ -23,7 +23,7 @@ export class NeedleGauge extends Gauge {
                 64);
 
             background =
-                <svg viewBox='0 0 1 0.5'>
+                <svg viewBox='0 0 1 0.5' preserveAspectRatio='xMidYMax meet'>
                     {/* Base circle */}
                     <circle cx='0.5' cy='0.5' r='0.5' fill={fillColor.rgbString(true)} />
                     {/* Inner circle */}

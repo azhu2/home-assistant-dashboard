@@ -1,9 +1,14 @@
-.tile-historygauge, .tile-tempsensorgauge {
+.tile-historygauge, .tile-needlegauge, .tile-percentgauge {
     /* TODO Add regular tile padding instead of hard-coding it */
     padding: 0;
     width: 3.4em;
     height: 3.4em;
     flex-basis: 3.4em;
+}
+
+.tile-historygauge .name, .tile-needlegauge .name, .tile-percentgauge .name {
+    /* Add back padding to name. Scale up the 0.2em padding by font-size 0.65 */
+    padding: 0.31em 0.31em 0 0.31em;
 }
 
 .gauge {

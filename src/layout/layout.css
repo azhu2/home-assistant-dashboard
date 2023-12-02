@@ -46,7 +46,7 @@
     height: 4em;
 }
 
-#room-system .tile-historygauge {
+#room-system .tile-historygauge, #room-system .tile-percentgauge, #room-system .tile-needlegauge {
     width: 5.4em;
     height: 4.4em;
 }
@@ -71,5 +71,5 @@
 }
 
 #room-air_quality .tile {
-    width: 5em;
+    width: 4em;
 }
