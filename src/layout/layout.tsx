@@ -95,9 +95,9 @@ export const Layout = (props: Props) => {
                             </Room>
                             <Room title='Air Quality'>
                                 {getTile(HistoryGauge, 'sensor.living_room_humidity', { tileOptions: { showName: true } })}
-                                {getTile(HistoryGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true } })}
-                                {getTile(HistoryGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true } })}
-                                {getTile(HistoryGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true } })}
+                                {getTile(NeedleGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
+                                {getTile(NeedleGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
+                                {getTile(NeedleGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true }, tileProps: { min: 250, max: 10000 } })}
                             </Room>
                         </div>
                         <Room title='Temperatures'>

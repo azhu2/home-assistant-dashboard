@@ -8,7 +8,7 @@ export class NeedleGauge extends Gauge {
         if (typeof this.props.state === 'number' &&
             typeof this.props.min === 'number' &&
             typeof this.props.max === 'number') {
-            const pct = (this.props.state - this.props.min) / (this.props.max - this.props.min);
+            const pct = Math.max(0, Math.min(1, (this.props.state - this.props.min) / (this.props.max - this.props.min)));
 
             /*
              * Green -> Yellow -> Red scaling scheme
@@ -17,8 +17,8 @@ export class NeedleGauge extends Gauge {
              * g   255 -> 255 -> 0
              */
             const fillColor = new color.Color(
-                Math.min(255, 256 * Math.min(1, (pct * 2))),
-                Math.min(255, 256 * Math.min(1, (2 - pct * 2))),
+                255 * Math.min(1, (pct * 2)),
+                255 * Math.min(1, 2 - pct * 2),
                 0,
                 64);
 
