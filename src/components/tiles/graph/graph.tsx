@@ -1,9 +1,11 @@
-import { Children, Component, PropsWithChildren, ReactElement, useContext, useEffect, useState } from 'react';
+import { Children, Component, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as base from '../../base';
 import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import * as graph from '../../../common/graph/graph';
 import './graph.css';
+
+const updateIntervalMs = 5000;
 
 type ElementProps = base.BaseEntityProps & {
     label?: string;
@@ -44,6 +46,7 @@ type GraphProps = {
 
 export function Graph(props: PropsWithChildren<GraphProps>) {
     const [series, setSeries] = useState({} as { [key: string]: graph.SeriesData })
+    const updateThrottler = useRef<{ [key: string]: NodeJS.Timeout}>({});
 
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
@@ -67,6 +70,11 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
             Object.entries(childSeries).forEach(([entityID, seriesProps]) => {
                 const collection = websocketAPI.subscribeHistory(entityID, seriesProps.attribute);
                 const unsubFunc = collection.subscribe((history: haEntity.History) => {
+                    const throttler = updateThrottler.current;
+                    if (entityID in throttler) {
+                        return;
+                    }
+                    throttler[entityID] = setTimeout(() => delete throttler[entityID], updateIntervalMs);
                     const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
                         numBuckets: numBuckets,
                         setBaselineToZero: props.setBaselineToZero,
