@@ -4,9 +4,13 @@ import { Gauge } from './gauge';
 import * as gauge from './gauge';
 import * as graph from '../../../common/graph/graph';
 
+const updateIntervalMs = 5000;
+
 export class HistoryGauge extends Gauge {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
+
+    updateThrottler?: NodeJS.Timer;
 
     constructor(props: gauge.Props) {
         super(props);
@@ -16,7 +20,13 @@ export class HistoryGauge extends Gauge {
     componentDidMount() {
         if (!(this.context.websocketAPI instanceof Error)) {
             const collection = this.context.websocketAPI.subscribeHistory(this.props.entityID);
-            const unsubFunc = collection.subscribe(history => this.setState({ ...this.state, history }))
+            const unsubFunc = collection.subscribe(history => {
+                if (this.updateThrottler) {
+                    return;
+                }
+                this.updateThrottler = setTimeout(() => {}, updateIntervalMs);
+                this.setState({ ...this.state, history });
+            })
             this.setState({ ...this.state, unsubFunc });
         }
     }
