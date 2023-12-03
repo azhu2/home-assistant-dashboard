@@ -109,6 +109,7 @@ export const Layout = (props: Props) => {
                                         <GraphElement label='Little' entityID={new haEntity.EntityID('sensor.little_room_temperature_2')} />
                                         <GraphElement label='Master' entityID={new haEntity.EntityID('sensor.master_bedroom_temperature_2')} />
                                         <GraphElement label='Family' entityID={new haEntity.EntityID('sensor.family_room_temperature_2')} />
+                                        <GraphElement label='Living' entityID={new haEntity.EntityID('sensor.living_room_temperature')} />
                                         {/* Summary series need to be last to be on top since SVG draws in order */}
                                         <GraphElement label='Target' entityID={new haEntity.EntityID('climate.living_room_2')} attribute='temperature' /> {/* Target */}
                                         <GraphElement label='Average' entityID={new haEntity.EntityID('sensor.living_room_current_temperature')} /> {/* Average */}
@@ -160,7 +161,6 @@ export const Layout = (props: Props) => {
                             {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
                             {getTile(Camera, 'camera.driveway_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.driveway_cam_recording'] })}
                             {getTile(Camera, 'camera.front_yard_cam_high_3', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.front_yard_cam_recording'] })}
-                            {getTile(Camera, 'camera.front_door', { tileOptions: { showName: true } })}
                         </Room>
                     </Section>
                 </div>
