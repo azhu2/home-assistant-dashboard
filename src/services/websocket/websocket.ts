@@ -3,6 +3,8 @@ import * as haEntity from '../../types/ha-entity';
 import * as localStorage from '../local-storage/local-storage';
 
 const TIMEOUT_MS = 2000;
+// TODO Make period customizable
+const LOOKBACK_INTERVAL_MS = 24 * 60 * 60 * 1000;
 
 export type Connection = haWebsocket.Connection;
 
@@ -43,22 +45,22 @@ export class WebsocketAPIImpl implements WebsocketAPI {
         const buildHistoryMessage = (type: string, entityID: string, startTime: Date) => ({
             type,
             entity_ids: [entityID],
-            // TODO Make period customizable
-            start_time: new Date(startTime.getTime() - 24 * 60 * 60 * 1000).toISOString(),
+            start_time: new Date(startTime.getTime() - LOOKBACK_INTERVAL_MS).toISOString(),
             // end_time: startTime.toISOString(),
             minimal_response: true,
         });
 
         const mapToHistoryType = (history: HistoryMap) =>
             // Map to haEntity.History
-            history[entityID].map(entry => ({
+            history[entityID].reduce((acc, entry) => {
                 // API returns seconds
-                timestamp: new Date(entry.lu * 1000),
+                const ts = entry.lu * 1000;
                 // Parse as number if possible
-                value: attribute ?
+                acc.set(ts, attribute ?
                     parseFloat(entry.a[attribute]) || entry.a[attribute] :
-                    parseFloat(entry.s) || entry.s
-            }));
+                    parseFloat(entry.s) || entry.s);
+                return acc;
+            }, new Map<number, string | number>());
 
         return haWebsocket.getCollection<haEntity.History>(
             this.connection,
@@ -71,7 +73,7 @@ export class WebsocketAPIImpl implements WebsocketAPI {
                 conn.subscribeMessage<HistoryStreamMessage>(stream => {
                     const history = mapToHistoryType(stream.states)
                     const prev = store.state || [];
-                    const updated = prev.concat(...history);
+                    const updated = new Map([prev, history].flatMap(h => [...h]));
                     store.setState(updated, true);
                 }, buildHistoryMessage('history/stream', entityID, new Date()))
         )

@@ -59,9 +59,5 @@ export type Stream = {
     url: string;
 };
 
-export type History = HistoryEntry[];
-
-type HistoryEntry = {
-    timestamp: Date,
-    value: string | number,
-};
+/** Map of timestamp (ms) to value  */
+export type History = Map<number, string | number>;

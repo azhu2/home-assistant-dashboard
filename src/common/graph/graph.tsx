@@ -133,9 +133,8 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
     let curFir: number | undefined = undefined;
     let curLst: number | undefined = undefined;
 
-    history.forEach(entry => {
-        const ts = entry.timestamp.getTime();
-        if (typeof entry.value !== 'number') {
+    history.forEach((entry, ts) => {
+        if (typeof entry !== 'number') {
             // Can't graph
             return;
         }
@@ -163,18 +162,18 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
             curFir = undefined;
         }
         // Add value to current bucket
-        if (!curMin || entry.value < curMin) {
-            curMin = entry.value;
+        if (!curMin || entry < curMin) {
+            curMin = entry;
         }
-        if (!curMax || entry.value > curMax) {
-            curMax = entry.value;
+        if (!curMax || entry > curMax) {
+            curMax = entry;
         }
-        curSum += entry.value;
+        curSum += entry;
         curCnt++;
         if (!curFir) {
-            curFir = entry.value;
+            curFir = entry;
         }
-        curLst = entry.value;
+        curLst = entry;
     });
     // Aggregate last bucket TODO DRY
     buckets[curIdx] = {
