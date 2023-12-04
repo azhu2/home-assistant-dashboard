@@ -29,6 +29,7 @@
 .legend-entry {
     flex: 10% 1 1;
     text-align: center;
+    user-select: none;
 }
 
 .legend-entry.focused {
