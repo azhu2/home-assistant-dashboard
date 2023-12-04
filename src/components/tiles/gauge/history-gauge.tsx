@@ -40,7 +40,7 @@ export class HistoryGauge extends Gauge {
     render() {
         if (this.state.history) {
             // TODO Customizable how many buckets
-            const series = graph.buildHistoryGraphSeries(this.props.entityID, this.state.history, {numBuckets: 100, setBaselineToZero: this.props.setBaselineToZero});
+            const series = graph.buildHistoryGraphSeries(this.props.entityID, this.state.history, {numBuckets: 100});
             series.filled = true;
             const history = graph.buildHistoryGraph([series], {numBuckets: 100, setBaselineToZero: this.props.setBaselineToZero, showLabels: true});
             return this.renderHelper(history);

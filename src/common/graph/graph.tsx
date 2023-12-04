@@ -4,13 +4,13 @@ import './graph.css';
 
 type SeriesOptions = {
     numBuckets: number;
-    setBaselineToZero?: boolean;
 }
 
 export type GraphOptions = SeriesOptions & {
     showLabels?: boolean;
     xAxisGridIncrement?: number;
     yAxisGridIncrement?: number;
+    setBaselineToZero?: boolean;
 }
 
 /**
@@ -72,9 +72,7 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
                 return (
                     <path
                         className={
-                            `history history-${entityID.replaceAll('.', '-')}
-                            ${s.filled && 'filled'}
-                            ${s.focused && 'focused'}`
+                            `history history-${entityID.replaceAll('.', '-')} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
                         }
                         key={entityID}
                         d={s.seriesPath}
@@ -106,7 +104,7 @@ export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, hi
     const overall = buildOverallStats(buckets);
     return {
         entityID,
-        seriesPath: buildSeriesPath(buckets, overall, options?.setBaselineToZero || false),
+        seriesPath: buildSeriesPath(buckets, overall),
         overall,
     };
 }
@@ -222,18 +220,16 @@ const buildOverallStats = (buckets: HistoryBucket[]): OverallStats => {
         });
 }
 
-const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats, zeroBaseline: boolean): string => {
-    const baseline = zeroBaseline ? 0 : overall.min;
-
+const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats): string => {
     // Start path outside viewbox, lift up to first datapoint
     let pathStr = `M-1,${Number.MIN_VALUE} L0,${overall.first} `;
     buckets.forEach((bucket, idx) => {
         if (bucket.avg) {
-            pathStr += `L${idx},${bucket.avg}`
+            pathStr += `L${idx},${bucket.avg} `
         }
     });
     // Close path outside viewbox
-    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${baseline - 10} Z`
+    pathStr += `L${buckets.length},${overall.last} L${buckets.length},${Number.MIN_VALUE} Z`
 
     return pathStr;
 }

@@ -77,7 +77,6 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
                     throttler[entityID] = setTimeout(() => delete throttler[entityID], updateIntervalMs);
                     const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
                         numBuckets: numBuckets,
-                        setBaselineToZero: props.setBaselineToZero,
                     });
                     seriesGraph.filled = seriesProps.filled;
                     seriesGraph.label = seriesProps.label;
