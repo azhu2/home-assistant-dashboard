@@ -66,7 +66,8 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
             transform='scale(1, -1)'
         >
             {gridlines}
-            {series.map(s => {
+            {series.sort((a: SeriesData, b: SeriesData) => a.focused ? 1 : b.focused ? -1 : 0)
+                .map(s => {
                 const entityID = typeof (s.entityID) === 'string' ? s.entityID : s.entityID.getCanonicalized();
 
                 return (
