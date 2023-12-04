@@ -1,9 +1,9 @@
-#temperature-graph .history-sensor-living_room_current_temperature {
+.graph .history-sensor-living_room_current_temperature {
     stroke: rgb(128, 128, 192);
     stroke-width: 2px;
 }
 
-#temperature-graph .history-climate-living_room_2 {
+.graph .history-climate-living_room_2 {
     stroke: rgb(128, 64, 192);
     stroke-width: 2px;
 }
@@ -29,6 +29,10 @@
 .legend-entry {
     flex: 10% 1 1;
     text-align: center;
+}
+
+.legend-entry.focused {
+    background-color: rgba(192, 192, 240, 0.4);
 }
 
 .legend-label {

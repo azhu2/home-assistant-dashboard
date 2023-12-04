@@ -12,6 +12,10 @@ svg path.history.filled {
     fill: rgba(240, 240, 255, 64);
 }
 
+svg path.history.focused {
+    stroke-width: 4px;
+}
+
 .graph-label {
     font-size: 0.5em;
     position: absolute;

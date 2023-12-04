@@ -1,4 +1,4 @@
-import { Children, Component, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
+import { Children, Component, MouseEvent, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as base from '../../base';
 import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
@@ -46,7 +46,7 @@ type GraphProps = {
 
 export function Graph(props: PropsWithChildren<GraphProps>) {
     const [series, setSeries] = useState({} as { [key: string]: graph.SeriesData })
-    const updateThrottler = useRef<{ [key: string]: NodeJS.Timeout}>({});
+    const updateThrottler = useRef<{ [key: string]: NodeJS.Timeout }>({});
 
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
@@ -75,12 +75,13 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
                         return;
                     }
                     throttler[entityID] = setTimeout(() => delete throttler[entityID], updateIntervalMs);
-                    const seriesGraph = graph.buildHistoryGraphSeries(entityID, history, {
-                        numBuckets: numBuckets,
-                    });
-                    seriesGraph.filled = seriesProps.filled;
-                    seriesGraph.label = seriesProps.label;
-                    setSeries(s => ({ ...s, [entityID]: seriesGraph }));
+                    const seriesData = {
+                        ...series[entityID],
+                        ...graph.buildHistoryGraphSeries(entityID, history, {numBuckets: numBuckets}),
+                        filled: seriesProps.filled,
+                        label: seriesProps.label,
+                    };
+                    setSeries(s => ({ ...s, [entityID]: seriesData }));
                 });
                 unsubFuncs = [...unsubFuncs, unsubFunc];
             })
@@ -98,11 +99,27 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
         );
     }
 
+    const onClick = (entityID: string) => (_: MouseEvent) => {
+        if (series[entityID].focused) {
+            const unfocusedSeries = {...series[entityID], focused: false};
+            setSeries({...series, [entityID]: unfocusedSeries});
+            return;
+        }
+
+        const updatedSeries = Object.entries(series).reduce((acc, [e, data]) => {
+            acc[e] = {...data, focused: e === entityID};
+            return acc;
+        }, {} as {[key: string]: graph.SeriesData})
+        setSeries(updatedSeries);
+    };
+
     const buildLegend = (): ReactElement => {
         return <div className='legend'>
             {Object.entries(series).map(([entityID, data]) => {
                 const label = data.label ? data.label.toLowerCase() : entityID;
-                return <div className='legend-entry' key={label}>
+                return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
+                    onClick={onClick(entityID)}
+                >
                     <div className={`legend-label label-${label}`}>{label}</div>
                     <div className='legend-value'>{data.overall.last}</div>
                 </div>
