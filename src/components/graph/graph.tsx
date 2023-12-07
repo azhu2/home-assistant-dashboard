@@ -1,9 +1,10 @@
-import { Children, Component, MouseEvent, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
+import { Component, MouseEvent, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as base from '../base';
 import * as haEntity from '../../types/ha-entity';
 import * as authContext from '../../services/auth-context';
 import * as graph from '../../common/graph/graph';
 import './graph.css';
+import * as util from './util';
 
 const updateIntervalMs = 5000;
 
@@ -13,9 +14,10 @@ type ElementProps = base.BaseEntityProps & {
     filled?: boolean;
 };
 
-/** GraphElement is an empty props container. Rendering is handled in the outer Graph component.
- *  Needs to be a class, not a functional component so ReactElement<GraphElement> is valid.
- *  An empty constructor must be present or rerenders don't work.
+/**
+ * GraphElement is an empty props container. Rendering is handled in the outer Graph component.
+ * Needs to be a class, not a functional component so ReactElement<GraphElement> is valid.
+ * An empty constructor must be present or rerenders don't work.
  */
 export class GraphElement extends Component<ElementProps> {
     constructor(props: ElementProps) {
@@ -39,14 +41,7 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
 
     const numBuckets = props.numBuckets || 100;
 
-    // Massage children to GraphElements so we can deconstruct their props
-    const childSeries = Children.map(props.children, c => c)?.
-        filter((c): c is ReactElement<GraphElement> => !!c).
-        filter(c => c.type === GraphElement).
-        reduce((arr, cur) => {
-            const props = cur.props as unknown as ElementProps;
-            return { ...arr, [props.entityID.getCanonicalized()]: props };
-        }, {} as { string: ElementProps })
+    const childSeries = util.getPropsOfChildType<ElementProps>(props.children, GraphElement)
 
     useEffect(() => {
         if (!childSeries || Object.keys(childSeries).length == 0) {
