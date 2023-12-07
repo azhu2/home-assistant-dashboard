@@ -1,8 +1,8 @@
 import { Children, Component, MouseEvent, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
-import * as base from '../../base';
-import * as haEntity from '../../../types/ha-entity';
-import * as authContext from '../../../services/auth-context';
-import * as graph from '../../../common/graph/graph';
+import * as base from '../base';
+import * as haEntity from '../../types/ha-entity';
+import * as authContext from '../../services/auth-context';
+import * as graph from '../../common/graph/graph';
 import './graph.css';
 
 const updateIntervalMs = 5000;

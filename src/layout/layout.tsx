@@ -7,7 +7,7 @@ import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
-import { Graph, GraphElement } from '../components/tiles/graph/graph';
+import { Graph, GraphElement } from '../components/graph/graph';
 import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
 import { NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
