@@ -24,7 +24,7 @@ export class HistoryGauge extends Gauge {
                 if (this.updateThrottler) {
                     return;
                 }
-                this.updateThrottler = setTimeout(() => {}, updateIntervalMs);
+                this.updateThrottler = setTimeout(() => { }, updateIntervalMs);
                 this.setState({ ...this.state, history });
             })
             this.setState({ ...this.state, unsubFunc });
@@ -40,9 +40,9 @@ export class HistoryGauge extends Gauge {
     render() {
         if (this.state.history) {
             // TODO Customizable how many buckets
-            const series = graph.buildHistoryGraphSeries(this.props.entityID.getCanonicalized(), this.state.history, {numBuckets: 100});
+            const series = graph.buildHistoryGraphSeries(this.props.entityID.getCanonicalized(), this.state.history);
             series.filled = true;
-            const history = graph.buildHistoryGraph([series], {numBuckets: 100, setBaselineToZero: this.props.setBaselineToZero, showLabels: true});
+            const history = graph.buildHistoryGraph([series], [], { numBuckets: 100, setBaselineToZero: this.props.setBaselineToZero, showLabels: true });
             return this.renderHelper(history);
         }
         return this.renderHelper();

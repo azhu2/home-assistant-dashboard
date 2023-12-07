@@ -1,7 +1,6 @@
 import { MouseEvent, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as graph from '../../common/graph/graph';
 import * as authContext from '../../services/auth-context';
-import * as color from '../../types/color';
 import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
 import './graph.css';
@@ -13,7 +12,9 @@ type SeriesProps = base.BaseEntityProps & {
     filled?: boolean;
 };
 
-type AnnotationProps = base.BaseEntityProps;
+type AnnotationProps = base.BaseEntityProps & {
+    label?: string;
+};
 
 type GraphProps = {
     numBuckets?: number;
@@ -66,20 +67,21 @@ export function Graph(props: GraphProps) {
                     if (mapKey in allSeriesProps) {
                         const seriesProps = allSeriesProps[mapKey];
                         const seriesData = {
-                            ...series[getMapKey(seriesProps)],
-                            ...graph.buildHistoryGraphSeries(mapKey, history, { numBuckets: numBuckets }),
+                            ...series[mapKey],
+                            ...graph.buildHistoryGraphSeries(mapKey, history, numBuckets),
                             filled: seriesProps.filled,
                             label: seriesProps.label,
                         };
-                        setSeries(s => ({ ...s, [getMapKey(seriesProps)]: seriesData }));
+                        setSeries(s => ({ ...s, [mapKey]: seriesData }));
                     }
                     if (mapKey in allAnnotationProps) {
                         const annotationProps = allAnnotationProps[mapKey];
                         const annotationData = {
-                            ...annotations[getMapKey(annotationProps)],
-                            ...graph.buildHistoryGraphAnnotation(mapKey, history, { numBuckets: numBuckets }),
+                            ...annotations[mapKey],
+                            ...graph.buildHistoryGraphAnnotation(mapKey, history, numBuckets),
+                            label: annotationProps.label,
                         };
-                        setAnnotations(s => ({ ...s, [getMapKey(annotationProps)]: annotationData }));
+                        setAnnotations(s => ({ ...s, [mapKey]: annotationData }));
                     }
                 });
                 unsubFuncs = [...unsubFuncs, unsubFunc];
@@ -131,14 +133,19 @@ export function Graph(props: GraphProps) {
     return <div className='graph'>
         <div className='graph-context'>
             {Object.keys(series).length > 0 &&
-                graph.buildHistoryGraph(Object.entries(series).
-                    filter(([entityID]) => entityID in allSeriesProps).
-                    map(([_, v]) => v), {
-                    numBuckets: numBuckets,
-                    showLabels: true,
-                    xAxisGridIncrement: props.xAxisGridIncrement,
-                    yAxisGridIncrement: props.yAxisGridIncrement,
-                })}
+                graph.buildHistoryGraph(
+                    Object.entries(series).
+                        filter(([key]) => key in allSeriesProps).
+                        map(([_, v]) => v),
+                    Object.entries(annotations).
+                        filter(([key]) => key in allAnnotationProps).
+                        map(([_, v]) => v),
+                    {
+                        numBuckets: numBuckets,
+                        showLabels: true,
+                        xAxisGridIncrement: props.xAxisGridIncrement,
+                        yAxisGridIncrement: props.yAxisGridIncrement,
+                    })}
         </div>
         {props.showLegend && buildLegend()}
     </div>

@@ -1,11 +1,11 @@
 .graph .history-average {
     stroke: rgb(128, 128, 192);
-    stroke-width: 2px;
+    stroke-width: 1.25%;
 }
 
 .graph .history-target {
     stroke: rgb(128, 64, 192);
-    stroke-width: 2px;
+    stroke-width: 1.25%;
 }
 
 .graph {
@@ -18,6 +18,10 @@
 .graph-context {
     position: relative;
     flex-grow: 1;
+}
+
+.graph .annotation-heat {
+    fill: rgb(255, 128, 128);
 }
 
 .legend {
@@ -34,6 +38,10 @@
 
 .legend-entry.focused {
     background-color: rgba(192, 192, 240, 0.4);
+}
+
+.legend-entry.focused .legend-label {
+    border-bottom-width: 2px;
 }
 
 .legend-label {

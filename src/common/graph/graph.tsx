@@ -17,7 +17,7 @@ export type GraphOptions = SeriesOptions & {
  * Builds a <svg> element for a history graph of an
  * @param series Built by buildHistoryGraphSeries
  */
-export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): ReactElement => {
+export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationData[], options: GraphOptions): ReactElement => {
     const overall = series.map(s => s.overall).reduce((acc: OverallStats, cur: OverallStats) => ({
         min: Math.min(acc.min, cur.min),
         max: Math.max(acc.max, cur.max),
@@ -38,7 +38,9 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
                     className='gridline vertical'
                     key={`gridline-vertical-${i}`}
                     x1={i} y1={baseline}
-                    x2={i} y2={overall.max} />
+                    x2={i} y2={overall.max}
+                    vectorEffect='non-scaling-stroke'
+                />
             ];
         }
     }
@@ -51,7 +53,9 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
                     className='gridline horizontal'
                     key={`gridline-horizontal-${i}`}
                     x1={0} y1={i}
-                    x2={options.numBuckets} y2={i} />
+                    x2={options.numBuckets} y2={i}
+                    vectorEffect='non-scaling-stroke'
+                />
             ];
         }
     }
@@ -65,6 +69,17 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
             // Flip since built with 0 as baseline (bottom)
             transform='scale(1, -1)'
         >
+            {annotations
+                .filter(a => a.annotationIntervals)
+                .map(a => {
+                    const path = buildAnnotationPath(a.annotationIntervals, options.numBuckets, overall);
+                    return <path
+                        className={`annotation annotation-${a.label?.toLowerCase() || a.annotationID}`}
+                        key={a.annotationID}
+                        d={path}
+                        vectorEffect='non-scaling-stroke'
+                    />
+                })}
             {gridlines}
             {series.sort((a: SeriesData, b: SeriesData) => a.focused ? 1 : b.focused ? -1 : 0)
                 .map(s => (
@@ -96,8 +111,8 @@ export interface SeriesData {
  * Use buildHistoryGraph to build the entire <svg> element.
  * This utility doesn't build the entire graph in case there are multiple series.
  */
-export const buildHistoryGraphSeries = (seriesID: string, history: haEntity.History, options?: SeriesOptions): SeriesData => {
-    const buckets = buildBuckets(history, options?.numBuckets || 100);
+export const buildHistoryGraphSeries = (seriesID: string, history: haEntity.History, numBuckets?: number): SeriesData => {
+    const buckets = buildBuckets(history, numBuckets || 100);
     const overall = buildOverallStats(buckets);
     return {
         seriesID,
@@ -230,9 +245,10 @@ const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats): strin
     return pathStr;
 }
 
-export type AnnotationData = {
+export interface AnnotationData {
     annotationID: string;
-    seriesPath: string;
+    annotationIntervals: AnnotationInterval[];
+    label?: string;
 }
 
 /**
@@ -240,11 +256,70 @@ export type AnnotationData = {
  * Use buildHistoryGraph to build the entire <svg> element.
  * This utility doesn't build the entire graph in case there are multiple series.
  */
-export const buildHistoryGraphAnnotation = (annotationID: string, history: haEntity.History, options?: SeriesOptions): AnnotationData => {
-    const buckets = buildBuckets(history, options?.numBuckets || 100);
-    const overall = buildOverallStats(buckets);
+export const buildHistoryGraphAnnotation = (annotationID: string, history: haEntity.History, numBuckets?: number): AnnotationData => {
     return {
         annotationID,
-        seriesPath: buildSeriesPath(buckets, overall),
+        annotationIntervals: buildAnnotationIntervals(history, numBuckets || 100),
     };
+}
+
+interface AnnotationInterval {
+    start: number;
+    end: number;
+}
+
+const buildAnnotationIntervals = (history: haEntity.History, numBuckets: number): AnnotationInterval[] => {
+    let intervals = Array<AnnotationInterval>();
+
+    // TODO Dynamic time ranges
+    const timeRangeMs = 24 * 60 * 60 * 1000;
+    const bucketWidthMs = timeRangeMs / numBuckets;
+    const startMs = Date.now() - timeRangeMs;
+
+    let curStart: number | undefined = undefined;
+    let counter = 0;
+
+    history.forEach((entry, ts) => {
+        if (typeof entry !== 'boolean') {
+            // Can't graph
+            return;
+        }
+        if (ts < startMs) {
+            // Before time range
+            return;
+        }
+        const scaledTimestamp = (ts - startMs) / bucketWidthMs;
+        if (!curStart) {
+            if (entry) {
+                // Start new interval
+                curStart = counter === 0 ? -1 : scaledTimestamp;
+            }
+        } else {
+            if (!entry) {
+                // End of current interval
+                intervals = [...intervals, { start: curStart, end: counter === history.size - 1 ? numBuckets : scaledTimestamp }];
+                curStart = undefined;
+            }
+        }
+        counter++;
+    });
+
+    return intervals;
+}
+
+const buildAnnotationPath = (intervals: AnnotationInterval[], numBuckets: number, overall: OverallStats): string => {
+    // Draw a single path and hide false state under viewbox
+    let pathStr = `M-1,${overall.min} `;
+
+    intervals.forEach(interval => {
+        // Left vertical line (up)
+        pathStr += `L${interval.start},${overall.min} L${interval.start},${overall.max} `
+        // Right vertical line (down)
+        pathStr += `L${interval.end},${overall.max} L${interval.end},${overall.min} `
+    })
+
+    // Close path outside viewbox
+    pathStr += `L${numBuckets},${overall.min} Z`
+
+    return pathStr;
 }
