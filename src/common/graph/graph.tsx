@@ -277,31 +277,34 @@ const buildAnnotationIntervals = (history: haEntity.History, numBuckets: number)
     const startMs = Date.now() - timeRangeMs;
 
     let curStart: number | undefined = undefined;
-    let counter = 0;
 
     history.forEach((entry, ts) => {
         if (typeof entry !== 'boolean') {
             // Can't graph
             return;
         }
+        const scaledTimestamp = (ts - startMs) / bucketWidthMs;
         if (ts < startMs) {
             // Before time range
+            if (entry) {
+                curStart = scaledTimestamp;
+            } else {
+                curStart = undefined;
+            }
             return;
         }
-        const scaledTimestamp = (ts - startMs) / bucketWidthMs;
         if (!curStart) {
             if (entry) {
                 // Start new interval
-                curStart = counter === 0 ? -1 : scaledTimestamp;
+                curStart = scaledTimestamp;
             }
         } else {
             if (!entry) {
                 // End of current interval
-                intervals = [...intervals, { start: curStart, end: counter === history.size - 1 ? numBuckets : scaledTimestamp }];
+                intervals = [...intervals, { start: curStart, end: scaledTimestamp }];
                 curStart = undefined;
             }
         }
-        counter++;
     });
 
     return intervals;
