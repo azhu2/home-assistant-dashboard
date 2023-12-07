@@ -5,6 +5,7 @@ import { Room } from '../components/room/room';
 import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Will add back after ratgdo set up
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
 import { Graph } from '../components/graph/graph';

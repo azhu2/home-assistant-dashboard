@@ -69,7 +69,7 @@ export class HlsStream extends Component<Props, State> {
                     case Hls.ErrorDetails.MANIFEST_LOAD_ERROR:
                     case Hls.ErrorDetails.LEVEL_LOAD_ERROR:
                         // @ts-ignore data.response is incorrect type
-                        if (data.response.code == 404 && this.props.reloadElementCallback) {
+                        if (data.response.code === 404 && this.props.reloadElementCallback) {
                             this.props.reloadElementCallback();
                             console.error(`Received not found starting stream for ${data.url}. Reloading element to pick up new url.`)
                             return;

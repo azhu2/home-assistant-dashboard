@@ -49,7 +49,7 @@ export function Graph(props: GraphProps) {
     ];
 
     useEffect(() => {
-        if (!subscribedEntities || subscribedEntities.length == 0) {
+        if (!subscribedEntities || subscribedEntities.length === 0) {
             return;
         }
         if (!(websocketAPI instanceof Error)) {
@@ -90,9 +90,9 @@ export function Graph(props: GraphProps) {
                 unsubFuncs.forEach(f => f());
             }
         }
-    }, [props.series, props.annotations, websocketAPI]);
+    });
 
-    if (!subscribedEntities || subscribedEntities.length == 0) {
+    if (!subscribedEntities || subscribedEntities.length === 0) {
         return (
             <div className='entity-unavailable'>
                 Unavailable
@@ -116,8 +116,8 @@ export function Graph(props: GraphProps) {
 
     const buildLegend = (): ReactElement => {
         return <div className='legend'>
-            {Object.entries(series).
-                filter(([entityID]) => entityID in allSeriesProps)
+            {Object.entries(series)
+                .filter(([entityID]) => entityID in allSeriesProps)
                 .map(([entityID, data]) => {
                     const label = data.label ? data.label.toLowerCase() : data.seriesID;
                     return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
@@ -134,12 +134,12 @@ export function Graph(props: GraphProps) {
         <div className='graph-context'>
             {Object.keys(series).length > 0 &&
                 graph.buildHistoryGraph(
-                    Object.entries(series).
-                        filter(([key]) => key in allSeriesProps).
-                        map(([_, v]) => v),
-                    Object.entries(annotations).
-                        filter(([key]) => key in allAnnotationProps).
-                        map(([_, v]) => v),
+                    Object.entries(series)
+                        .filter(([key]) => key in allSeriesProps)
+                        .map(([_, v]) => v),
+                    Object.entries(annotations)
+                        .filter(([key]) => key in allAnnotationProps)
+                        .map(([_, v]) => v),
                     {
                         numBuckets: numBuckets,
                         showLabels: true,
