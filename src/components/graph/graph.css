@@ -20,8 +20,12 @@
     flex-grow: 1;
 }
 
-.graph .annotation-heat {
+.graph .annotation-heating {
     fill: rgb(255, 128, 128);
+}
+
+.graph .annotation-cooling {
+    fill: rgb(128, 192, 255);
 }
 
 .legend {

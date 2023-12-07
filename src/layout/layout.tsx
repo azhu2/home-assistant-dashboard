@@ -116,7 +116,8 @@ export const Layout = (props: Props) => {
                                             { label: 'Average', entityID: new haEntity.EntityID('sensor.living_room_current_temperature') }, // Average
                                         ]}
                                         annotations={[
-                                            { label: 'Heat', entityID: new haEntity.EntityID('binary_sensor.thermostat_heating') },
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.thermostat_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.thermostat_cooling') },
                                         ]}
                                     />
                                 </div>
