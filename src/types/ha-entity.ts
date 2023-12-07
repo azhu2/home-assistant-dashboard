@@ -60,4 +60,4 @@ export type Stream = {
 };
 
 /** Map of timestamp (ms) to value  */
-export type History = Map<number, string | number>;
+export type History = Map<number, string | number | boolean>;

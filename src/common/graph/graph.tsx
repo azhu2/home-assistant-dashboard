@@ -67,27 +67,23 @@ export const buildHistoryGraph = (series: SeriesData[], options: GraphOptions): 
         >
             {gridlines}
             {series.sort((a: SeriesData, b: SeriesData) => a.focused ? 1 : b.focused ? -1 : 0)
-                .map(s => {
-                const entityID = typeof (s.entityID) === 'string' ? s.entityID : s.entityID.getCanonicalized();
-
-                return (
+                .map(s => (
                     <path
                         className={
-                            `history history-${entityID.replaceAll('.', '-')} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
+                            `history history-${s.label?.toLowerCase() || s.seriesID} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
                         }
-                        key={entityID}
+                        key={s.seriesID}
                         d={s.seriesPath}
                         vectorEffect='non-scaling-stroke'
                     />
-                );
-            })}
+                ))}
         </svg>
         {options?.showLabels && <div className='graph-label min'>{Math.round(baseline)}</div>}
     </>;
 }
 
 export interface SeriesData {
-    entityID: haEntity.EntityID | string;
+    seriesID: string;
     seriesPath: string;
     overall: OverallStats;
     label?: string;
@@ -100,11 +96,11 @@ export interface SeriesData {
  * Use buildHistoryGraph to build the entire <svg> element.
  * This utility doesn't build the entire graph in case there are multiple series.
  */
-export const buildHistoryGraphSeries = (entityID: haEntity.EntityID | string, history: haEntity.History, options?: SeriesOptions): SeriesData => {
+export const buildHistoryGraphSeries = (seriesID: string, history: haEntity.History, options?: SeriesOptions): SeriesData => {
     const buckets = buildBuckets(history, options?.numBuckets || 100);
     const overall = buildOverallStats(buckets);
     return {
-        entityID,
+        seriesID,
         seriesPath: buildSeriesPath(buckets, overall),
         overall,
     };
@@ -235,6 +231,20 @@ const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats): strin
 }
 
 export type AnnotationData = {
-    start: Date;
-    end: Date;
-}[]
+    annotationID: string;
+    seriesPath: string;
+}
+
+/**
+ * Builds the d parameter for the svg <path> element for a single series for a history graph.
+ * Use buildHistoryGraph to build the entire <svg> element.
+ * This utility doesn't build the entire graph in case there are multiple series.
+ */
+export const buildHistoryGraphAnnotation = (annotationID: string, history: haEntity.History, options?: SeriesOptions): AnnotationData => {
+    const buckets = buildBuckets(history, options?.numBuckets || 100);
+    const overall = buildOverallStats(buckets);
+    return {
+        annotationID,
+        seriesPath: buildSeriesPath(buckets, overall),
+    };
+}

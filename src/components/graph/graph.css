@@ -1,9 +1,9 @@
-.graph .history-sensor-living_room_current_temperature {
+.graph .history-average {
     stroke: rgb(128, 128, 192);
     stroke-width: 2px;
 }
 
-.graph .history-climate-living_room_2 {
+.graph .history-target {
     stroke: rgb(128, 64, 192);
     stroke-width: 2px;
 }

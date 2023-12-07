@@ -13,9 +13,7 @@ type SeriesProps = base.BaseEntityProps & {
     filled?: boolean;
 };
 
-type AnnotationProps = base.BaseEntityProps & {
-    color?: color.Color | string;
-}
+type AnnotationProps = base.BaseEntityProps;
 
 type GraphProps = {
     numBuckets?: number;
@@ -35,7 +33,7 @@ export function Graph(props: GraphProps) {
 
     const numBuckets = props.numBuckets || 100;
 
-    const getMapKey = (componentProps: base.BaseEntityProps) => [componentProps.entityID.getCanonicalized(), componentProps.attribute].join('|');
+    const getMapKey = (componentProps: base.BaseEntityProps) => [componentProps.entityID.getCanonicalized(), componentProps.attribute].join('_');
     const mapProps = <P extends base.BaseEntityProps>(props: P[]) => props.reduce((acc, cur) => {
         acc[getMapKey(cur)] = cur;
         return acc;
@@ -69,21 +67,20 @@ export function Graph(props: GraphProps) {
                         const seriesProps = allSeriesProps[mapKey];
                         const seriesData = {
                             ...series[getMapKey(seriesProps)],
-                            ...graph.buildHistoryGraphSeries(seriesProps.entityID, history, { numBuckets: numBuckets }),
+                            ...graph.buildHistoryGraphSeries(mapKey, history, { numBuckets: numBuckets }),
                             filled: seriesProps.filled,
                             label: seriesProps.label,
                         };
                         setSeries(s => ({ ...s, [getMapKey(seriesProps)]: seriesData }));
                     }
-                    // if (mapKey in allAnnotationProps) {
-                    //     const annotationProps = allAnnotationProps[mapKey];
-                    //     const annotationData = {
-                    //         ...series[getMapKey(annotationProps)],
-                    //         ...graph.buildHistoryGraphAnnotation(annotationProps.entityID, history, { numBuckets: numBuckets }),
-                    //         color: annotationProps.color,
-                    //     };
-                    //     setAnnotations(s => ({ ...s, [getMapKey(annotationProps)]: annotationData }));
-                    // }
+                    if (mapKey in allAnnotationProps) {
+                        const annotationProps = allAnnotationProps[mapKey];
+                        const annotationData = {
+                            ...annotations[getMapKey(annotationProps)],
+                            ...graph.buildHistoryGraphAnnotation(mapKey, history, { numBuckets: numBuckets }),
+                        };
+                        setAnnotations(s => ({ ...s, [getMapKey(annotationProps)]: annotationData }));
+                    }
                 });
                 unsubFuncs = [...unsubFuncs, unsubFunc];
             })
@@ -120,7 +117,7 @@ export function Graph(props: GraphProps) {
             {Object.entries(series).
                 filter(([entityID]) => entityID in allSeriesProps)
                 .map(([entityID, data]) => {
-                    const label = data.label ? data.label.toLowerCase() : entityID;
+                    const label = data.label ? data.label.toLowerCase() : data.seriesID;
                     return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
                         onClick={onClick(entityID)}
                     >

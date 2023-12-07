@@ -50,17 +50,27 @@ export class WebsocketAPIImpl implements WebsocketAPI {
             minimal_response: true,
         });
 
+        const parseVal = (val: string) => {
+            if (parseFloat(val)) {
+                return parseFloat(val);
+            }
+            switch (val) {
+                case 'on':
+                    return true;
+                case 'off':
+                    return false;
+            }
+            return val;
+        }
         const mapToHistoryType = (history: HistoryMap) =>
             // Map to haEntity.History
             history[entityID].reduce((acc, entry) => {
                 // API returns seconds
                 const ts = entry.lu * 1000;
-                // Parse as number if possible
-                acc.set(ts, attribute ?
-                    parseFloat(entry.a[attribute]) || entry.a[attribute] :
-                    parseFloat(entry.s) || entry.s);
+                // Parse as number or boolean if possible
+                acc.set(ts, attribute ? parseVal(entry.a[attribute]) : parseVal(entry.s));
                 return acc;
-            }, new Map<number, string | number>());
+            }, new Map<number, string | number | boolean>());
 
         return haWebsocket.getCollection<haEntity.History>(
             this.connection,
