@@ -13,19 +13,6 @@ type ElementProps = base.BaseEntityProps & {
     filled?: boolean;
 };
 
-type State = {
-    unsubFunc?: () => void,
-    history?: haEntity.History,
-    overall?: graph.OverallStats,
-}
-
-export const initialState: State = {
-    unsubFunc: undefined,
-    history: undefined,
-    overall: undefined,
-}
-
-
 /** GraphElement is an empty props container. Rendering is handled in the outer Graph component.
  *  Needs to be a class, not a functional component so ReactElement<GraphElement> is valid.
  *  An empty constructor must be present or rerenders don't work.
