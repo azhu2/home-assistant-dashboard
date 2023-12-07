@@ -5,6 +5,7 @@ import * as icon from './icon/icon';
 /** A set of base props for any entity-specific component. */
 export type BaseEntityProps = {
     entityID: haEntity.EntityID,
+    attribute?: string;
     friendlyName?: string,
     icon?: string | icon.Props,
     /** Either a static color or one mapped from the entity. Since it can be mapped, it can be set in propsMapper. */

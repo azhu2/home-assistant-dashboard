@@ -1,28 +1,20 @@
-import { Component, MouseEvent, PropsWithChildren, ReactElement, useContext, useEffect, useRef, useState } from 'react';
-import * as base from '../base';
-import * as haEntity from '../../types/ha-entity';
-import * as authContext from '../../services/auth-context';
+import { MouseEvent, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as graph from '../../common/graph/graph';
+import * as authContext from '../../services/auth-context';
+import * as color from '../../types/color';
+import * as haEntity from '../../types/ha-entity';
+import * as base from '../base';
 import './graph.css';
-import * as util from './util';
 
 const updateIntervalMs = 5000;
 
-type ElementProps = base.BaseEntityProps & {
+type SeriesProps = base.BaseEntityProps & {
     label?: string;
-    attribute?: string;
     filled?: boolean;
 };
 
-/**
- * GraphElement is an empty props container. Rendering is handled in the outer Graph component.
- * Needs to be a class, not a functional component so ReactElement<GraphElement> is valid.
- * An empty constructor must be present or rerenders don't work.
- */
-export class GraphElement extends Component<ElementProps> {
-    constructor(props: ElementProps) {
-        super(props);
-    }
+type AnnotationProps = base.BaseEntityProps & {
+    color?: color.Color | string;
 }
 
 type GraphProps = {
@@ -31,39 +23,67 @@ type GraphProps = {
     xAxisGridIncrement?: number;
     yAxisGridIncrement?: number;
     showLegend?: boolean;
+    series: SeriesProps[];
+    annotations?: AnnotationProps[];
 }
 
-export function Graph(props: PropsWithChildren<GraphProps>) {
+export function Graph(props: GraphProps) {
     const [series, setSeries] = useState({} as { [key: string]: graph.SeriesData })
+    const [annotations, setAnnotations] = useState({} as { [key: string]: graph.AnnotationData })
     const updateThrottler = useRef<{ [key: string]: NodeJS.Timeout }>({});
-
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
     const numBuckets = props.numBuckets || 100;
 
-    const childSeries = util.getPropsOfChildType<ElementProps>(props.children, GraphElement)
+    const getMapKey = (componentProps: base.BaseEntityProps) => [componentProps.entityID.getCanonicalized(), componentProps.attribute].join('|');
+    const mapProps = <P extends base.BaseEntityProps>(props: P[]) => props.reduce((acc, cur) => {
+        acc[getMapKey(cur)] = cur;
+        return acc;
+    }, {} as { [key: string]: P })
+
+    const allSeriesProps = mapProps(props.series);
+    const allAnnotationProps = props.annotations ? mapProps(props.annotations) : {};
+    // Merge elementProps and annotationProps
+    const subscribedEntities = [
+        ...Object.keys(allSeriesProps),
+        ...Object.keys(allAnnotationProps).filter(k => !allSeriesProps[k])
+    ];
 
     useEffect(() => {
-        if (!childSeries || Object.keys(childSeries).length == 0) {
+        if (!subscribedEntities || subscribedEntities.length == 0) {
             return;
         }
         if (!(websocketAPI instanceof Error)) {
             let unsubFuncs: (() => void)[] = [];
-            Object.entries(childSeries).forEach(([entityID, seriesProps]) => {
-                const collection = websocketAPI.subscribeHistory(entityID, seriesProps.attribute);
+            subscribedEntities.forEach((mapKey) => {
+                const matchingEntityProps = mapKey in allSeriesProps ? allSeriesProps[mapKey] : allAnnotationProps[mapKey];
+                const collection = websocketAPI.subscribeHistory(matchingEntityProps.entityID, matchingEntityProps.attribute);
                 const unsubFunc = collection.subscribe((history: haEntity.History) => {
                     const throttler = updateThrottler.current;
-                    if (entityID in throttler) {
+                    if (mapKey in throttler) {
                         return;
                     }
-                    throttler[entityID] = setTimeout(() => delete throttler[entityID], updateIntervalMs);
-                    const seriesData = {
-                        ...series[entityID],
-                        ...graph.buildHistoryGraphSeries(entityID, history, {numBuckets: numBuckets}),
-                        filled: seriesProps.filled,
-                        label: seriesProps.label,
-                    };
-                    setSeries(s => ({ ...s, [entityID]: seriesData }));
+                    throttler[mapKey] = setTimeout(() => delete throttler[mapKey], updateIntervalMs);
+
+                    if (mapKey in allSeriesProps) {
+                        const seriesProps = allSeriesProps[mapKey];
+                        const seriesData = {
+                            ...series[getMapKey(seriesProps)],
+                            ...graph.buildHistoryGraphSeries(seriesProps.entityID, history, { numBuckets: numBuckets }),
+                            filled: seriesProps.filled,
+                            label: seriesProps.label,
+                        };
+                        setSeries(s => ({ ...s, [getMapKey(seriesProps)]: seriesData }));
+                    }
+                    // if (mapKey in allAnnotationProps) {
+                    //     const annotationProps = allAnnotationProps[mapKey];
+                    //     const annotationData = {
+                    //         ...series[getMapKey(annotationProps)],
+                    //         ...graph.buildHistoryGraphAnnotation(annotationProps.entityID, history, { numBuckets: numBuckets }),
+                    //         color: annotationProps.color,
+                    //     };
+                    //     setAnnotations(s => ({ ...s, [getMapKey(annotationProps)]: annotationData }));
+                    // }
                 });
                 unsubFuncs = [...unsubFuncs, unsubFunc];
             })
@@ -71,9 +91,9 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
                 unsubFuncs.forEach(f => f());
             }
         }
-    }, [childSeries, websocketAPI]);
+    }, [props.series, props.annotations, websocketAPI]);
 
-    if (!childSeries || Object.keys(childSeries).length == 0) {
+    if (!subscribedEntities || subscribedEntities.length == 0) {
         return (
             <div className='entity-unavailable'>
                 Unavailable
@@ -83,29 +103,31 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
 
     const onClick = (entityID: string) => (_: MouseEvent) => {
         if (series[entityID].focused) {
-            const unfocusedSeries = {...series[entityID], focused: false};
-            setSeries({...series, [entityID]: unfocusedSeries});
+            const unfocusedSeries = { ...series[entityID], focused: false };
+            setSeries({ ...series, [entityID]: unfocusedSeries });
             return;
         }
 
         const updatedSeries = Object.entries(series).reduce((acc, [e, data]) => {
-            acc[e] = {...data, focused: e === entityID};
+            acc[e] = { ...data, focused: e === entityID };
             return acc;
-        }, {} as {[key: string]: graph.SeriesData})
+        }, {} as { [key: string]: graph.SeriesData })
         setSeries(updatedSeries);
     };
 
     const buildLegend = (): ReactElement => {
         return <div className='legend'>
-            {Object.entries(series).map(([entityID, data]) => {
-                const label = data.label ? data.label.toLowerCase() : entityID;
-                return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
-                    onClick={onClick(entityID)}
-                >
-                    <div className={`legend-label label-${label}`}>{label}</div>
-                    <div className='legend-value'>{data.overall.last}</div>
-                </div>
-            })}
+            {Object.entries(series).
+                filter(([entityID]) => entityID in allSeriesProps)
+                .map(([entityID, data]) => {
+                    const label = data.label ? data.label.toLowerCase() : entityID;
+                    return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
+                        onClick={onClick(entityID)}
+                    >
+                        <div className={`legend-label label-${label}`}>{label}</div>
+                        <div className='legend-value'>{data.overall.last}</div>
+                    </div>
+                })}
         </div>;
     }
 
@@ -113,7 +135,7 @@ export function Graph(props: PropsWithChildren<GraphProps>) {
         <div className='graph-context'>
             {Object.keys(series).length > 0 &&
                 graph.buildHistoryGraph(Object.entries(series).
-                    filter(([entityID]) => entityID in childSeries).
+                    filter(([entityID]) => entityID in allSeriesProps).
                     map(([_, v]) => v), {
                     numBuckets: numBuckets,
                     showLabels: true,

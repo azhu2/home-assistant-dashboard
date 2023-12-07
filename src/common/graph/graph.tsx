@@ -233,3 +233,8 @@ const buildSeriesPath = (buckets: HistoryBucket[], overall: OverallStats): strin
 
     return pathStr;
 }
+
+export type AnnotationData = {
+    start: Date;
+    end: Date;
+}[]
