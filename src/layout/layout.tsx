@@ -92,7 +92,7 @@ export const Layout = (props: Props) => {
                     <Section title='Climate'>
                         <div className='section-row'>
                             <Room title='Controls'>
-                                {getTile(Thermostat, 'climate.ecobee_thermostat', { tileOptions: { showName: true } })}
+                                {getTile(Thermostat, 'climate.ecobee_thermostat_2', { tileOptions: { showName: true } })}
                             </Room>
                             <Room title='Air Quality'>
                                 {getTile(HistoryGauge, 'sensor.ecobee_humidity', { tileOptions: { showName: true } })}
@@ -112,7 +112,7 @@ export const Layout = (props: Props) => {
                                             { label: 'Office', entityID: new haEntity.EntityID('sensor.office_temperature_2') },
                                             { label: 'Guest', entityID: new haEntity.EntityID('sensor.guest_bedroom_temperature_2') },
                                             /* Summary series need to be last to be on top since SVG draws in order */
-                                            { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'temperature' }, // Target
+                                            { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }, // Target
                                             { label: 'Average', entityID: new haEntity.EntityID('sensor.average_temperature') }, // Average
                                         ]}
                                         annotations={[
