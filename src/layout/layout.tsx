@@ -92,13 +92,13 @@ export const Layout = (props: Props) => {
                     <Section title='Climate'>
                         <div className='section-row'>
                             <Room title='Controls'>
-                                {getTile(Thermostat, 'climate.living_room_2', { tileOptions: { showName: true } })}
+                                {getTile(Thermostat, 'climate.ecobee_thermostat', { tileOptions: { showName: true } })}
                             </Room>
                             <Room title='Air Quality'>
-                                {getTile(HistoryGauge, 'sensor.living_room_humidity', { tileOptions: { showName: true } })}
-                                {getTile(NeedleGauge, 'sensor.living_room_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
-                                {getTile(NeedleGauge, 'sensor.living_room_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
-                                {getTile(NeedleGauge, 'sensor.living_room_vocs', { tileOptions: { showName: true }, tileProps: { min: 250, max: 10000 } })}
+                                {getTile(HistoryGauge, 'sensor.ecobee_humidity', { tileOptions: { showName: true } })}
+                                {getTile(NeedleGauge, 'sensor.ecobee_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
+                                {getTile(NeedleGauge, 'sensor.ecobee_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
+                                {getTile(NeedleGauge, 'sensor.ecobee_vocs', { tileOptions: { showName: true }, tileProps: { min: 250, max: 10000 } })}
                             </Room>
                         </div>
                         <Room title='Temperatures'>
@@ -107,14 +107,13 @@ export const Layout = (props: Props) => {
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} numBuckets={288} showLegend
                                         series={[
                                             { label: 'Family', entityID: new haEntity.EntityID('sensor.family_room_temperature_2') },
-                                            { label: 'Living', entityID: new haEntity.EntityID('sensor.living_room_temperature') },
+                                            { label: 'Living', entityID: new haEntity.EntityID('sensor.living_room_temperature_2') },
                                             { label: 'Master', entityID: new haEntity.EntityID('sensor.master_bedroom_temperature_2') },
                                             { label: 'Office', entityID: new haEntity.EntityID('sensor.office_temperature_2') },
                                             { label: 'Guest', entityID: new haEntity.EntityID('sensor.guest_bedroom_temperature_2') },
-                                            { label: 'Little', entityID: new haEntity.EntityID('sensor.little_room_temperature_2') },
                                             /* Summary series need to be last to be on top since SVG draws in order */
-                                            { label: 'Target', entityID: new haEntity.EntityID('climate.living_room_2'), attribute: 'temperature' }, // Target
-                                            { label: 'Average', entityID: new haEntity.EntityID('sensor.living_room_current_temperature') }, // Average
+                                            { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'temperature' }, // Target
+                                            { label: 'Average', entityID: new haEntity.EntityID('sensor.average_temperature') }, // Average
                                         ]}
                                         annotations={[
                                             { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.thermostat_heating') },
