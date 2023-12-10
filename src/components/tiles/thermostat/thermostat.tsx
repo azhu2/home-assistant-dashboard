@@ -98,7 +98,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     onClickTemperatureArrow(operation: Operation) {
         return (e: ReactMouseEvent) => {
             e.preventDefault();
-            const newTemp = this.state.pendingTargetTemperature || this.props.targetTemperature + (operation === Operation.TempUp ? 1 : -1);
+            const newTemp = (this.state.pendingTargetTemperature || this.props.targetTemperature) + (operation === Operation.TempUp ? 1 : -1);
             this.debouncedChangeTemperature(newTemp);
             this.setState({ ...this.state, pendingTargetTemperature: newTemp });
         }
