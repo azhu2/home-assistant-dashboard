@@ -306,6 +306,10 @@ const buildAnnotationIntervals = (history: haEntity.History, numBuckets: number)
             }
         }
     });
+    if (curStart) {
+        // Final interval not ended yet
+        intervals = [...intervals, {start: curStart, end: numBuckets}];
+    }
 
     return intervals;
 }
