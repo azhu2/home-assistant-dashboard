@@ -91,7 +91,7 @@ class AuthWrapper extends Component<{}, State> {
 
     async wsHealthCheck() {
         if (this.state.websocketAPI instanceof Error) {
-            this.setWebsocketAuth();
+            this.setWebsocketAuth().catch(err => console.error(err));
             return;
         }
         this.state.websocketAPI.ping()
