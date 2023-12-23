@@ -24,8 +24,6 @@ const initialState: State = {
 };
 
 export class Camera extends Component<Props, State> implements tile.MappableProps<Props>{
-    failedStreamRefreshTimer?: NodeJS.Timer;
-
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 

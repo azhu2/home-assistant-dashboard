@@ -10,7 +10,7 @@ export class HistoryGauge extends Gauge {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 
-    updateThrottler?: NodeJS.Timer;
+    updateThrottler?: NodeJS.Timeout;
 
     constructor(props: gauge.Props) {
         super(props);
@@ -24,7 +24,7 @@ export class HistoryGauge extends Gauge {
                 if (this.updateThrottler) {
                     return;
                 }
-                this.updateThrottler = setTimeout(() => { }, updateIntervalMs);
+                this.updateThrottler = setTimeout(() => this.updateThrottler = undefined, updateIntervalMs);
                 this.setState({ ...this.state, history });
             })
             this.setState({ ...this.state, unsubFunc });
