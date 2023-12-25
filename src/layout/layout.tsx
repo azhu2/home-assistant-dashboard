@@ -53,12 +53,14 @@ export const Layout = (props: Props) => {
         return props.entityMap.get(entityID);
     }
 
-    const homeEntity = getEntityForEntityID('zone.home')
+    const homeEntity = getEntityForEntityID('zone.home');
+    const timeEntity = getEntityForEntityID('sensor.time');
     const trashDayEntity = getEntityForEntityID('select.trash_day');
 
     return (
         <div id='dashboard'>
-            <div id='title'>{homeEntity?.attributes['friendly_name']}</div>
+            <div className='title'>{homeEntity?.attributes['friendly_name'] || 'Home'}</div>
+            <div className='time'>{timeEntity?.state}</div>
 
             <div id='tiles'>
                 <div>
