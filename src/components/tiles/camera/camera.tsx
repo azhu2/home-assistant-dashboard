@@ -1,11 +1,12 @@
 import { Component, ContextType } from 'react';
-import * as haEntity from '../../../types/ha-entity';
 import * as authContext from '../../../services/auth-context';
 import { AuthContextConsumer } from '../../../services/auth-context';
+import * as haEntity from '../../../types/ha-entity';
 import * as base from '../../base';
 import { HlsStream } from '../../hls-stream/hls-stream';
 import { Icon } from '../../icon/icon';
 import * as tile from '../../tile/tile';
+import { ZoomModal } from '../../zoom-modal/zoom-modal';
 import './camera.css';
 
 type Props = base.BaseEntityProps & {
@@ -24,6 +25,8 @@ const initialState: State = {
 };
 
 export class Camera extends Component<Props, State> implements tile.MappableProps<Props>{
+    failedStreamRefreshTimer?: NodeJS.Timer;
+
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 
@@ -69,43 +72,45 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
-                {this.props.recordingSwitch &&
-                    <button className='toggle' onClick={this.onToggleRecording}>
-                        <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
-                    </button>
-                }
-                <AuthContextConsumer>
-                    {auth => {
-                        const { restAPI } = auth;
-                        if (restAPI instanceof Error) {
-                            return <>Loading...</>;
-                        }
-
-                        if (this.state.streamURL) {
-                            if (typeof this.state.streamURL === 'string') {
-                                return (
-                                    <HlsStream
-                                        src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
-                                        poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                        reloadElementCallback={this.setupStream}
-                                    />
-                                );
+                <ZoomModal>
+                    {this.props.recordingSwitch &&
+                        <button className='toggle' onClick={this.onToggleRecording}>
+                            <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
+                        </button>
+                    }
+                    <AuthContextConsumer>
+                        {auth => {
+                            const { restAPI } = auth;
+                            if (restAPI instanceof Error) {
+                                return <>Loading...</>;
                             }
-                        }
-                        return (
-                            <>
-                                <img
-                                    className='camera-snapshot'
-                                    src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
-                                    alt={this.props.friendlyName}
-                                />
-                                <div>
-                                    {this.state.streamURL instanceof Error ? this.state.streamURL.message : 'Stream loading...'}
-                                </div>
-                            </>
-                        );
-                    }}
-                </AuthContextConsumer>
+
+                            if (this.state.streamURL) {
+                                if (typeof this.state.streamURL === 'string') {
+                                    return (
+                                        <HlsStream
+                                            src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
+                                            poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                            reloadElementCallback={this.setupStream}
+                                        />
+                                    );
+                                }
+                            }
+                            return (
+                                <>
+                                    <img
+                                        className='camera-snapshot'
+                                        src={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
+                                        alt={this.props.friendlyName}
+                                    />
+                                    <div>
+                                        {this.state.streamURL instanceof Error ? this.state.streamURL.message : 'Stream loading...'}
+                                    </div>
+                                </>
+                            );
+                        }}
+                    </AuthContextConsumer>
+                </ZoomModal>
             </div>
         );
     };

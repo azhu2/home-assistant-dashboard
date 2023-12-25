@@ -1,0 +1,41 @@
+.zoom-modal-wrapper, .zoom-modal-container {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+.zoom-modal-wrapper.expanded {
+    position: fixed;
+    height: fit-content;
+    width: fit-content;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    padding: 0.5em;
+    background: white;
+    outline: 1px solid;
+    box-shadow: 0 0 4em 1em;
+}
+
+.zoom-modal-wrapper.expanded video {
+    max-height: 80vh;
+    max-width: 80vw;
+}
+
+.zoom-modal-background {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 0;
+}
+
+.zoom-modal-wrapper .close-message {
+    text-align: center;
+    font-style: italic;
+    color: #aaaaaa;
+    font-size: 0.8em;
+}
