@@ -59,7 +59,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.adguard_home_dns_queries_blocked_ratio': EntityType.Gauge,
     'sensor.uck_g2_plus_cpu_temperature': EntityType.Gauge,
     'sensor.uck_g2_plus_storage_utilization': EntityType.Gauge,
-    'cover.garage_door': EntityType.Garage,
+    'cover.garage_door_ratgdo': EntityType.Garage,
     'switch.garage_cam_recording': EntityType.Switch,
     'switch.family_room_cam_recording': EntityType.Switch,
     'switch.bedroom_cam_recording': EntityType.Switch,
