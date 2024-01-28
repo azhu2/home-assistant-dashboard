@@ -85,6 +85,7 @@ export const Layout = (props: Props) => {
                             </Room>
                         </div>
                         <Room title='Guest'>
+                            {getTile(Switch, 'binary_sensor.guest_bedroom_window_contact', { tileOptions: { icon: { name: 'shutters', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
                             {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
                         </Room>
                         <Room title='Master'>
@@ -127,13 +128,18 @@ export const Layout = (props: Props) => {
                         </Room>
                     </Section>
                     <Section title='Outside'>
-                        <Room title='Switches'>
-                            {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                            {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-door' } })}
-                            {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
-                            {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
-                            {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
-                        </Room>
+                        <div className='section-row'>
+                            <Room title='Front'>
+                                {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
+                                {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-door' } })}
+                                {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
+                            </Room>
+                            <Room title='Backyard'>
+                                {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
+                                {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
+                                {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
+                            </Room>
+                        </div>
                         <Room title='Irrigation'>
                             {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
                             {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
