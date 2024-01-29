@@ -85,7 +85,7 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                 .map(s => (
                     <path
                         className={
-                            `history history-${s.label?.toLowerCase() || s.seriesID} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
+                            `history history-${s.label?.toLowerCase().replaceAll(' ', '_') || s.seriesID} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
                         }
                         key={s.seriesID}
                         d={s.seriesPath}

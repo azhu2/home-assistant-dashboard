@@ -123,7 +123,7 @@ export function Graph(props: GraphProps) {
                     return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
                         onClick={onClick(entityID)}
                     >
-                        <div className={`legend-label label-${label}`}>{label}</div>
+                        <div className={`legend-label label-${label.toLowerCase().replaceAll(' ', '_')}`}>{label}</div>
                         <div className='legend-value'>{data.overall.last}</div>
                     </div>
                 })}
