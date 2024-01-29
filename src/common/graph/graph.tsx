@@ -146,10 +146,6 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
     let curLst: number | undefined = undefined;
 
     history.forEach((entry, ts) => {
-        if (typeof entry !== 'number') {
-            // Can't graph
-            return;
-        }
         if (ts < startMs) {
             // Before time range
             return;
@@ -160,7 +156,7 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
                 start: new Date(startMs + curIdx * bucketWidthMs),
                 min: curMin,
                 max: curMax,
-                avg: curCnt > 0 ? curSum / curCnt : undefined,
+                avg: curCnt > 0 ? curSum / curCnt : curLst,
                 first: curFir,
                 last: curLst,
             };
@@ -172,6 +168,10 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
             curSum = 0;
             curCnt = 0;
             curFir = undefined;
+        }
+        if (typeof entry !== 'number') {
+            // Can't graph
+            return;
         }
         // Add value to current bucket
         if (!curMin || entry < curMin) {
@@ -192,7 +192,7 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
         start: new Date(startMs + curIdx * bucketWidthMs),
         min: curMin,
         max: curMax,
-        avg: curCnt > 0 ? curSum / curCnt : undefined,
+        avg: curCnt > 0 ? curSum / curCnt : curLst,
         first: curFir,
         last: curLst,
     };
