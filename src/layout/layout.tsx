@@ -116,7 +116,7 @@ export const Layout = (props: Props) => {
                                             { label: 'Guest', entityID: new haEntity.EntityID('sensor.guest_bedroom_temperature_2') },
                                             /* Summary series need to be last to be on top since SVG draws in order */
                                             { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }, // Target
-                                            { label: 'Average', entityID: new haEntity.EntityID('sensor.average_temperature') }, // Average
+                                            { label: 'Average', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'current_temperature' }, // Average
                                         ]}
                                         annotations={[
                                             { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.thermostat_heating') },

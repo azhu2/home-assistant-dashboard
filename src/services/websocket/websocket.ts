@@ -78,7 +78,7 @@ export class WebsocketAPIImpl implements WebsocketAPI {
 
         return haWebsocket.getCollection<haEntity.History>(
             this.connection,
-            `history-${entityID}`,
+            `history-${entityID}-${attribute}`,
             conn =>
                 conn.sendMessagePromise<HistoryMap>(
                     buildHistoryMessage('history/history_during_period', entityID, new Date())
