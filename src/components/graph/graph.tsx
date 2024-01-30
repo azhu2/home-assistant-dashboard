@@ -27,8 +27,7 @@ type GraphProps = {
 }
 
 export function Graph(props: GraphProps) {
-    const [series, setSeries] = useState({} as { [key: string]: graph.SeriesData })
-    const [annotations, setAnnotations] = useState({} as { [key: string]: graph.AnnotationData })
+    const [annotations, setAnnotations] = useState({} as { [key: string]: graph.AnnotationData });
     const updateThrottler = useRef<{ [key: string]: NodeJS.Timeout }>({});
     const websocketAPI = useContext(authContext.AuthContext).websocketAPI;
 
@@ -47,6 +46,12 @@ export function Graph(props: GraphProps) {
         ...Object.keys(allSeriesProps),
         ...Object.keys(allAnnotationProps).filter(k => !allSeriesProps[k])
     ];
+
+    // Initialize empty map to set key order. Otherwise order can vary depending on websocket callbacks.
+    const emptySeriesState = Object.keys(allSeriesProps).reduce(
+        (acc, key) => { acc[key] = {seriesID: key, overall: {min: Number.MAX_VALUE, max: Number.MIN_VALUE}, seriesPath: ''}; return acc; },
+        {} as { [key: string]: graph.SeriesData });
+    const [series, setSeries] = useState(emptySeriesState);
 
     useEffect(() => {
         if (!subscribedEntities || subscribedEntities.length === 0) {

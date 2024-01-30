@@ -115,13 +115,13 @@ export const Layout = (props: Props) => {
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} numBuckets={288} showLegend
                                         series={[
+                                            targetSeries,
                                             { label: 'Family', entityID: new haEntity.EntityID('sensor.family_room_temperature_2') },
                                             { label: 'Living', entityID: new haEntity.EntityID('sensor.living_room_temperature_2') },
                                             { label: 'Master', entityID: new haEntity.EntityID('sensor.master_bedroom_temperature_2') },
                                             { label: 'Office', entityID: new haEntity.EntityID('sensor.office_temperature_2') },
                                             { label: 'Guest', entityID: new haEntity.EntityID('sensor.guest_bedroom_temperature_2') },
                                             /* Summary series need to be last to be on top since SVG draws in order */
-                                            targetSeries,
                                             { label: 'Average', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'current_temperature' }, // Average
                                         ]}
                                         annotations={[
