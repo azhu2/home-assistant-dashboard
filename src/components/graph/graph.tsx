@@ -118,6 +118,7 @@ export function Graph(props: GraphProps) {
         return <div className='legend'>
             {Object.entries(series)
                 .filter(([entityID]) => entityID in allSeriesProps)
+                .filter(([_, data]) => data.overall.last)
                 .map(([entityID, data]) => {
                     const label = data.label ? data.label.toLowerCase() : data.seriesID;
                     return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
