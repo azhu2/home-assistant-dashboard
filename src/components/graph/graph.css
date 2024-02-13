@@ -4,7 +4,11 @@
 }
 
 .graph .history-target.masked {
-    fill: rgba(128, 64, 192, 0.2);
+    fill: rgba(192, 192, 240, 0.4);
+}
+
+.graph .history-target.masked.focused {
+    fill: rgba(128, 64, 192, 0.4);
 }
 
 .graph {
