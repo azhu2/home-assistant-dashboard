@@ -36,6 +36,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'camera.driveway_cam_high_2': EntityType.Camera,
     'camera.front_yard_cam_high_3': EntityType.Camera,
     'camera.front_door': EntityType.Camera,
+    'climate.ecobee_thermostat': EntityType.Thermostat,
     'climate.ecobee_thermostat_2': EntityType.Thermostat,
     'binary_sensor.thermostat_heating': EntityType.Gauge,
     'binary_sensor.thermostat_cooling': EntityType.Gauge,
