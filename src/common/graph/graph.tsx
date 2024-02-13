@@ -31,6 +31,7 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
     let gridlines: ReactElement[] = [];
     if (options.xAxisGridIncrement && options.xAxisGridIncrement > 0) {
         const inc = options.xAxisGridIncrement;
+        // Think about making line up with actual times
         for (let i = inc; i < options.numBuckets; i += inc) {
             gridlines = [
                 ...gridlines,
