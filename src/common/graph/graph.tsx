@@ -60,6 +60,23 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
         }
     }
 
+    // Combine matching labels
+    const consolidatedSeries = Object.values(series.reduce((acc, seriesData) => {
+        const label = seriesData.label || seriesData.seriesID;
+        if (label in acc) {
+            acc[label].paths.push(seriesData.seriesPath);
+            return acc;
+        }
+        acc[label] = {
+            ...seriesData,
+            label,
+            paths: [seriesData.seriesPath]
+        };
+        return acc;
+    }
+        , {} as { [key: string]: { label: string, paths: string[], focused?: boolean, filled?: boolean } }
+    ));
+
     return <>
         {options?.showLabels && <div className='graph-label max'>{Math.round(overall.max)}</div>}
         <svg
@@ -81,17 +98,49 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                     />
                 })}
             {gridlines}
-            {series.sort((a: SeriesData, b: SeriesData) => a.focused ? 1 : b.focused ? -1 : 0)
-                .map(s => (
-                    <path
-                        className={
-                            `history history-${s.label?.toLowerCase().replaceAll(' ', '_') || s.seriesID} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
-                        }
-                        key={s.seriesID}
-                        d={s.seriesPath}
-                        vectorEffect='non-scaling-stroke'
-                    />
-                ))}
+            {consolidatedSeries
+                // Draw focused path last and multi-paths first
+                .sort((a: { paths: string[], focused?: boolean }, b: { paths: string[], focused?: boolean }) => a.focused ? 1 : b.focused ? -1 : b.paths.length - a.paths.length)
+                .map(s => {
+                    switch (s.paths.length) {
+                        case 1:
+                            return (<path
+                                className={
+                                    `history history-${s.label.toLowerCase().replaceAll(' ', '_')} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
+                                }
+                                key={s.label}
+                                d={s.paths[0]}
+                                vectorEffect='non-scaling-stroke'
+                            />);
+                        case 2:
+                            return (
+                                <>
+                                    <mask id={`mask-${s.label}`}>
+                                        <rect x={0} y={baseline} width={options.numBuckets} height={overall.max - baseline} fill='white' />
+                                        <path
+                                            key={s.label}
+                                            d={s.paths[0]}
+                                            vectorEffect='non-scaling-stroke'
+                                            fill='black'
+                                        />
+                                    </mask>
+                                    <path
+                                        className={
+                                            `history masked history-${s.label.toLowerCase().replaceAll(' ', '_')} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
+                                        }
+                                        key={s.label}
+                                        d={s.paths[1]}
+                                        vectorEffect='non-scaling-stroke'
+                                        mask={`url(#mask-${s.label})`}
+                                    />
+                                </>
+                            );
+                        default:
+                            // Gets weird with more than 2...
+                            console.error(`Can't build graph series for ${s.paths.length} series. Only 1 or 2 series are supported.`)
+                            return (<></>);
+                    };
+                })}
         </svg>
         {options?.showLabels && <div className='graph-label min'>{Math.round(baseline)}</div>}
     </>;
@@ -308,7 +357,7 @@ const buildAnnotationIntervals = (history: haEntity.History, numBuckets: number)
     });
     if (curStart) {
         // Final interval not ended yet
-        intervals = [...intervals, {start: curStart, end: numBuckets}];
+        intervals = [...intervals, { start: curStart, end: numBuckets }];
     }
 
     return intervals;

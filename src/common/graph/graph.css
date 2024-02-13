@@ -13,6 +13,11 @@ svg path.history.filled {
     fill: rgba(240, 240, 255, 0.5);
 }
 
+svg path.history.masked {
+    fill: rgba(240, 240, 255, 0.5);
+    stroke: none;
+}
+
 svg path.history.focused {
     stroke-width: 2%;
 }

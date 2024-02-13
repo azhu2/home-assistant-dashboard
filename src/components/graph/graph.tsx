@@ -8,7 +8,7 @@ import './graph.css';
 const updateIntervalMs = 5000;
 
 type SeriesProps = base.BaseEntityProps & {
-    label?: string;
+    label: string;
     filled?: boolean;
 };
 
@@ -133,7 +133,7 @@ export function Graph(props: GraphProps) {
                                 ...acc[label],
                                 value: acc[label].value + ' · ' + data.overall.last + '' || '???',
                                 focused: acc[label].focused || data.focused,
-                            }
+                            };
                             return acc;
                         }
                         acc[label] = {
