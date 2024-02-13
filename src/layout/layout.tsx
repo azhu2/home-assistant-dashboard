@@ -58,9 +58,9 @@ export const Layout = (props: Props) => {
     const trashDayEntity = getEntityForEntityID('select.trash_day');
     const thermostatEntity = getEntityForEntityID('climate.ecobee_thermostat');
     const targetSeries = thermostatEntity?.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
-        { label: 'Target \u2668', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_low' } : // Target low
-        // { label: 'Target \u2744', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_high' }, // Target high
-        { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'temperature' }
+        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_low' },  // Target low
+        { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_high' }]: // Target high
+        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'temperature' }]
 
 
     return (
@@ -115,7 +115,7 @@ export const Layout = (props: Props) => {
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={25} numBuckets={288} showLegend
                                         series={[
-                                            targetSeries,
+                                            ...targetSeries,
                                             { label: 'Family', entityID: new haEntity.EntityID('sensor.family_room_temperature_2') },
                                             { label: 'Living', entityID: new haEntity.EntityID('sensor.living_room_temperature_2') },
                                             { label: 'Master', entityID: new haEntity.EntityID('sensor.master_bedroom_temperature_2') },

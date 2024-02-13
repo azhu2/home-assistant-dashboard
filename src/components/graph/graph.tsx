@@ -49,7 +49,7 @@ export function Graph(props: GraphProps) {
 
     // Initialize empty map to set key order. Otherwise order can vary depending on websocket callbacks.
     const emptySeriesState = Object.keys(allSeriesProps).reduce(
-        (acc, key) => { acc[key] = {seriesID: key, overall: {min: Number.MAX_VALUE, max: Number.MIN_VALUE}, seriesPath: ''}; return acc; },
+        (acc, key) => { acc[key] = { seriesID: key, overall: { min: Number.MAX_VALUE, max: Number.MIN_VALUE }, seriesPath: '' }; return acc; },
         {} as { [key: string]: graph.SeriesData });
     const [series, setSeries] = useState(emptySeriesState);
 
@@ -121,17 +121,37 @@ export function Graph(props: GraphProps) {
 
     const buildLegend = (): ReactElement => {
         return <div className='legend'>
-            {Object.entries(series)
-                .filter(([entityID]) => entityID in allSeriesProps)
-                .map(([entityID, data]) => {
-                    const label = data.label ? data.label.toLowerCase() : data.seriesID;
-                    return <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
-                        onClick={onClick(entityID)}
+            {Object.entries(
+                Object.entries(series)
+                    .filter(([entityID]) => entityID in allSeriesProps)
+                    .reduce((acc, [entityID, data]) => {
+                        // Combine matching labels
+                        const label = data.label ? data.label.toLowerCase() : data.seriesID;
+                        if (label in acc) {
+                            // TODO Handle focus for multi-series labels
+                            acc[label] = {
+                                ...acc[label],
+                                value: acc[label].value + ' · ' + data.overall.last + '' || '???',
+                                focused: acc[label].focused || data.focused,
+                            }
+                            return acc;
+                        }
+                        acc[label] = {
+                            entityID,
+                            value: data.overall.last + '' || '???',
+                            focused: data.focused,
+                        };
+                        return acc;
+                    }, {} as { [key: string]: {entityID: string, value: string, focused?: boolean} }))
+                .map(([label, data]) => (
+                    <div className={`legend-entry ${data.focused ? 'focused' : ''}`} key={label}
+                        onClick={onClick(data.entityID)}
                     >
                         <div className={`legend-label label-${label.toLowerCase().replaceAll(' ', '_')}`}>{label}</div>
-                        <div className='legend-value'>{data.overall.last || '??'}</div>
+                        <div className='legend-value'>{data.value}</div>
                     </div>
-                })}
+                ))
+            }
         </div>;
     }
 
