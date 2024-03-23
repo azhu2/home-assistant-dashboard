@@ -58,9 +58,9 @@ export const Layout = (props: Props) => {
     const trashDayEntity = getEntityForEntityID('select.trash_day');
     const thermostatEntity = getEntityForEntityID('climate.ecobee_thermostat');
     const targetSeries = thermostatEntity?.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
-        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_low' },  // Target low
-        { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'target_temp_high' }]: // Target high
-        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat'), attribute: 'temperature' }]
+        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_low' },  // Target low
+        { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_high' }]: // Target high
+        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }]
 
 
     return (
