@@ -85,4 +85,5 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.time': EntityType.Gauge,
     'sensor.date': EntityType.Gauge,
     'zone.home': EntityType.Gauge,
+    'sensor.processor_temperature': EntityType.Gauge,
 };

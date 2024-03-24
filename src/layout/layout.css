@@ -31,12 +31,12 @@
 }
 
 #room-system {
-    max-width: 30em;
+    max-width: 36em;
 }
 
 #room-system .room-contents {
     display: inline-grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     grid-auto-flow: row;
     justify-items: center;
 }
