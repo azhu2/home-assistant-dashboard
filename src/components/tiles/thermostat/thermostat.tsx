@@ -80,7 +80,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                 break;
             default:
                 icon = {
-                    name: 'temperature--v1',
+                    name: 'temperature',
                     color: '6644aa',
                     filled: true,
                 };

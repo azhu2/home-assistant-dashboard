@@ -10,10 +10,10 @@ type Props = base.BaseEntityProps & {
 }
 
 const stateToIconMap: { [state: string]: ReactElement } = {
-    'closed': <Icon name='garage-door' />,
+    'closed': <Icon name='garage-closed' />,
     'open': <Icon name='garage-open' />,
-    'opening': <Icon name='open-garage-door' />,
-    'closing': <Icon name='close-garage-door' />,
+    'opening': <Icon name='garage-opening' />,
+    'closing': <Icon name='garage-closing' />,
 }
 
 export class Garage extends Component<Props> implements tile.MappableProps<Props>{

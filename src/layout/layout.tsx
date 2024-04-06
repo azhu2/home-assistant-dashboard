@@ -77,7 +77,7 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
-                            {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan-speed--v2' } })}
+                            {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan' } })}
                         </Room>
                         <div className='section-row'>
                             <Room title='Family Room'>
@@ -137,7 +137,7 @@ export const Layout = (props: Props) => {
                         <div className='section-row'>
                             <Room title='Front'>
                                 {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                                {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-door' } })}
+                                {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
                                 {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                             </Room>
                             <Room title='Backyard'>

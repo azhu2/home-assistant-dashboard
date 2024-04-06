@@ -26,6 +26,6 @@ export function Icon(props: Props) {
     }
 
     return (
-        <img className='icon' alt={props.name} src={`https://img.icons8.com/${props.filled ? 'ios-filled' : 'ios'}/50/${iconColor.rgbString(false)}/${props.name}.png`} />
+        <img className='icon' alt={props.name} src={`${process.env.PUBLIC_URL}/icons/${props.name}${props.filled ? '-filled' : ''}.png`} />
     );
 }
