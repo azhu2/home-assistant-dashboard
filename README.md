@@ -12,3 +12,5 @@ Features include:
 ![Screenshot of dashboard](/public/screenshot.png)
 
 See [azhu2/home-assistant-setup](https://github.com/azhu2/home-assistant-setup) for my HA setup.
+
+Icons by [icons8](https://icons8.com/)
