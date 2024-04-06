@@ -26,6 +26,9 @@ export function Icon(props: Props) {
     }
 
     return (
-        <img className='icon' alt={props.name} src={`${process.env.PUBLIC_URL}/icons/${props.name}${props.filled ? '-filled' : ''}.png`} />
+        <img className='icon' alt={props.name}
+            src={`${process.env.PUBLIC_URL}/icons/${props.name}${props.filled ? '-filled' : ''}.png`}
+            style={{filter: `drop-shadow(0 1000px 0 ${iconColor.rgbString(true)})`}}
+        />
     );
 }
