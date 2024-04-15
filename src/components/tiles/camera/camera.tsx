@@ -72,12 +72,12 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
+                {this.props.recordingSwitch &&
+                    <button className='toggle' onClick={this.onToggleRecording}>
+                        <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
+                    </button>
+                }
                 <ZoomModal>
-                    {this.props.recordingSwitch &&
-                        <button className='toggle' onClick={this.onToggleRecording}>
-                            <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
-                        </button>
-                    }
                     <AuthContextConsumer>
                         {auth => {
                             const { restAPI } = auth;
