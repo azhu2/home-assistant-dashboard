@@ -40,5 +40,6 @@ export const renamedEntityMap: {[key: string]: string} = {
     'camera.living_room_cam_high_2': 'Living Room Cam',
     'camera.driveway_cam_high_2': 'Driveway Cam',
     'camera.front_yard_cam_high_3': 'Front Yard Cam',
+    'camera.backyard_cam_high': 'Back Yard Cam',
     'sensor.processor_temperature': 'NAS Temp',
 };
