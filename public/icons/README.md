@@ -1,0 +1,1 @@
+All icons in this folder are downloaded unmodified from https://icons8.com/ under the Free Account Holder license.
