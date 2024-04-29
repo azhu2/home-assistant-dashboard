@@ -54,9 +54,9 @@ const OffIcon: icon.Props = {
     filled: true,
 };
 const TempIcon: icon.Props = {
-    name: 'temperature',
+    name: 'temperature-sensitive',
     color: '6644aa',
-    filled: true,
+    filled: false,
 }
 const IdleIcon: icon.Props = {
     name: 'sleep',
