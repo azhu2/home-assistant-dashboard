@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import * as haEntity from '../../types/ha-entity';
 import * as time from '../../common/time/time'
 import './graph.css';
@@ -126,7 +126,7 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                             />);
                         case 2:
                             return (
-                                <>
+                                <React.Fragment key={s.label}>
                                     <mask id={`mask-${s.label}`}>
                                         <rect x={0} y={baseline} width={options.numBuckets} height={overall.max - baseline} fill='white' />
                                         <path
@@ -140,12 +140,11 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                                         className={
                                             `history masked history-${s.label.toLowerCase().replaceAll(' ', '_')} ${s.filled ? 'filled' : ''} ${s.focused ? 'focused' : ''}`
                                         }
-                                        key={s.label}
                                         d={s.paths[1]}
                                         vectorEffect='non-scaling-stroke'
                                         mask={`url(#mask-${s.label})`}
                                     />
-                                </>
+                                </React.Fragment>
                             );
                         default:
                             // Gets weird with more than 2...
