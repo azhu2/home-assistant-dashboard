@@ -17,9 +17,48 @@ enum Mode {
     Unknown = 'unknown',
 }
 
+enum CurrentActivity {
+    Idle = 'idle',
+    Heating = 'heating',
+    Cooling = 'cooling',
+    Fan = 'fan',
+    Unknown = 'unknown',
+}
+
 enum Operation {
     TempUp,
     TempDown,
+}
+
+const HeatIcon: icon.Props = {
+    name: 'gas',
+    color: 'ff6666',
+    filled: true,
+};
+const CoolIcon: icon.Props = {
+    name: 'winter',
+    color: '8888ff',
+    filled: true,
+};
+const OffIcon: icon.Props = {
+    name: 'offline',
+    color: 'bbbbbb',
+    filled: true,
+};
+const TempIcon: icon.Props = {
+    name: 'temperature',
+    color: '6644aa',
+    filled: true,
+}
+const IdleIcon: icon.Props = {
+    name: 'sleep',
+    color: 'bbbbbb',
+    filled: true,
+}
+const FanIcon: icon.Props = {
+    name: 'fan',
+    color: 'bbbbbb',
+    filled: true,
 }
 
 type Props = base.BaseEntityProps & {
@@ -29,6 +68,7 @@ type Props = base.BaseEntityProps & {
     unit: string,
     preset?: string,
     presetOptions?: string[],
+    currentActivity: CurrentActivity,
 }
 
 type State = {
@@ -55,43 +95,16 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     propsMapper(entity: haEntity.Entity, _options: tile.Options): tile.MappedProps<Props> {
         // String enums aren't reverse-mapped
         const mode = Object.values(Mode).includes(entity.state as Mode) ? entity.state as Mode : Mode.Unknown;
-        let icon;
-        switch (mode) {
-            case Mode.Heat:
-                icon = {
-                    name: 'gas',
-                    color: 'ff6666',
-                    filled: true,
-                };
-                break;
-            case Mode.Cool:
-                icon = {
-                    name: 'winter',
-                    color: '8888ff',
-                    filled: true,
-                };
-                break;
-            case Mode.Off:
-                icon = {
-                    name: 'offline',
-                    color: '6644aa',
-                    filled: true,
-                };
-                break;
-            default:
-                icon = {
-                    name: 'temperature',
-                    color: '6644aa',
-                    filled: true,
-                };
-        }
+        const hvacAction = entity.attributes['hvac_action'];
+        const currentActivity = Object.values(CurrentActivity).includes(hvacAction as CurrentActivity) ? hvacAction as CurrentActivity : CurrentActivity.Unknown;
         return {
-            icon,
+            icon: Thermostat.mapModeToIcon(mode),
             mode,
             targetTemperature: parseFloat(entity.attributes['temperature']),
             unit: '°F',
             preset: entity.attributes['preset_mode'],
             presetOptions: entity.attributes['preset_modes'],
+            currentActivity,
         };
     }
 
@@ -137,19 +150,48 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                             </div>
                         </div>
                     </div>
-                    {this.props.preset &&
-                        <div className='preset'>
-                            {this.props.presetOptions ?
-                                <select defaultValue={this.props.preset} onChange={this.onChangePreset}>
-                                    {this.props.presetOptions.map(opt => (
-                                        <option value={opt} key={opt}>{opt}</option>
-                                    ))}
-                                </select> :
-                                this.props.preset}
-                        </div>
-                    }
+                    <div className='additional-info'>
+                        <Icon {...Thermostat.mapCurrentActivityToIcon(this.props.currentActivity)} />
+                        {this.props.preset &&
+                            <div className='preset'>
+                                {this.props.presetOptions ?
+                                    <select defaultValue={this.props.preset} onChange={this.onChangePreset}>
+                                        {this.props.presetOptions.map(opt => (
+                                            <option value={opt} key={opt}>{opt}</option>
+                                        ))}
+                                    </select> :
+                                    this.props.preset}
+                            </div>
+                        }
+                    </div>
                 </>
             </div>
         );
+    }
+
+    static mapModeToIcon(mode: Mode): icon.Props {
+        switch (mode) {
+            case Mode.Heat:
+                return HeatIcon;
+            case Mode.Cool:
+                return CoolIcon;
+            case Mode.Off:
+                return OffIcon;
+            default:
+                return TempIcon;
+        }
+    }
+
+    static mapCurrentActivityToIcon(activity: CurrentActivity): icon.Props {
+        switch (activity) {
+            case CurrentActivity.Heating:
+                return HeatIcon;
+            case CurrentActivity.Cooling:
+                return CoolIcon;
+            case CurrentActivity.Fan:
+                return FanIcon;
+            default:
+                return IdleIcon;
+        }
     }
 }
