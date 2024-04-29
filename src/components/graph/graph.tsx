@@ -3,6 +3,7 @@ import * as graph from '../../common/graph/graph';
 import * as authContext from '../../services/auth-context';
 import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
+import * as time from '../../common/time/time'
 import './graph.css';
 
 const updateIntervalMs = 5000;
@@ -19,7 +20,7 @@ type AnnotationProps = base.BaseEntityProps & {
 type GraphProps = {
     numBuckets?: number;
     setBaselineToZero?: boolean;
-    xAxisGridIncrement?: number;
+    xAxisGridIncrement?: time.Duration;
     yAxisGridIncrement?: number;
     showLegend?: boolean;
     series: SeriesProps[];

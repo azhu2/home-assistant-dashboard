@@ -1,14 +1,14 @@
 import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
+import * as time from '../common/time/time';
 import * as base from '../components/base';
+import { Graph } from '../components/graph/graph';
 import { Room } from '../components/room/room';
 import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
 import { Camera } from '../components/tiles/camera/camera';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars -- Will add back after ratgdo set up
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
-import { Graph } from '../components/graph/graph';
 import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
 import { NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
@@ -113,7 +113,7 @@ export const Layout = (props: Props) => {
                         <Room title='Temperatures'>
                             <div className={`tile tile-temperature-graph`} id='temperature-graph' >
                                 <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={24 /* 2h*/} numBuckets={288} showLegend
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288} showLegend
                                         series={[
                                             ...targetSeries,
                                             { label: 'Family', entityID: new haEntity.EntityID('sensor.family_room_temperature_2') },

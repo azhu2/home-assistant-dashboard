@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
 import * as haEntity from '../../types/ha-entity';
+import * as time from '../../common/time/time'
 import './graph.css';
 
 type SeriesOptions = {
@@ -8,10 +9,13 @@ type SeriesOptions = {
 
 export type GraphOptions = SeriesOptions & {
     showLabels?: boolean;
-    xAxisGridIncrement?: number;
+    xAxisGridIncrement?: time.Duration;
     yAxisGridIncrement?: number;
     setBaselineToZero?: boolean;
 }
+
+// TODO Dynamic time ranges
+const timeRange: time.Duration = 24 * 60 * 60 * 1000;
 
 /**
  * Builds a <svg> element for a history graph of an
@@ -31,15 +35,22 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
     let gridlines: ReactElement[] = [];
     if (options.xAxisGridIncrement && options.xAxisGridIncrement > 0) {
         const inc = options.xAxisGridIncrement;
-        // Think about making line up with actual times
-        for (let i = inc; i < options.numBuckets; i += inc) {
+        const startTimestamp = Date.now() - timeRange;
+
+        // Reset to midnight of startTimestamp to handle daylight savings (will be off on the day of the switch but otherwise correct)
+        const startDate = new Date(startTimestamp).setHours(0, 0, 0, 0);
+        const startTime = startTimestamp - startDate;
+        const firstGridline = Math.floor((startTime + inc) / inc) * inc + startDate;
+
+        for (let gridlineTime = firstGridline; gridlineTime < Date.now(); gridlineTime += inc) {
+            const x = (gridlineTime - startTimestamp) / timeRange * options.numBuckets;
             gridlines = [
                 ...gridlines,
                 <line
                     className='gridline vertical'
-                    key={`gridline-vertical-${i}`}
-                    x1={i} y1={baseline}
-                    x2={i} y2={overall.max}
+                    key={`gridline-vertical-${gridlineTime}`}
+                    x1={x} y1={baseline}
+                    x2={x} y2={overall.max}
                     vectorEffect='non-scaling-stroke'
                 />
             ];
@@ -182,10 +193,8 @@ interface HistoryBucket {
 
 const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBucket[] => {
     let buckets = new Array<HistoryBucket>(numBuckets);
-    // TODO Dynamic time ranges
-    const timeRangeMs = 24 * 60 * 60 * 1000;
-    const bucketWidthMs = timeRangeMs / numBuckets;
-    const startMs = Date.now() - timeRangeMs;
+    const bucketWidthMs = timeRange / numBuckets;
+    const startMs = Date.now() - timeRange;
 
     let curIdx = 0;
     let curMin: number | undefined = undefined;
