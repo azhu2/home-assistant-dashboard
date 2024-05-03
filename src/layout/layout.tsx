@@ -139,11 +139,11 @@ export const Layout = (props: Props) => {
                                 {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
                                 {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
                                 {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
+                                {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
                             </Room>
                             <Room title='Backyard'>
                                 {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
                                 {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
-                                {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
                             </Room>
                         </div>
                         <Room title='Irrigation'>
