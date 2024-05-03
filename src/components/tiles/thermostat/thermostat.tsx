@@ -112,13 +112,23 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                 [TempTargetType.Upper]: parseFloat(entity.attributes['target_temp_high']),
             } :
             { [TempTargetType.Single]: parseFloat(entity.attributes['temperature']) }
+
+        // Fix preset modes. Away is not supported as of HA 2023.4, and Manual isn't returned by ecobee
+        const presetOptions = entity.attributes['preset_modes'];
+        if (presetOptions.includes('away')) {
+            presetOptions.splice(presetOptions.indexOf('away'), 1)
+        }
+        if (!presetOptions.includes('Manual')) {
+            presetOptions.push('Manual');
+        }
+
         return {
             icon: Thermostat.mapModeToIcon(mode),
             mode,
             targetTemperature,
             unit: '°F',
             preset: entity.attributes['preset_mode'] == 'temp' ? 'Manual' : entity.attributes['preset_mode'],
-            presetOptions: [...entity.attributes['preset_modes'], 'Manual'],  // Manual temp setting not set in
+            presetOptions,
             currentActivity,
         };
     }
@@ -163,7 +173,9 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                                 {this.props.presetOptions ?
                                     <select value={this.props.preset} onChange={this.onChangePreset}>
                                         {this.props.presetOptions.map(opt => (
-                                            <option value={opt} key={opt} disabled={opt == 'Manual'}>{opt}</option>
+                                            <option value={opt} key={opt} disabled={opt == 'Manual'}>
+                                                {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
+                                            </option>
                                         ))}
                                     </select> :
                                     this.props.preset}
