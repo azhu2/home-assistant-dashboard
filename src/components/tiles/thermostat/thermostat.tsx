@@ -171,7 +171,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                         {this.props.preset &&
                             <div className='preset'>
                                 {this.props.presetOptions ?
-                                    <select value={this.props.preset} onChange={this.onChangePreset}>
+                                    <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
                                         {this.props.presetOptions.map(opt => (
                                             <option value={opt} key={opt} disabled={opt == 'Manual'}>
                                                 {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
