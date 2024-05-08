@@ -5,7 +5,7 @@ svg {
 
 svg path.history {
     stroke: rgb(192, 192, 240);
-    stroke-width: 0.5%;
+    stroke-width: 1px;
     fill: none;
 }
 
@@ -19,7 +19,7 @@ svg path.history.masked {
 }
 
 svg path.history.focused {
-    stroke-width: 2%;
+    stroke-width: 4px;
 }
 
 svg path.annotation {
@@ -45,5 +45,5 @@ svg path.annotation {
 .gridline {
     stroke: black;
     stroke-opacity: 0.25;
-    stroke-width: 0.5%;
+    stroke-width: 1px;
 }

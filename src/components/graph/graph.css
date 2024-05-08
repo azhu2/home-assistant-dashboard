@@ -1,6 +1,6 @@
 .graph .history-average {
     stroke: rgb(128, 128, 192);
-    stroke-width: 1.25%;
+    stroke-width: 2.5px;
 }
 
 .graph .history-target.masked {
