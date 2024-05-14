@@ -2,7 +2,7 @@ import * as haWebsocket from 'home-assistant-js-websocket';
 import * as haEntity from '../../types/ha-entity';
 import * as localStorage from '../local-storage/local-storage';
 
-const TIMEOUT_MS = 2000;
+const TIMEOUT_MS = 5000;
 // TODO Make period customizable
 const LOOKBACK_INTERVAL_MS = 24 * 60 * 60 * 1000;
 

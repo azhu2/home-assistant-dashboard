@@ -97,10 +97,10 @@ class AuthWrapper extends Component<{}, State> {
         this.state.websocketAPI.ping()
             .catch(() => {
                 const err = new Error('Websocket API unreachable');
-                if (!(this.state.websocketAPI instanceof Error)) {
-                    // if error, already broken, so don't re-log to reduce clutter
-                    console.error(err);
-                }
+                // if (!(this.state.websocketAPI instanceof Error)) {
+                // if error, already broken, so don't re-log to reduce clutter
+                console.error(err);
+                // }
                 this.setState({ ...this.state, websocketAPI: err, websocketConnection: err });
             });
     }
