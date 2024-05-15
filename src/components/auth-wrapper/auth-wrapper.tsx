@@ -10,7 +10,7 @@ import * as localStorage from '../../services/local-storage/local-storage';
 import * as restAPI from '../../services/rest-api/rest-api';
 import * as websocket from '../../services/websocket/websocket';
 
-const HEALTH_CHECK_MS = 15 * 1000;
+const HEALTH_CHECK_MS = 30 * 1000;
 
 type State = authContext.AuthContextType;
 
