@@ -42,4 +42,6 @@ export const renamedEntityMap: {[key: string]: string} = {
     'camera.front_yard_cam_high_3': 'Front Yard Cam',
     'camera.backyard_cam_high': 'Back Yard Cam',
     'sensor.processor_temperature': 'NAS Temp',
+    'sensor.m440i_xdrive_mileage': 'Mileage',
+    'sensor.m440i_xdrive_remaining_fuel_percent': 'Fuel',
 };

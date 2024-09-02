@@ -86,4 +86,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.date': EntityType.Gauge,
     'zone.home': EntityType.Gauge,
     'sensor.processor_temperature': EntityType.Gauge,
+    'switch.m440i_xdrive_unlocked': EntityType.Switch,
+    'sensor.m440i_xdrive_mileage': EntityType.Gauge,
+    'sensor.m440i_xdrive_remaining_fuel_percent': EntityType.Gauge,
+    'device_tracker.m440i_xdrive': EntityType.Gauge,
 };

@@ -1,5 +1,6 @@
 import { ComponentType } from 'react';
 import * as color from '../../types/color';
+import * as formatter from '../../types/formatter';
 import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
 import { Icon } from '../icon/icon';
@@ -14,6 +15,7 @@ export type Options = {
     secondaryEntities?: haEntity.Entity[],
     secondaryIcons?: (string | icon.Props)[],
     hideIfUnavailable?: boolean,
+    formatter?: formatter.Formatter<any>,
 };
 
 /** A free-form set of props to be passed to the tile unchanged */

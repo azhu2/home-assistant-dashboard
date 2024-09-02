@@ -14,6 +14,7 @@ import { NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gaug
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import { Thermostat } from '../components/tiles/thermostat/thermostat';
+import * as formatter from '../types/formatter';
 import * as haEntity from '../types/ha-entity';
 import './layout.css';
 
@@ -141,20 +142,28 @@ export const Layout = (props: Props) => {
                                 {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
                                 {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
                             </Room>
-                            <Room title='Backyard'>
-                                {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                                {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
+                            <Room title='Car'>
+                                {getTile(Switch, 'device_tracker.m440i_xdrive', { tileOptions: { icon: { name: 'bmw', color: '6644aa', filled: true }, secondaryIcons: ['bmw'] } })}
+                                {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
+                                {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
+                                {getTile(PercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
                             </Room>
                         </div>
-                        <Room title='Irrigation'>
-                            {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.front_yard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.front_yard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.backyard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.backyard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                            {getTile(Switch, 'switch.backyard_drip', { tileOptions: { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } } })}
-                        </Room>
+                        <div className='section-row'>
+                            <Room title='Backyard'>
+                                    {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
+                                    {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
+                            </Room>
+                            <Room title='Irrigation'>
+                                {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.front_yard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.front_yard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.backyard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.backyard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
+                                {getTile(Switch, 'switch.backyard_drip', { tileOptions: { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } } })}
+                            </Room>
+                        </div>
                     </Section>
                     <Section title='System' hideTitle={true}>
                         <Room title='System'>
