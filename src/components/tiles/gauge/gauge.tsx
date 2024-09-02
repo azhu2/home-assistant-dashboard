@@ -1,4 +1,5 @@
 import { Component, ReactElement } from 'react';
+import * as formatter from '../../../types/formatter';
 import * as haEntity from '../../../types/ha-entity';
 import * as base from '../../base';
 import * as tile from '../../tile/tile';
@@ -19,6 +20,7 @@ export type Props = base.BaseEntityProps & {
         onIcon: ReactElement,
         offIcon: ReactElement,
     },
+    formatter: formatter.Formatter<string | number>;
 }
 
 type State = {
@@ -42,12 +44,10 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         if (!Number.isNaN(Number(state))) {
             state = Number(state);
         }
-        if (options.formatter) {
-            state = options.formatter(state);
-        }
         return {
             state: state,
             unit: entity.attributes['unit_of_measurement'],
+            formatter: options.formatter || formatter.NoOp,
         };
     }
 
@@ -69,7 +69,7 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
                     }
                     {/* extra div so superscript works with flexbox used to vertical-center values */}
                     <div className='value-container'>
-                        <span className='value'>{this.props.state}</span>
+                        <span className='value'>{this.props.formatter(this.props.state)}</span>
                         {this.props.unit && <span className='unit'>{this.props.unit || ''}</span>}
                     </div>
                 </>
