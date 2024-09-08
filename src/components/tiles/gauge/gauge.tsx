@@ -14,6 +14,8 @@ export type Props = base.BaseEntityProps & {
     min?: number,
     /** Used for NeedleGauge */
     max?: number,
+    /** Used to invert colors for NeedleGauge */
+    invertColors?: boolean,
     /** Extra toggle-able icon */
     toggleIcon?: {
         entity: haEntity.Entity,

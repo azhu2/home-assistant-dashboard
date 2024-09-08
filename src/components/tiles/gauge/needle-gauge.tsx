@@ -16,9 +16,10 @@ export class NeedleGauge extends Gauge {
              * r   0   -> 255 -> 255
              * g   255 -> 255 -> 0
              */
+            const colorPct = this.props.invertColors ? 1 - pct : pct;
             const fillColor = new color.Color(
-                255 * Math.min(1, (pct * 2)),
-                255 * Math.min(1, 2 - pct * 2),
+                255 * Math.min(1, (colorPct * 2)),
+                255 * Math.min(1, 2 - colorPct * 2),
                 0,
                 96);
             const rotateDeg = Math.round(pct * 180);
@@ -70,6 +71,14 @@ export class PercentGauge extends Gauge {
     render() {
         return (
             <NeedleGauge {...this.props} min={0} max={100} />
+        )
+    }
+}
+
+export class InversePercentGauge extends Gauge {
+    render() {
+        return (
+            <NeedleGauge {...this.props} min={0} max={100} invertColors />
         )
     }
 }

@@ -10,7 +10,7 @@ import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
 import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
-import { NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
+import { NeedleGauge, PercentGauge, InversePercentGauge } from '../components/tiles/gauge/needle-gauge';
 import { DimmableLight, Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import { Thermostat } from '../components/tiles/thermostat/thermostat';
@@ -146,7 +146,7 @@ export const Layout = (props: Props) => {
                                 {getTile(Switch, 'device_tracker.m440i_xdrive', { tileOptions: { icon: { name: 'bmw', color: '6644aa', filled: true }, secondaryIcons: ['bmw'] } })}
                                 {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
                                 {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
-                                {getTile(PercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
+                                {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
                             </Room>
                         </div>
                         <div className='section-row'>
