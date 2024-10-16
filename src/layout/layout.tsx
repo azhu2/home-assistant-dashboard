@@ -176,8 +176,6 @@ export const Layout = (props: Props) => {
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
                             {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(Gauge, 'sensor.top_download_device', { tileOptions: { showName: true } })}
-                            {getTile(Gauge, 'sensor.top_upload_device', { tileOptions: { showName: true } })}
                         </Room>
                     </Section>
                 </div>
