@@ -11,9 +11,16 @@ export type Props = base.BaseEntityProps & {
     /** on(true) or off(false) */
     state: boolean,
     offIcon?: string | icon.Props,
+    /** Alternate service to call */
+    onClick?: action,
 }
 
-export class Switch extends Component<Props, {}> implements tile.MappableProps<Props>{
+type action = {
+    domain: string;
+    action: string;
+}
+
+export class Switch extends Component<Props, {}> implements tile.MappableProps<Props> {
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
 
@@ -33,8 +40,14 @@ export class Switch extends Component<Props, {}> implements tile.MappableProps<P
 
     onClick(e: ReactMouseEvent) {
         e.preventDefault();
+
+        if (this.props.onClick) {
+            authContext.callWebsocketOrWarn(this.context, this.props.onClick.domain, this.props.onClick.action);
+            return;
+        }
+
         // Use home assistant domain for generic toggle (works for lights and switches)
-        authContext.callWebsocketOrWarn(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() })
+        authContext.callWebsocketOrWarn(this.context, 'homeassistant', 'toggle', { entity_id: this.props.entityID.getCanonicalized() });
     }
 
     render() {
