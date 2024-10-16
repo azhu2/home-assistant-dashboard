@@ -23,37 +23,14 @@
     max-width: 30em;
 }
 
-/* TODO Automatically kill grid if there's only one element */
-#section-system .section-contents,
-#section-cameras .section-contents {
-    display: flex;
-    justify-content: center;
-}
-
-#room-system {
-    max-width: 36em;
-}
-
-#room-system .room-contents {
-    display: inline-grid;
-    grid-template-columns: repeat(6, 1fr);
-    grid-auto-flow: row;
-    justify-items: center;
-}
-
-#room-system .tile {
+#section-system .tile {
     width: 5em;
     height: 4em;
 }
 
-#room-system .tile-historygauge, #room-system .tile-percentgauge, #room-system .tile-needlegauge {
+#section-system .tile-historygauge, #section-system .tile-percentgauge, #section-system .tile-needlegauge {
     width: 5.4em;
     height: 4.4em;
-}
-
-.tile-sensor-top-download-device .gauge .value,
-.tile-sensor-top-upload-device .gauge .value {
-    font-size: 0.8em;
 }
 
 #section-climate .section-contents {

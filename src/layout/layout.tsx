@@ -151,8 +151,8 @@ export const Layout = (props: Props) => {
                         </div>
                         <div className='section-row'>
                             <Room title='Backyard'>
-                                    {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                                    {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
+                                {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
+                                {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
                             </Room>
                             <Room title='Irrigation'>
                                 {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
@@ -165,33 +165,51 @@ export const Layout = (props: Props) => {
                             </Room>
                         </div>
                     </Section>
-                    <Section title='System' hideTitle={true}>
-                        <Room title='System'>
-                            {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
-                            {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
-                            {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
-                            {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                        </Room>
-                    </Section>
                 </div>
                 <div>
-                    <Section title='Cameras' hideTitle={true}>
-                        <Room title='Cameras'>
-                            {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
-                            {getTile(Camera, 'camera.dining_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.dining_room_cam_recording'] })}
-                            {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
-                            {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
-                            {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
-                            {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                            {getTile(Camera, 'camera.driveway_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.driveway_cam_recording'] })}
-                            {getTile(Camera, 'camera.front_yard_cam_high_3', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.front_yard_cam_recording'] })}
-                            {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
-                        </Room>
+                    <Room title='Cameras'>
+                        {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
+                        {getTile(Camera, 'camera.dining_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.dining_room_cam_recording'] })}
+                        {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
+                        {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
+                        {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
+                        {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
+                        {getTile(Camera, 'camera.driveway_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.driveway_cam_recording'] })}
+                        {getTile(Camera, 'camera.front_yard_cam_high_3', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.front_yard_cam_recording'] })}
+                        {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
+                    </Room>
+                    <Section title='System'>
+                        <div className='section-row'>
+                            <Room title='Network'>
+                                {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
+                                {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                            </Room>
+                            <Room title='NVR'>
+                                {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true } })}
+                                {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_4_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_4_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                            </Room>
+                        </div>
+                        <div className='section-row'>
+                            <Room title='NAS'>
+                                {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
+                                {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_3_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_3_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                            </Room>
+                            <Room title='DNS'>
+                                {getTile(PercentGauge, 'sensor.dns_queries_blocked_ratio_24h', { tileOptions: { showName: true } })}
+                                {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] } })}
+                            </Room>
+                        </div>
                     </Section>
                 </div>
             </div>
