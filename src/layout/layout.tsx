@@ -174,8 +174,8 @@ export const Layout = (props: Props) => {
                             {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.1m_download_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.1m_upload_max', { tileOptions: { showName: true }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
                             {getTile(Gauge, 'sensor.top_download_device', { tileOptions: { showName: true } })}
                             {getTile(Gauge, 'sensor.top_upload_device', { tileOptions: { showName: true } })}
                         </Room>

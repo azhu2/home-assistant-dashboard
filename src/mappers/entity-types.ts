@@ -25,6 +25,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.1m_upload_max': EntityType.Gauge,
     'sensor.top_download_device': EntityType.Gauge,
     'sensor.top_upload_device': EntityType.Gauge,
+    'sensor.udr_port_5_rx': EntityType.Gauge,
+    'sensor.udr_port_5_tx': EntityType.Gauge,
     'camera.garage_cam_high': EntityType.Camera,
     'camera.family_room_cam_high': EntityType.Camera,
     'camera.bedroom_cam_high': EntityType.Camera,
