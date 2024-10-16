@@ -181,28 +181,28 @@ export const Layout = (props: Props) => {
                     <Section title='System'>
                         <div className='section-row'>
                             <Room title='Network'>
-                                {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true } })}
-                                {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
                                 {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                             </Room>
                             <Room title='NVR'>
-                                {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true } })}
-                                {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true } })}
-                                {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_4_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_4_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 200 } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_4_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_4_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                             </Room>
                         </div>
                         <div className='section-row'>
                             <Room title='NAS'>
-                                {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true } })}
-                                {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true } })}
-                                {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true } })}
-                                {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true }, tileProps: { min: 90, max: 200 } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_3_rx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_3_tx', { tileOptions: { showName: true, formatter: formatter.ToFixed(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                                {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 200 } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_3_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                                {getTile(HistoryGauge, 'sensor.udr_port_3_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                             </Room>
                             <Room title='DNS'>
                                 {getTile(PercentGauge, 'sensor.dns_queries_blocked_ratio_24h', { tileOptions: { showName: true } })}
