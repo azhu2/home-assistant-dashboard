@@ -205,7 +205,7 @@ export const Layout = (props: Props) => {
                                 {getTile(HistoryGauge, 'sensor.udr_port_3_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                             </Room>
                             <Room title='DNS'>
-                                {getTile(PercentGauge, 'sensor.dns_queries_blocked_ratio_24h', { tileOptions: { showName: true } })}
+                                {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { showName: true } })}
                                 {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
                                 {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { showName: true, icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
                             </Room>
