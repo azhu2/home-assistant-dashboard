@@ -73,7 +73,7 @@ export function BrightnessSlider(props: Props) {
                         <div className='background' ref={ref} >
                             <div className='slider' style={{
                                 // Copy of Light.ON_COLOR - TODO: Clean up and make dynamic when dragging
-                                backgroundColor: (new color.Color('#BBBB22')).rgbString(true),
+                                backgroundColor: props.color.rgbString(true),
                                 width: getSliderWidth(displayBrightness),
                             }}></div>
                         </div>
