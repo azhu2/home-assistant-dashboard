@@ -32,8 +32,8 @@ export class Light extends Switch {
                 opts = {
                     ...options,
                     icon: {
-                        ...options.icon,
                         color: ON_COLOR,
+                        ...options.icon,
                     },
                 };
             }
@@ -47,6 +47,8 @@ type DimmableProps = base.BaseEntityProps & {
     state: boolean,
     /** 0-255 if dimmer available */
     brightness: number,
+    /** From propsMapper or default to ON_COLOR if not set */
+    baseColor: color.Color,
 };
 
 type DimmableState = {
@@ -73,11 +75,24 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
         this.ref = createRef();
     }
 
-    propsMapper(entity: haEntity.Entity): tile.MappedProps<DimmableProps> {
+    propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<DimmableProps> {
+        let baseColor = new color.Color(ON_COLOR);
+        if (typeof options.icon != 'string') {
+            const colorOpt = options.icon?.color;
+            switch (typeof colorOpt) {
+                case 'string':
+                    baseColor = new color.Color(colorOpt)
+                    break;
+                case 'object':
+                    baseColor = colorOpt;
+                    break;
+            }
+        }
         return {
             state: entity.state === 'on',
             brightness: entity.attributes['brightness'],
-            backgroundColor: entity.state === 'on' ? undefined : '#dddddd'     // TODO inactive color
+            backgroundColor: entity.state === 'on' ? undefined : '#dddddd',     // TODO inactive color
+            baseColor: baseColor,
         };
     }
 
@@ -119,7 +134,7 @@ export class DimmableLight extends Component<DimmableProps, DimmableState> imple
     color() {
         var scaleFactor: number;
         scaleFactor = this.props.brightness / 255 || 0;
-        return new color.Color(ON_COLOR).scale(scaleFactor);
+        return this.props.baseColor.scale(scaleFactor);
     }
 
     render() {

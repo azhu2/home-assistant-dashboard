@@ -83,7 +83,7 @@ export const Layout = (props: Props) => {
                         <div className='section-row'>
                             <Room title='Family Room'>
                                 {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                                {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'chandelier' } } })}
+                                {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'chandelier', color: 'cc5555' } } })}
                                 {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
                             </Room>
                             <Room title='Kitchen'>
