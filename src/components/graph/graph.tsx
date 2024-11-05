@@ -5,6 +5,7 @@ import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
 import * as time from '../../common/time/time'
 import './graph.css';
+import { ZoomModal } from '../zoom-modal/zoom-modal';
 
 const updateIntervalMs = 5000;
 
@@ -106,7 +107,9 @@ export function Graph(props: GraphProps) {
         );
     }
 
-    const onClick = (entityID: string) => (_: MouseEvent) => {
+    const onClick = (entityID: string) => (e: MouseEvent) => {
+        e.stopPropagation();
+
         if (series[entityID].focused) {
             const unfocusedSeries = { ...series[entityID], focused: false };
             setSeries({ ...series, [entityID]: unfocusedSeries });
@@ -156,23 +159,25 @@ export function Graph(props: GraphProps) {
         </div>;
     }
 
-    return <div className='graph'>
-        <div className='graph-context'>
-            {Object.keys(series).length > 0 &&
-                graph.buildHistoryGraph(
-                    Object.entries(series)
-                        .filter(([key]) => key in allSeriesProps)
-                        .map(([_, v]) => v),
-                    Object.entries(annotations)
-                        .filter(([key]) => key in allAnnotationProps)
-                        .map(([_, v]) => v),
-                    {
-                        numBuckets: numBuckets,
-                        showLabels: true,
-                        xAxisGridIncrement: props.xAxisGridIncrement,
-                        yAxisGridIncrement: props.yAxisGridIncrement,
-                    })}
+    return <ZoomModal>
+        <div className='graph'>
+            <div className='graph-context'>
+                {Object.keys(series).length > 0 &&
+                    graph.buildHistoryGraph(
+                        Object.entries(series)
+                            .filter(([key]) => key in allSeriesProps)
+                            .map(([_, v]) => v),
+                        Object.entries(annotations)
+                            .filter(([key]) => key in allAnnotationProps)
+                            .map(([_, v]) => v),
+                        {
+                            numBuckets: numBuckets,
+                            showLabels: true,
+                            xAxisGridIncrement: props.xAxisGridIncrement,
+                            yAxisGridIncrement: props.yAxisGridIncrement,
+                        })}
+            </div>
+            {props.showLegend && buildLegend()}
         </div>
-        {props.showLegend && buildLegend()}
-    </div>
+    </ZoomModal>
 }
