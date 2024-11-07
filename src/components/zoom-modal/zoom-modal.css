@@ -18,14 +18,14 @@
     box-shadow: 0 0 4em 1em;
 }
 
-.zoom-modal-wrapper.expanded {
-    max-height: 80vh;
-    max-width: 80vw;
-}
-
 .zoom-modal-wrapper.expanded .graph {
     height: 30vh;
     width: 60vw;
+}
+
+.zoom-modal-wrapper.expanded video {
+    max-height: 80vh;
+    max-width: 80vw;
 }
 
 .zoom-modal-background {
