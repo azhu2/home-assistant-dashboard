@@ -54,4 +54,5 @@ export const renamedEntityMap: {[key: string]: string} = {
     'camera.backyard_cam_high': 'Back Yard Cam',
     'sensor.m440i_xdrive_mileage': 'Mileage',
     'sensor.m440i_xdrive_remaining_fuel_percent': 'Fuel',
+    'humidifier.living_room': 'Humidifier',
 };

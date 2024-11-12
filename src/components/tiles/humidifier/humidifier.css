@@ -1,0 +1,14 @@
+.tile-humidifier .content {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.tile-humidifier img.icon {
+    height: 1em;
+    width: 1em;
+}
+
+.tile-humidifier .ctrl-buttons > * {
+    font-size: 0.5em;
+}

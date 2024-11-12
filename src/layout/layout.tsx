@@ -17,6 +17,7 @@ import { Thermostat } from '../components/tiles/thermostat/thermostat';
 import * as formatter from '../types/formatter';
 import * as haEntity from '../types/ha-entity';
 import './layout.css';
+import { Humidifier } from '../components/tiles/humidifier/humidifier';
 
 type Props = {
     entityMap: Map<string, haEntity.Entity>
@@ -106,6 +107,7 @@ export const Layout = (props: Props) => {
                             </Room>
                             <Room title='Air Quality'>
                                 {getTile(HistoryGauge, 'sensor.ecobee_humidity', { tileOptions: { showName: true } })}
+                                {getTile(Humidifier, 'humidifier.living_room', { tileOptions: { showName: true } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_vocs', { tileOptions: { showName: true, formatter: formatter.ToThousands }, tileProps: { min: 250, max: 10000 } })}

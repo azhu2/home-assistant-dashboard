@@ -42,6 +42,7 @@ export enum EntityType {
     Select = 'select',
     Switch = 'switch',
     Thermostat = 'thermostat',
+    Humidifier = 'humidifier',
 }
 
 /** Converts from built-in HassEntity type to our HaEntity type. */
