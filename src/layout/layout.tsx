@@ -104,10 +104,10 @@ export const Layout = (props: Props) => {
                         <div className='section-row'>
                             <Room title='Controls'>
                                 {getTile(Thermostat, 'climate.ecobee_thermostat_2', { tileOptions: { showName: true } })}
+                                {getTile(Humidifier, 'humidifier.living_room', { tileOptions: { showName: true } })}
                             </Room>
                             <Room title='Air Quality'>
                                 {getTile(HistoryGauge, 'sensor.ecobee_humidity', { tileOptions: { showName: true } })}
-                                {getTile(Humidifier, 'humidifier.living_room', { tileOptions: { showName: true } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
                                 {getTile(NeedleGauge, 'sensor.ecobee_vocs', { tileOptions: { showName: true, formatter: formatter.ToThousands }, tileProps: { min: 250, max: 10000 } })}

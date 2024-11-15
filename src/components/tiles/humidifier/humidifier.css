@@ -1,3 +1,7 @@
+.tile-humidifier {
+    width: 4em;
+}
+
 .tile-humidifier .content {
     display: flex;
     align-items: center;
