@@ -75,6 +75,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.uck_g2_plus_cpu_utilization': EntityType.Gauge,
     'sensor.uck_g2_plus_memory_utilization': EntityType.Gauge,
     'sensor.uck_g2_plus_storage_utilization': EntityType.Gauge,
+    'sensor.unifi_oldest_recording': EntityType.Gauge,
     'cover.garage_door_ratgdo': EntityType.Garage,
     'switch.garage_cam_recording': EntityType.Switch,
     'switch.family_room_cam_recording': EntityType.Switch,
