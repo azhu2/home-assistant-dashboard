@@ -8,3 +8,6 @@ export const ToThousands: Formatter<number> = (from: number) => (typeof(from) ==
 
 /** ToFixed sets a fixed number of deciaml digits */
 export const WithPrecision: (digits: number) => Formatter<number> = (digits) => (from: number) => (typeof(from) === 'number' && `${from.toFixed(digits)}`) || from.toString();
+
+/** ToDaysAndHours abbreviates a time to XdYh */
+export const ToDaysAndHours: Formatter<string> = (from: string) => (typeof(from) === 'number' ? `${from}d` : from.replaceAll(' days', 'd').replaceAll(' hours', 'h'))
