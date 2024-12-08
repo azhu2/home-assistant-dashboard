@@ -231,6 +231,10 @@ const buildBuckets = (history: haEntity.History, numBuckets: number): HistoryBuc
             // Can't graph
             return;
         }
+        if (entry === -500) {
+            // Invalid value ecobee returns if disconnected
+            return;
+        }
         // Add value to current bucket
         if (!curMin || entry < curMin) {
             curMin = entry;
