@@ -92,12 +92,18 @@ export const Layout = (props: Props) => {
                                 {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
                             </Room>
                         </div>
+                        <div className='section-row'>
+                            <Room title='Hallway'>
+                                    {getTile(Light, 'switch.hallway_light', { tileOptions: { icon: 'philips-hue-go' } })}
+                                    {getTile(Light, 'switch.stairway_lights', { tileOptions: { icon: 'chandelier' } })}
+                            </Room>
+                            <Room title='Master'>
+                                {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
+                            </Room>
+                        </div>
                         <Room title='Guest'>
                             {getTile(Switch, 'binary_sensor.guest_bedroom_window_contact', { tileOptions: { icon: { name: 'shutters', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
                             {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
-                        </Room>
-                        <Room title='Master'>
-                            {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
                         </Room>
                     </Section>
                     <Section title='Climate'>
