@@ -48,5 +48,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "publishConfig": {
+    "@azhu2:registry": "https://npm.pkg.github.com"
   }
 }
