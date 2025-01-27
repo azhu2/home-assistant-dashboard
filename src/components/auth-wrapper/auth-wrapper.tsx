@@ -20,7 +20,7 @@ const initialState: State = {
 
 /** Wrapper that provides an AuthContext. */
 class AuthWrapper extends Component<{}, State> {
-    wsHealthCheckTimer?: NodeJS.Timer;
+    wsHealthCheckTimer?: NodeJS.Timeout;
 
     constructor(props: {}) {
         super(props);

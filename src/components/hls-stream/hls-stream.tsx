@@ -18,7 +18,7 @@ const initialState: State = {
 }
 
 export class HlsStream extends Component<Props, State> {
-    videoRef: RefObject<HTMLVideoElement>;
+    videoRef: RefObject<HTMLVideoElement | null>;
 
     constructor(props: Props) {
         super(props);

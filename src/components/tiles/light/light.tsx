@@ -61,7 +61,7 @@ const initialState: DimmableState = {
 };
 
 export class DimmableLight extends Component<DimmableProps, DimmableState> implements tile.MappableProps<DimmableProps> {
-    ref: RefObject<HTMLDivElement>;
+    ref: RefObject<HTMLDivElement | null>;
 
     context!: ContextType<typeof authContext.AuthContext>
     static contextType = authContext.AuthContext;
