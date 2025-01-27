@@ -49,6 +49,10 @@
       "last 1 safari version"
     ]
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/azhu2/home-assistant-dashboard.git"
+  },
   "publishConfig": {
     "@azhu2:registry": "https://npm.pkg.github.com"
   }
