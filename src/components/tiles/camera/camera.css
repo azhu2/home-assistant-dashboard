@@ -1,4 +1,4 @@
-.tile:has(.camera) {
+.tile:has(.camera),.tile[class*=" tile-camera-"] {
     width: 24em;
     height: 13.5em;
     flex-basis: 24em;

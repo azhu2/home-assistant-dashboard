@@ -61,7 +61,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
                 {options?.showName && <div className='name'>{entity.friendlyName}</div>}
                 <div className='content'>
                     {icon}
-                    <div className={`${tileType} entity-unavailable`}>
+                    <div className='entity-unavailable'>
                         Unavailable
                     </div>
                 </div>
