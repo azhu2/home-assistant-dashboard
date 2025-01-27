@@ -14,3 +14,14 @@ Features include:
 See [azhu2/home-assistant-setup](https://github.com/azhu2/home-assistant-setup) for my HA setup.
 
 Icons by [icons8](https://icons8.com/)
+
+# Usage
+- Development
+    - `npm run start`
+    - Defaults to http://localhost:3000/
+- Production
+    - Github Actions push a Docker image to the [Github Docker respository](https://github.com/azhu2/home-assistant-dashboard/pkgs/container/home-assistant-dashboard)
+    - `docker pull ghcr.io/azhu2/home-assistant-dashboard:latest`
+    - `docker run -p 80:80 ghcr.io/azhu2/home-assistant-dashboard`
+
+You may need to set up CORS ([example](https://github.com/azhu2/home-assistant-setup/blob/00dfafb00ff0ff56e0008cac0fef6654ded1f396/configuration.yaml#L17-L20)) on your Home Assistant instance.
