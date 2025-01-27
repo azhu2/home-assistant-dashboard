@@ -1,18 +1,18 @@
-.tile-humidifier {
+.tile:has(.humidifier) {
     width: 4em;
 }
 
-.tile-humidifier .content {
+.humidifier .content {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
 }
 
-.tile-humidifier img.icon {
+.humidifier img.icon {
     height: 1em;
     width: 1em;
 }
 
-.tile-humidifier .ctrl-buttons > * {
+.humidifier .ctrl-buttons > * {
     font-size: 0.5em;
 }

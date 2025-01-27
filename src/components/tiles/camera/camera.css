@@ -1,4 +1,4 @@
-.tile.tile-camera {
+.tile:has(.camera) {
     width: 24em;
     height: 13.5em;
     flex-basis: 24em;
