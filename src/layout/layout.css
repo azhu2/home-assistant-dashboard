@@ -28,7 +28,7 @@
     height: 4em;
 }
 
-#section-system .tile-historygauge, #section-system .tile-percentgauge, #section-system .tile-needlegauge {
+#section-system .tile:has(.history-gauge), #section-system .tile:has(.needle-gauge) {
     width: 5.4em;
     height: 4.4em;
 }
