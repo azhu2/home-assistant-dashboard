@@ -43,7 +43,11 @@ export class HistoryGauge extends Gauge {
             const series = graph.buildHistoryGraphSeries(this.props.entityID.getCanonicalized(), this.state.history);
             series.filled = true;
             const history = graph.buildHistoryGraph([series], [], { numBuckets: 100, setBaselineToZero: this.props.setBaselineToZero, showLabels: true });
-            return this.renderHelper(history);
+            return this.renderHelper(
+                <div className='history-gauge'>
+                    {history}
+                </div>
+            );
         }
         return this.renderHelper();
     }

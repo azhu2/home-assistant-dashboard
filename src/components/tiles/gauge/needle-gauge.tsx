@@ -27,7 +27,7 @@ export class NeedleGauge extends Gauge {
             const negativeClipPathId = `hide-clip-${this.props.entityID.getCanonicalized()}`;
 
             background =
-                <>
+                <div className='needle-gauge'>
                     <svg viewBox='0 0 1 0.5' preserveAspectRatio='xMidYMax meet'>
                         <defs>
                             <clipPath id={positiveClipPathId}>
@@ -60,7 +60,7 @@ export class NeedleGauge extends Gauge {
                             transform-box='view-box' transform-origin='bottom'
                         />
                     </svg>
-                </>;
+                </div>;
         }
 
         return this.renderHelper(background);

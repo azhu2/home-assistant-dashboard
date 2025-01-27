@@ -99,7 +99,7 @@ export class Humidifier extends Component<Props, State> implements tile.Mappable
 
     render() {
         return (
-            <>
+            <div className='humidifier'>
                 <div className='mode' onClick={this.onChangeMode}>
                     {this.props.icon && icon.buildIcon(this.props.icon)}
                 </div>
@@ -115,7 +115,7 @@ export class Humidifier extends Component<Props, State> implements tile.Mappable
                         <Icon name='chevron-down' filled color='6644aa' />
                     </div>
                 </div>
-            </>
+            </div>
         );
     }
 

@@ -2,7 +2,7 @@
     width: 4em;
 }
 
-.humidifier .content {
+.humidifier {
     display: flex;
     align-items: center;
     justify-content: space-evenly;

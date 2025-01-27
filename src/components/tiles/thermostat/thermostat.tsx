@@ -161,28 +161,26 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     render() {
         return (
             <div className='thermostat'>
-                <>
-                    <div className='temperature'>
-                        {this.props.icon && icon.buildIcon(this.props.icon)}
-                        {Object.keys(this.props.targetTemperature).map(key => key as TempTargetType).map(this.buildTempControl)}
-                    </div>
-                    <div className='additional-info'>
-                        <Icon {...Thermostat.mapCurrentActivityToIcon(this.props.currentActivity)} />
-                        {this.props.preset &&
-                            <div className='preset'>
-                                {this.props.presetOptions ?
-                                    <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
-                                        {this.props.presetOptions.map(opt => (
-                                            <option value={opt} key={opt} disabled={opt === 'Manual'}>
-                                                {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
-                                            </option>
-                                        ))}
-                                    </select> :
-                                    this.props.preset}
-                            </div>
-                        }
-                    </div>
-                </>
+                <div className='temperature'>
+                    {this.props.icon && icon.buildIcon(this.props.icon)}
+                    {Object.keys(this.props.targetTemperature).map(key => key as TempTargetType).map(this.buildTempControl)}
+                </div>
+                <div className='additional-info'>
+                    <Icon {...Thermostat.mapCurrentActivityToIcon(this.props.currentActivity)} />
+                    {this.props.preset &&
+                        <div className='preset'>
+                            {this.props.presetOptions ?
+                                <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
+                                    {this.props.presetOptions.map(opt => (
+                                        <option value={opt} key={opt} disabled={opt === 'Manual'}>
+                                            {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
+                                        </option>
+                                    ))}
+                                </select> :
+                                this.props.preset}
+                        </div>
+                    }
+                </div>
             </div>
         );
     }

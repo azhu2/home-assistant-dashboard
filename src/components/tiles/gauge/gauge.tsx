@@ -60,21 +60,19 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
     renderHelper(background?: ReactElement) {
         return (
             <div className='gauge' id={this.props.entityID.getCanonicalized()}>
-                <>
-                    <div className='background'>
-                        {background}
+                <div className='background'>
+                    {background}
+                </div>
+                {this.props.toggleIcon &&
+                    <div className='toggle-icon'>
+                        {this.props.toggleIcon.entity.state === 'on' ? this.props.toggleIcon.onIcon : this.props.toggleIcon.offIcon}
                     </div>
-                    {this.props.toggleIcon &&
-                        <div className='toggle-icon'>
-                            {this.props.toggleIcon.entity.state === 'on' ? this.props.toggleIcon.onIcon : this.props.toggleIcon.offIcon}
-                        </div>
-                    }
-                    {/* extra div so superscript works with flexbox used to vertical-center values */}
-                    <div className='value-container'>
-                        <span className='value'>{this.props.formatter(this.props.state)}</span>
-                        {this.props.unit && <span className='unit'>{this.props.unit || ''}</span>}
-                    </div>
-                </>
+                }
+                {/* extra div so superscript works with flexbox used to vertical-center values */}
+                <div className='value-container'>
+                    <span className='value'>{this.props.formatter(this.props.state)}</span>
+                    {this.props.unit && <span className='unit'>{this.props.unit || ''}</span>}
+                </div>
             </div>
         );
     }

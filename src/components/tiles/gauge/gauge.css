@@ -1,4 +1,4 @@
-.tile-historygauge, .tile-needlegauge, .tile-percentgauge {
+.tile:has(.history-gauge), .tile:has(.needle-gauge) {
     /* TODO Add regular tile padding instead of hard-coding it */
     padding: 0;
     width: 3.4em;
@@ -6,7 +6,7 @@
     flex-basis: 3.4em;
 }
 
-.tile-historygauge .name, .tile-needlegauge .name, .tile-percentgauge .name {
+.tile:has(.history-gauge) .name, .tile:has(.needle-gauge) .name {
     /* Add back padding to name. Scale up the 0.2em padding by font-size 0.65 */
     padding: 0.31em 0.31em 0 0.31em;
 }
@@ -41,4 +41,9 @@
     padding: 0;
     border: none;
     z-index: 1;
+}
+
+.history-gauge, .needle-gauge {
+    height: 100%;
+    width: 100%;
 }
