@@ -106,7 +106,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         const mode = Object.values(Mode).includes(entity.state as Mode) ? entity.state as Mode : Mode.Unknown;
         const hvacAction = entity.attributes['hvac_action'];
         const currentActivity = Object.values(CurrentActivity).includes(hvacAction as CurrentActivity) ? hvacAction as CurrentActivity : CurrentActivity.Unknown;
-        const targetTemperature: TargetTemperature = mode == Mode.HeatCool ?
+        const targetTemperature: TargetTemperature = mode === Mode.HeatCool ?
             {
                 [TempTargetType.Lower]: parseFloat(entity.attributes['target_temp_low']),
                 [TempTargetType.Upper]: parseFloat(entity.attributes['target_temp_high']),
@@ -127,7 +127,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
             mode,
             targetTemperature,
             unit: '°F',
-            preset: entity.attributes['preset_mode'] == 'temp' ? 'Manual' : entity.attributes['preset_mode'],
+            preset: entity.attributes['preset_mode'] === 'temp' ? 'Manual' : entity.attributes['preset_mode'],
             presetOptions,
             currentActivity,
         };
@@ -173,7 +173,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                                 {this.props.presetOptions ?
                                     <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
                                         {this.props.presetOptions.map(opt => (
-                                            <option value={opt} key={opt} disabled={opt == 'Manual'}>
+                                            <option value={opt} key={opt} disabled={opt === 'Manual'}>
                                                 {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
                                             </option>
                                         ))}
