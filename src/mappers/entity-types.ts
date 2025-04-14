@@ -41,7 +41,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'camera.family_room_cam_high': EntityType.Camera,
     'camera.bedroom_cam_high': EntityType.Camera,
     'camera.kitchen_cam_high': EntityType.Camera,
-    'camera.dining_room_cam_high': EntityType.Camera,
+    'camera.office_cam_high': EntityType.Camera,
     'camera.living_room_cam_high_2': EntityType.Camera,
     'camera.driveway_cam_high_2': EntityType.Camera,
     'camera.front_yard_cam_high_3': EntityType.Camera,
