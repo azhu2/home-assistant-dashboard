@@ -45,9 +45,10 @@ export class HlsStream extends Component<Props, State> {
         }
         const hls = new Hls({
             capLevelToPlayerSize: true,
-            backBufferLength: 30,
+            backBufferLength: 300,
             liveSyncDuration: 15,
-            liveMaxLatencyDuration: 30,
+            liveMaxLatencyDuration: 90,
+            maxLiveSyncPlaybackRate: 1.5,
         });
         hls.attachMedia(this.videoRef.current);
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
