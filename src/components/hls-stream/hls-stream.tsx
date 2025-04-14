@@ -44,9 +44,8 @@ export class HlsStream extends Component<Props, State> {
             return;
         }
         const hls = new Hls({
-            capLevelToPlayerSize: true,
             backBufferLength: 300,
-            liveSyncDuration: 15,
+            liveSyncDuration: 30,
             liveMaxLatencyDuration: 90,
             maxLiveSyncPlaybackRate: 1.5,
         });
