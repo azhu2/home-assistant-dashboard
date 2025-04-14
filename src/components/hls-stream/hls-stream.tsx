@@ -30,7 +30,15 @@ export class HlsStream extends Component<Props, State> {
     componentDidMount() {
         const hls = this.loadVideo();
         if (hls) {
+            const elem = this.videoRef.current!;
             this.setState({ ...this.state, hls });
+            elem.onwaiting = () => {
+                console.warn("Video paused for buffering");
+                elem.oncanplaythrough = () => {
+                    console.warn("Resuming playback");
+                    elem.play();
+                };
+            };
         }
     }
 
