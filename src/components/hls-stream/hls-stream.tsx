@@ -34,34 +34,11 @@ export class HlsStream extends Component<Props, State> {
         this.state = { ...initialState };
         this.videoRef = createRef();
         this.loadVideo = this.loadVideo.bind(this);
+        this.setupEventListeners = this.setupEventListeners.bind(this);
     }
 
     componentDidMount() {
-        const hls = this.loadVideo();
-        if (hls) {
-            const elem = this.videoRef.current!;
-
-            elem.onwaiting = () => {
-                console.warn("Video paused for buffering");
-                this.setState({ ...this.state, status: Status.Buffering });
-
-                elem.oncanplaythrough = () => {
-                    if (this.state.status == Status.Playing) {
-                        return;
-                    }
-                    console.warn("Resuming playback");
-                    elem.play();
-                };
-            };
-            elem.onpause = () => {
-                console.warn("Video paused");
-                this.setState({ ...this.state, status: Status.Paused });
-            }
-            elem.onplay = () => {
-                this.setState({ ...this.state, status: Status.Playing });
-                elem.oncanplaythrough = null;
-            }
-        }
+        this.loadVideo();
     }
 
     loadVideo(): Hls | undefined {
@@ -81,6 +58,7 @@ export class HlsStream extends Component<Props, State> {
             liveMaxLatencyDuration: 30,
         });
         this.setState({ ...this.state, hls: hls, status: Status.Loading, err: undefined });
+        this.setupEventListeners(this.videoRef.current);
 
         hls.attachMedia(this.videoRef.current);
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
@@ -131,6 +109,29 @@ export class HlsStream extends Component<Props, State> {
         });
 
         return hls;
+    }
+
+    setupEventListeners(elem: HTMLVideoElement) {
+        elem.onwaiting = () => {
+            console.warn("Video paused for buffering");
+            this.setState({ ...this.state, status: Status.Buffering });
+
+            elem.oncanplaythrough = () => {
+                if (this.state.status == Status.Playing) {
+                    return;
+                }
+                console.warn("Resuming playback");
+                elem.play();
+            };
+        };
+        elem.onpause = () => {
+            console.warn("Video paused");
+            this.setState({ ...this.state, status: Status.Paused });
+        }
+        elem.onplay = () => {
+            this.setState({ ...this.state, status: Status.Playing });
+            elem.oncanplaythrough = null;
+        }
     }
 
     componentWillUnmount() {
