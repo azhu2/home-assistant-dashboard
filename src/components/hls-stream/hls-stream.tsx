@@ -112,31 +112,11 @@ export class HlsStream extends Component<Props, State> {
     }
 
     setupEventListeners(elem: HTMLVideoElement) {
-        elem.onwaiting = () => {
-            console.warn("Video paused for buffering");
-            this.setState({ ...this.state, status: Status.Buffering });
-
-            elem.oncanplaythrough = () => {
-                if (this.state.status == Status.Playing) {
-                    return;
-                }
-                console.warn("Resuming playback");
-                elem.play();
-                this.setState({ ...this.state, status: Status.Playing });
-                elem.oncanplaythrough = null;
-            };
-        };
-        elem.onpause = (ev: Event) => {
-            console.warn("Video paused");
-            console.log(ev);
-            // TODO Add resume trigger depending on source of pause?
-            this.setState({ ...this.state, status: Status.Paused });
-        }
-        elem.onplay = () => {
-            console.warn("Playing")
-            this.setState({ ...this.state, status: Status.Playing });
-            elem.oncanplaythrough = null;
-        }
+        elem.onwaiting = () => this.setState({ ...this.state, status: Status.Buffering });
+        elem.onpause = () => this.setState({ ...this.state, status: Status.Paused });
+        elem.onplay = () => this.setState({ ...this.state, status: Status.Playing });
+        // Resume play on reobtaining foreground
+        document.addEventListener('visibilitychange', () => !document.hidden && elem.play() );
     }
 
     componentWillUnmount() {
@@ -160,7 +140,8 @@ export class HlsStream extends Component<Props, State> {
                         {this.state.err}
                     </div>
                 }
-                {this.state.status}
+                {/* TODO Make this an icon */}
+                {/* {this.state.status} */}
             </>
         );
     }
