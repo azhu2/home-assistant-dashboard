@@ -122,13 +122,18 @@ export class HlsStream extends Component<Props, State> {
                 }
                 console.warn("Resuming playback");
                 elem.play();
+                this.setState({ ...this.state, status: Status.Playing });
+                elem.oncanplaythrough = null;
             };
         };
-        elem.onpause = () => {
+        elem.onpause = (ev: Event) => {
             console.warn("Video paused");
+            console.log(ev);
+            // TODO Add resume trigger depending on source of pause?
             this.setState({ ...this.state, status: Status.Paused });
         }
         elem.onplay = () => {
+            console.warn("Playing")
             this.setState({ ...this.state, status: Status.Playing });
             elem.oncanplaythrough = null;
         }
@@ -155,6 +160,7 @@ export class HlsStream extends Component<Props, State> {
                         {this.state.err}
                     </div>
                 }
+                {this.state.status}
             </>
         );
     }
