@@ -2,6 +2,14 @@ import Hls from 'hls.js';
 import { Component, createRef, RefObject } from 'react';
 import './hls-stream.css';
 
+enum Status {
+    Loading = "loading",
+    Error = "error",
+    Buffering = "buffering",
+    Paused = "paused",
+    Playing = "playing",
+}
+
 type Props = {
     src: string,
     poster?: string,
@@ -10,11 +18,12 @@ type Props = {
 
 type State = {
     hls?: Hls;
-    err?: string,
+    status: Status;
+    err?: string;
 }
 
 const initialState: State = {
-    err: 'Initializing...',
+    status: Status.Loading,
 }
 
 export class HlsStream extends Component<Props, State> {
@@ -31,14 +40,27 @@ export class HlsStream extends Component<Props, State> {
         const hls = this.loadVideo();
         if (hls) {
             const elem = this.videoRef.current!;
-            this.setState({ ...this.state, hls });
+
             elem.onwaiting = () => {
                 console.warn("Video paused for buffering");
+                this.setState({ ...this.state, status: Status.Buffering });
+
                 elem.oncanplaythrough = () => {
+                    if (this.state.status == Status.Playing) {
+                        return;
+                    }
                     console.warn("Resuming playback");
                     elem.play();
                 };
             };
+            elem.onpause = () => {
+                console.warn("Video paused");
+                this.setState({ ...this.state, status: Status.Paused });
+            }
+            elem.onplay = () => {
+                this.setState({ ...this.state, status: Status.Playing });
+                elem.oncanplaythrough = null;
+            }
         }
     }
 
@@ -51,20 +73,18 @@ export class HlsStream extends Component<Props, State> {
             console.error('HLS stream not supported in this browser!');
             return;
         }
+
         const hls = new Hls({
             capLevelToPlayerSize: true,
             backBufferLength: 30,
             liveSyncDuration: 15,
             liveMaxLatencyDuration: 30,
         });
+        this.setState({ ...this.state, hls: hls, status: Status.Loading, err: undefined });
+
         hls.attachMedia(this.videoRef.current);
         hls.on(Hls.Events.MEDIA_ATTACHED, () => {
             hls.loadSource(this.props.src);
-        });
-
-        hls.on(Hls.Events.FRAG_LOADED, () => {
-            // Assume this means stream online
-            this.setState({ ...this.state, err: undefined });
         });
 
         hls.on(Hls.Events.ERROR, (_event, data) => {
@@ -83,16 +103,16 @@ export class HlsStream extends Component<Props, State> {
                             return;
                         }
                         console.error(`Error starting stream for ${data.url} - ${JSON.stringify(data.response)}. Will retry.`);
-                        this.setState({ ...this.state, err: 'Error starting stream' });
+                        this.setState({ ...this.state, status: Status.Error, err: 'Error starting stream' });
                         break;
                     case Hls.ErrorDetails.MANIFEST_LOAD_TIMEOUT:
                     case Hls.ErrorDetails.LEVEL_LOAD_TIMEOUT:
                         console.error(`Timeout starting stream for ${data.url} - ${data.details}. Will retry.`)
-                        this.setState({ ...this.state, err: 'Timeout starting stream' });
+                        this.setState({ ...this.state, status: Status.Error, err: 'Timeout starting stream' });
                         break;
                     default:
                         console.error(`Other stream network error for ${data.url} - ${data.details}. Will retry.`)
-                        this.setState({ ...this.state, err: 'Stream network error' });
+                        this.setState({ ...this.state, status: Status.Error, err: 'Stream network error' });
                 }
                 // Just rebuild the whole stream element?
                 setTimeout(() => {
@@ -102,11 +122,11 @@ export class HlsStream extends Component<Props, State> {
                 }, 10000);
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
                 console.error(`Stream media error for ${this.props.src} - ${data.details}. Will try to recover.`)
-                this.setState({ ...this.state, err: 'Media error' });
+                this.setState({ ...this.state, status: Status.Error, err: 'Media error' });
                 hls.recoverMediaError();
             } else {
                 console.error(`Other stream error for ${this.props.src} - ${data.details}`)
-                this.setState({ ...this.state, err: 'Error playing stream' });
+                this.setState({ ...this.state, status: Status.Error, err: 'Error playing stream' });
             }
         });
 
