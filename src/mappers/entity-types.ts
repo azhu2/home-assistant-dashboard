@@ -83,7 +83,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'switch.family_room_cam_recording': EntityType.Switch,
     'switch.bedroom_cam_recording': EntityType.Switch,
     'switch.kitchen_cam_recording': EntityType.Switch,
-    'switch.dining_room_cam_recording': EntityType.Switch,
+    'switch.office_cam_recording': EntityType.Switch,
     'switch.living_room_cam_recording': EntityType.Switch,
     'switch.driveway_cam_recording': EntityType.Switch,
     'switch.front_yard_cam_recording': EntityType.Switch,
