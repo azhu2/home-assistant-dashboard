@@ -10,4 +10,4 @@ export const ToThousands: Formatter<number> = (from: number) => (typeof(from) ==
 export const WithPrecision: (digits: number) => Formatter<number> = (digits) => (from: number) => (typeof(from) === 'number' && `${from.toFixed(digits)}`) || from.toString();
 
 /** AbbreviateDuration abbreviates a time to XdYhZm */
-export const AbbreviateDuration: Formatter<string> = (from: string) => (typeof(from) === 'number' ? `${from}d` : from.replaceAll(/ days?/, 'd').replaceAll(/ hours?/, 'h')).replaceAll(/ minutes?/, 'm')
+export const AbbreviateDuration: Formatter<string> = (from: string) => (typeof(from) === 'number' ? `${from}d` : from.replaceAll(/ days?/g, 'd').replaceAll(/ hours?/g, 'h')).replaceAll(/ minutes?/g, 'm')
