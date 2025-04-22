@@ -10,17 +10,20 @@
     flex-wrap: wrap;
 }
 
-#tiles > * {
-    display: flex;
-    flex-direction: column;
-}
-
 #room-cameras {
     max-width: 75em;
 }
 
-#room-irrigation {
-    max-width: 30em;
+#section-controls {
+    flex: 0 1 15%;
+}
+
+#section-controls .section-contents > * {
+    flex-basis: 100%;
+}
+
+#section-system {
+    flex: 3 1 40%; 
 }
 
 #section-system .tile {
@@ -31,22 +34,4 @@
 #section-system .tile:has(.history-gauge), #section-system .tile:has(.needle-gauge) {
     width: 5.4em;
     height: 4.4em;
-}
-
-#section-climate .section-contents {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#temperature-graph {
-    height: 8em;
-    width: 35em;
-    position: relative;
-    border: 1px solid black;
-    padding: 0;
-}
-
-#room-air_quality .tile {
-    width: 4em;
 }

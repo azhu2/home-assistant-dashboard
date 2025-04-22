@@ -71,111 +71,54 @@ export const Layout = (props: Props) => {
             <div className='time'>{timeEntity?.state}</div>
 
             <div id='tiles'>
-                <div>
-                    <Section title='Indoors'>
-                        <Room title='Living Room'>
-                            {getTile(Light, 'light.entry_sconces', { tileOptions: { icon: 'lights' } })}
+                <div className='section-row'>
+                    <Section title='Controls'>
+                        <Room title='Lights'>
                             {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
-                            {getTile(Light, 'switch.christmas_tree', { tileOptions: { icon: 'christmas-tree', hideIfUnavailable: true } })}
-                            {getTile(Switch, 'switch.small_fan', { tileOptions: { icon: 'fan' } })}
                         </Room>
-                        <div className='section-row'>
-                            <Room title='Family Room'>
-                                {getTile(DimmableLight, 'light.family_room_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                                {getTile(DimmableLight, 'light.family_room_chandelier', { tileOptions: { icon: { name: 'chandelier', color: 'cc5555' } } })}
-                                {getTile(Light, 'switch.cat_den', { tileOptions: { icon: 'animal-shelter' } })}
-                            </Room>
-                            <Room title='Kitchen'>
-                                {getTile(Light, 'switch.kitchen_lights', { tileOptions: { icon: 'philips-hue-go' } })}
-                                {getTile(Light, 'switch.kitchen_chandelier', { tileOptions: { icon: 'chandelier' } })}
-                            </Room>
-                        </div>
-                        <div className='section-row'>
-                            <Room title='Hallway'>
-                                    {getTile(Light, 'switch.hallway_light', { tileOptions: { icon: 'philips-hue-go' } })}
-                                    {getTile(Light, 'switch.stairway_lights', { tileOptions: { icon: 'chandelier' } })}
-                            </Room>
-                            <Room title='Master'>
-                                {getTile(DimmableLight, 'light.master_light', { tileOptions: { icon: 'chandelier' } })}
-                            </Room>
-                        </div>
-                        <Room title='Guest'>
-                            {getTile(Switch, 'binary_sensor.guest_bedroom_window_contact', { tileOptions: { icon: { name: 'shutters', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
-                            {getTile(Switch, 'binary_sensor.guest_bathroom_window_contact', { tileOptions: { icon: { name: 'open-window', color: '6644aa', filled: true }, secondaryIcons: ['closed-window'] } })}
+                        <Room title='Garage'>
+                            {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
+                            {getTile(Switch, 'device_tracker.m440i_xdrive', { tileOptions: { icon: { name: 'bmw', color: '6644aa', filled: true }, secondaryIcons: ['bmw'] } })}
+                            {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
+                            {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
+                            {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
                         </Room>
                     </Section>
-                    <Section title='Climate'>
-                        <div className='section-row'>
-                            <Room title='Controls'>
-                                {getTile(Thermostat, 'climate.ecobee_thermostat_2', { tileOptions: { showName: true } })}
-                                {getTile(Humidifier, 'humidifier.living_room', { tileOptions: { showName: true } })}
-                            </Room>
-                            <Room title='Air Quality'>
-                                {getTile(HistoryGauge, 'sensor.ecobee_humidity', { tileOptions: { showName: true } })}
-                                {getTile(NeedleGauge, 'sensor.ecobee_air_quality_index', { tileOptions: { showName: true }, tileProps: { min: 0, max: 300 } })}
-                                {getTile(NeedleGauge, 'sensor.ecobee_carbon_dioxide', { tileOptions: { showName: true }, tileProps: { min: 200, max: 5000 } })}
-                                {getTile(NeedleGauge, 'sensor.ecobee_vocs', { tileOptions: { showName: true, formatter: formatter.ToThousands }, tileProps: { min: 250, max: 10000 } })}
-                            </Room>
-                        </div>
-                        <Room title='Temperatures'>
-                            <div className={`tile tile-temperature-graph`} id='temperature-graph' >
-                                <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288} showLegend
-                                        series={[
-                                            ...targetSeries,
-                                            { label: 'Family', entityID: new haEntity.EntityID('sensor.family_room_temperature_2') },
-                                            { label: 'Living', entityID: new haEntity.EntityID('sensor.living_room_temperature_2') },
-                                            { label: 'Master', entityID: new haEntity.EntityID('sensor.master_bedroom_temperature_2') },
-                                            { label: 'Den', entityID: new haEntity.EntityID('sensor.office_temperature_2') },
-                                            { label: 'Guest', entityID: new haEntity.EntityID('sensor.guest_bedroom_temperature_2') },
-                                            /* Summary series need to be last to be on top since SVG draws in order */
-                                            { label: 'Average', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'current_temperature' }, // Average
-                                        ]}
-                                        annotations={[
-                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.thermostat_heating') },
-                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.thermostat_cooling') },
-                                        ]}
-                                    />
-                                </div>
-                            </div>
+                    <Section title='System'>
+                        <Room title='Network'>
+                            {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
-                    </Section>
-                    <Section title='Outside'>
-                        <div className='section-row'>
-                            <Room title='Front'>
-                                {getTile(Switch, 'binary_sensor.front_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                                {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
-                                {getTile(Light, 'switch.front_door_lights', { tileOptions: { icon: 'lights' } })}
-                                {trashDayEntity && trashDayEntity.state !== 'Not Trash Day' && getTile(Switch, 'switch.trash_day', { tileOptions: { icon: 'waste' } })}
-                            </Room>
-                            <Room title='Car'>
-                                {getTile(Switch, 'device_tracker.m440i_xdrive', { tileOptions: { icon: { name: 'bmw', color: '6644aa', filled: true }, secondaryIcons: ['bmw'] } })}
-                                {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
-                                {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
-                                {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
-                            </Room>
-                        </div>
-                        <div className='section-row'>
-                            <Room title='Backyard'>
-                                {getTile(Switch, 'binary_sensor.backyard_door_contact', { tileOptions: { icon: { name: 'door-opened', color: '6644aa', filled: true }, secondaryIcons: ['door-closed'] } })}
-                                {getTile(Light, 'switch.outdoor_lights', { tileOptions: { icon: 'external-lights' } })}
-                            </Room>
-                            <Room title='Irrigation'>
-                                {getTile(Switch, 'switch.lawn_schedule', { tileOptions: { showName: true, icon: { name: 'grass', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.roses_schedule_2', { tileOptions: { showName: true, icon: { name: 'rose-bouquet', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.front_yard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.front_yard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.backyard_primary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.backyard_secondary', { tileOptions: { showName: true, icon: { name: 'garden-sprinkler', color: '#4444dd' } } })}
-                                {getTile(Switch, 'switch.backyard_drip', { tileOptions: { showName: true, icon: { name: 'plant-under-rain', color: '#4444dd' } } })}
-                            </Room>
-                        </div>
+                        <Room title='NVR'>
+                            {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 150 } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_4_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_4_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(Gauge, 'sensor.unifi_oldest_recording', { tileOptions: {showName: true, formatter: formatter.AbbreviateDuration }})}
+                        </Room>
+                        <Room title='NAS'>
+                            {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 200 } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_1_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_1_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                        </Room>
+                        <Room title='DNS'>
+                            {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { showName: true } })}
+                            {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
+                            {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { showName: true, icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
+                        </Room>
                     </Section>
                 </div>
                 <div>
-                    <Room title='Cameras'>
+                    <Room title='Cameras' wrappable>
                         {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
                         {getTile(Camera, 'camera.office_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.office_cam_recording'] })}
                         {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
@@ -186,40 +129,6 @@ export const Layout = (props: Props) => {
                         {getTile(Camera, 'camera.front_yard_cam_high_3', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.front_yard_cam_recording'] })}
                         {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
                     </Room>
-                    <Section title='System'>
-                        <div className='section-row'>
-                            <Room title='Network'>
-                                {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            </Room>
-                            <Room title='NVR'>
-                                {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 150 } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_4_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_4_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(Gauge, 'sensor.unifi_oldest_recording', { tileOptions: {showName: true, formatter: formatter.AbbreviateDuration }})}
-                            </Room>
-                        </div>
-                        <div className='section-row'>
-                            <Room title='NAS'>
-                                {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                                {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 90, max: 200 } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_3_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                                {getTile(HistoryGauge, 'sensor.udr_port_3_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            </Room>
-                            <Room title='DNS'>
-                                {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { showName: true } })}
-                                {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
-                                {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { showName: true, icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
-                            </Room>
-                        </div>
-                    </Section>
                 </div>
             </div>
             <div>
