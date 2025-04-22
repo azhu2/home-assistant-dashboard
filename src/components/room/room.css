@@ -13,8 +13,11 @@
 .room-contents {
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
     gap: 0.2em;
+}
+
+.room-contents.wrappable {
+    flex-wrap: wrap;
 }
 
 .room-contents > * {
