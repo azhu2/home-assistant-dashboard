@@ -5,20 +5,20 @@
     padding: 0.2em;
     border: 1px solid black;
     max-width: 50vw;
-}
 
-.section-title {
-    font-weight: bold;
-    font-variant: small-caps;
-    text-align: center;
-}
+    .section-title {
+        font-weight: bold;
+        font-variant: small-caps;
+        text-align: center;
+    }
 
-.section-contents {
-    flex: 1 0 90%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    padding: 0.5em;
+    .section-contents {
+        flex: 1 0 90%;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        padding: 0.5em;
+    }
 }
 
 .section-row {

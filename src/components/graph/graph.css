@@ -1,68 +1,68 @@
-.graph .history-average {
-    stroke: rgb(128, 128, 192);
-    stroke-width: 2.5px;
-}
-
-.graph .history-target.masked {
-    fill: rgba(192, 192, 240, 0.4);
-}
-
-.graph .history-target.masked.focused {
-    fill: rgba(128, 64, 192, 0.4);
-}
-
 .graph {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
     height: 100%;
-}
 
-.graph-context {
-    position: relative;
-    flex-grow: 1;
-}
+    .history-average {
+        stroke: rgb(128, 128, 192);
+        stroke-width: 2.5px;
+    }
 
-.graph .annotation-heating {
-    fill: rgb(255, 128, 128);
-}
+    .history-target.masked {
+        fill: rgba(192, 192, 240, 0.4);
+    }
 
-.graph .annotation-cooling {
-    fill: rgb(128, 192, 255);
-}
+    .history-target.masked.focused {
+        fill: rgba(128, 64, 192, 0.4);
+    }
 
-.legend {
-    display: flex;
-    font-size: 0.7em;
-    gap: 1.5em;
-}
+    .graph-context {
+        position: relative;
+        flex-grow: 1;
+    }
 
-.legend-entry {
-    flex: 10% 1 1;
-    text-align: center;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+    .annotation-heating {
+        fill: rgb(255, 128, 128);
+    }
 
-.legend-entry.focused {
-    background-color: rgba(192, 192, 240, 0.4);
-}
+    .annotation-cooling {
+        fill: rgb(128, 192, 255);
+    }
 
-.legend-entry.focused .legend-label {
-    border-bottom-width: 2px;
-}
+    .legend {
+        display: flex;
+        font-size: 0.7em;
+        gap: 1.5em;
 
-.legend-label {
-    border-bottom: 1px solid rgb(192, 192, 240);
-}
+        .legend-entry {
+            flex: 10% 1 1;
+            text-align: center;
+            user-select: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
-.legend-label.label-target {
-    border-bottom: 2px solid rgba(128, 64, 192, 0.2);
-}
+            &.focused {
+                background-color: rgba(192, 192, 240, 0.4);
 
-.legend-label.label-average {
-    border-bottom: 2px solid rgb(128, 128, 192);
+                .legend-label {
+                    border-bottom-width: 2px;
+                }
+            }
+
+            .legend-label {
+                border-bottom: 1px solid rgb(192, 192, 240);
+
+                &.label-target {
+                    border-bottom: 2px solid rgba(128, 64, 192, 0.2);
+                }
+
+                &.label-average {
+                    border-bottom: 2px solid rgb(128, 128, 192);
+                }
+            }
+        }
+    }
 }

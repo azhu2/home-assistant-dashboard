@@ -4,26 +4,26 @@
     border: 1px solid black;
     max-width: fit-content;
     max-height: fit-content;
-}
 
-.room-title {
-    font-weight: bold;
-    font-variant: small-caps;
-    text-align: center;
-}
+    .room-title {
+        font-weight: bold;
+        font-variant: small-caps;
+        text-align: center;
+    }
 
-.room-contents {
-    display: flex;
-    justify-content: center;
-    gap: 0.2em;
-    max-width: fit-content;
-}
+    .room-contents {
+        display: flex;
+        justify-content: center;
+        gap: 0.2em;
+        max-width: fit-content;
 
-.room-contents.wrappable {
-    flex-wrap: wrap;
-}
+        &.wrappable {
+            flex-wrap: wrap;
+        }
 
-.room-contents > * {
-    padding: 0.2em;
-    flex: 1 0 3em;
+        > * {
+            padding: 0.2em;
+            flex: 1 0 3em;
+        }
+    }
 }

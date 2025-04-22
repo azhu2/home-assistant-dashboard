@@ -16,22 +16,22 @@
 
 #section-controls {
     flex: 0 1 15%;
-}
 
-#section-controls .section-contents > * {
-    flex-basis: 100%;
+    .section-contents > * {
+        flex-basis: 100%;
+    }
 }
 
 #section-system {
-    flex: 3 1 40%; 
-}
+    flex: 3 1 40%;
 
-#section-system .tile {
-    width: 5em;
-    height: 4em;
-}
+    .tile {
+        width: 5em;
+        height: 4em;
 
-#section-system .tile:has(.history-gauge), #section-system .tile:has(.needle-gauge) {
-    width: 5.4em;
-    height: 4.4em;
+        &:has(.history-gauge), &:has(.needle-gauge) {
+            width: 5.4em;
+            height: 4.4em;
+        }
+    }
 }

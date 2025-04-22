@@ -6,13 +6,13 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-}
 
-.humidifier img.icon {
-    height: 1em;
-    width: 1em;
-}
+    img.icon {
+        height: 1em;
+        width: 1em;
+    }
 
-.humidifier .ctrl-buttons > * {
-    font-size: 0.5em;
+    .ctrl-buttons > * {
+        font-size: 0.5em;
+    }
 }

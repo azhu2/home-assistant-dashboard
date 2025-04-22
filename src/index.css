@@ -8,8 +8,8 @@ html, body {
     display: flex;
     align-items: flex-start;
     gap: 0.1em;
-}
 
-.value-container .unit {
-    font-size: 0.45em;
+    .unit {
+        font-size: 0.45em;
+    }
 }
