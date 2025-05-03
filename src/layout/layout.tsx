@@ -90,7 +90,7 @@ export const Layout = (props: Props) => {
                         <Room title='Network'>
                             {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
                             {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(NeedleGauge, 'sensor.udr_udr_cpu_temperature', { tileOptions: { showName: true }, tileProps: { min: 35, max: 90 } })}
+                            {getTile(NeedleGauge, 'sensor.udr_udr_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
                             {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
                             {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                             {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
