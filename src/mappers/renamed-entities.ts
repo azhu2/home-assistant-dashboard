@@ -2,6 +2,7 @@
 export const renamedEntityMap: {[key: string]: string} = {
     'sensor.udr_cpu_utilization': 'CPU',
     'sensor.udr_memory_utilization': 'RAM',
+    'sensor.udr_udr_cpu_temperature': 'Temp',
     'sensor.synology_nas_cpu_utilization_total': 'CPU',
     'sensor.synology_nas_memory_usage_real': 'RAM',
     'sensor.synology_nas_volume_1_volume_used': 'Storage',

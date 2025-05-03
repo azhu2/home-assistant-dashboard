@@ -21,6 +21,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'sensor.synology_nas_memory_usage_real': EntityType.Gauge,
     'sensor.udr_cpu_utilization': EntityType.Gauge,
     'sensor.udr_memory_utilization': EntityType.Gauge,
+    'sensor.udr_udr_cpu_temperature': EntityType.Gauge,
     'sensor.synology_nas_volume_1_volume_used': EntityType.Gauge,
     'sensor.online_devices': EntityType.Gauge,
     'sensor.1m_download_max': EntityType.Gauge,
