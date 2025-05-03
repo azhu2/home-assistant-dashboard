@@ -1,8 +1,6 @@
 import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
-import * as time from '../common/time/time';
 import * as base from '../components/base';
-import { Graph } from '../components/graph/graph';
 import { Room } from '../components/room/room';
 import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
@@ -10,14 +8,12 @@ import { Camera } from '../components/tiles/camera/camera';
 import { Garage } from '../components/tiles/garage/garage';
 import { Gauge } from '../components/tiles/gauge/gauge';
 import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
-import { NeedleGauge, PercentGauge, InversePercentGauge } from '../components/tiles/gauge/needle-gauge';
-import { DimmableLight, Light } from '../components/tiles/light/light';
+import { InversePercentGauge, NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
+import { Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
-import { Thermostat } from '../components/tiles/thermostat/thermostat';
 import * as formatter from '../types/formatter';
 import * as haEntity from '../types/ha-entity';
 import './layout.css';
-import { Humidifier } from '../components/tiles/humidifier/humidifier';
 
 type Props = {
     entityMap: Map<string, haEntity.Entity>
@@ -57,12 +53,12 @@ export const Layout = (props: Props) => {
 
     const homeEntity = getEntityForEntityID('zone.home');
     const timeEntity = getEntityForEntityID('sensor.time');
-    const trashDayEntity = getEntityForEntityID('select.trash_day');
-    const thermostatEntity = getEntityForEntityID('climate.ecobee_thermostat');
-    const targetSeries = thermostatEntity?.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
-        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_low' },  // Target low
-        { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_high' }]: // Target high
-        [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }]
+    // const trashDayEntity = getEntityForEntityID('select.trash_day');
+    // const thermostatEntity = getEntityForEntityID('climate.ecobee_thermostat');
+    // const targetSeries = thermostatEntity?.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
+    //     [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_low' },  // Target low
+    //     { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_high' }]: // Target high
+    //     [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }]
 
 
     return (
