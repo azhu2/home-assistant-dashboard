@@ -117,7 +117,7 @@ export const Layout = (props: Props) => {
                             {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmicputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpuload', { tileOptions: { showName: true } })}
                             {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmigputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan1', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan2', { tileOptions: { showName: true } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan3', { tileOptions: { showName: true } })}
