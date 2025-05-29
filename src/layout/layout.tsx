@@ -134,10 +134,7 @@ export const Layout = (props: Props) => {
                         {getTile(Camera, 'camera.office_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.office_cam_recording'] })}
                         {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
                         {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
-                        {getTile(Camera, 'camera.bedroom_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
                         {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                        {getTile(Camera, 'camera.driveway_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.driveway_cam_recording'] })}
-                        {getTile(Camera, 'camera.front_yard_cam_high_3', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.front_yard_cam_recording'] })}
                         {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
                     </Room>
                 </div>
