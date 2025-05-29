@@ -112,6 +112,20 @@ export const Layout = (props: Props) => {
                             {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
                             {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { showName: true, icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
                         </Room>
+                        <Room title='PC'>
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_cpuload', { tileOptions: { showName: true } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmicputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpuload', { tileOptions: { showName: true } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmigputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan1', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan2', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan3', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan4', { tileOptions: { showName: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpufan1', { tileOptions: { showName: true } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                        </Room>
                     </Section>
                 </div>
                 <div>

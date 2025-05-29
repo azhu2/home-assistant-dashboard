@@ -21,6 +21,8 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.udr_port_4_rx': 'Upload',
     'sensor.udr_port_5_rx': 'Download',
     'sensor.udr_port_5_tx': 'Upload',
+    'sensor.desktop_402nh5i_tx': 'Download',
+    'sensor.desktop_402nh5i_rx': 'Upload',
     'climate.ecobee_thermostat_2': 'Thermostat',
     'sensor.average_temperature': 'Average',
     'sensor.living_room_temperature_2': 'Temp',
@@ -60,4 +62,14 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.m440i_xdrive_mileage': 'Mileage',
     'sensor.m440i_xdrive_remaining_fuel_percent': 'Fuel',
     'humidifier.living_room': 'Humidifier',
+    'sensor.desktop_402nh5i_cpuload': 'CPU',
+    'sensor.desktop_402nh5i_wmicputemp': 'CPU',
+    'sensor.desktop_402nh5i_wmigpuload': 'GPU',
+    'sensor.desktop_402nh5i_wmigputemp': 'GPU',
+    'sensor.desktop_402nh5i_memoryusage': 'RAM',
+    'sensor.desktop_402nh5i_wmifan1': 'Radiator Fans',
+    'sensor.desktop_402nh5i_wmifan2': 'Side Intake',
+    'sensor.desktop_402nh5i_wmifan3': 'Bottom Intake',
+    'sensor.desktop_402nh5i_wmifan4': 'Rear Exhaust',
+    'sensor.desktop_402nh5i_wmigpufan1': 'GPU Fan'
 };
