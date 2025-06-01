@@ -76,10 +76,16 @@ export const Layout = (props: Props) => {
                         </Room>
                         <Room title='Garage'>
                             {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
-                            {getTile(Switch, 'device_tracker.m440i_xdrive', { tileOptions: { icon: { name: 'bmw', color: '6644aa', filled: true }, secondaryIcons: ['bmw'] } })}
+                        </Room>
+                        <Room title='BMW'>
                             {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
                             {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
+                        </Room>
+                        <Room title='Corvette'>
+                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
+                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) } })}
+                            {getTile(NeedleGauge, 'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
                         </Room>
                     </Section>
                     <Section title='System'>
