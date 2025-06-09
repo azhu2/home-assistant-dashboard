@@ -46,4 +46,8 @@
 .history-gauge, .needle-gauge {
     height: 100%;
     width: 100%;
+
+    .needle {
+        transition: transform 1s;
+    }
 }

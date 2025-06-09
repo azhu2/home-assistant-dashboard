@@ -55,7 +55,7 @@ export class NeedleGauge extends Gauge {
                         {/* Inner circle */}
                         <circle cx='0.5' cy='0.5' r='0.3' fill='white' />
                         {/* Needle */}
-                        <path d='M0 0.5 L0.46 0.48 Q0.5 0.5 0.46 0.52 Z' fill='black'
+                        <path className='needle' d='M0 0.5 L0.46 0.48 Q0.5 0.5 0.46 0.52 Z' fill='black'
                             transform={`rotate(${rotateDeg})`}
                             transform-box='view-box' transform-origin='bottom'
                         />
