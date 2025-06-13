@@ -2,6 +2,10 @@
     width: auto;
 }
 
+.thermostat {
+    display: flex;
+}
+
 .temperature {
     display: flex;
     align-items: center;

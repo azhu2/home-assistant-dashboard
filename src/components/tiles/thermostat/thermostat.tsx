@@ -77,6 +77,9 @@ type Props = base.BaseEntityProps & {
     preset?: string,
     presetOptions?: string[],
     currentActivity: CurrentActivity,
+    minTemp?: number,
+    maxTemp?: number,
+    tempStep: number,
 }
 
 type State = {
@@ -115,11 +118,13 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
 
         // Fix preset modes. Away is not supported as of HA 2023.4, and Manual isn't returned by ecobee
         const presetOptions = entity.attributes['preset_modes'];
-        if (presetOptions.includes('away')) {
-            presetOptions.splice(presetOptions.indexOf('away'), 1)
-        }
-        if (!presetOptions.includes('Manual')) {
-            presetOptions.push('Manual');
+        if (presetOptions) {
+            if (presetOptions.includes('away')) {
+                presetOptions.splice(presetOptions.indexOf('away'), 1)
+            }
+            if (!presetOptions.includes('Manual')) {
+                presetOptions.push('Manual');
+            }
         }
 
         return {
@@ -130,6 +135,9 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
             preset: entity.attributes['preset_mode'] === 'temp' ? 'Manual' : entity.attributes['preset_mode'],
             presetOptions,
             currentActivity,
+            minTemp: entity.attributes['min_temp'],
+            maxTemp: entity.attributes['max_temp'],
+            tempStep: entity.attributes['target_temp_step'] || 1,
         };
     }
 
@@ -137,7 +145,12 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         return (e: ReactMouseEvent) => {
             e.preventDefault();
             const curTargets = this.state.pendingTargetTemperature || this.props.targetTemperature;
-            const newTemp = curTargets[target] + (operation === Operation.TempUp ? 1 : -1);
+            let newTemp = curTargets[target] + (operation === Operation.TempUp ? 1 : -1) * this.props.tempStep;
+            if (this.props.minTemp && newTemp < this.props.minTemp) {
+                newTemp = this.props.minTemp;
+            } else if (this.props.maxTemp && newTemp > this.props.maxTemp) {
+                newTemp = this.props.maxTemp;
+            }
             const newTargets = {...curTargets, [target]: newTemp};
             this.debouncedChangeTemperature(newTargets);
             this.setState({ ...this.state, pendingTargetTemperature: newTargets });
@@ -165,22 +178,24 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
                     {this.props.icon && icon.buildIcon(this.props.icon)}
                     {Object.keys(this.props.targetTemperature).map(key => key as TempTargetType).map(this.buildTempControl)}
                 </div>
-                <div className='additional-info'>
-                    <Icon {...Thermostat.mapCurrentActivityToIcon(this.props.currentActivity)} />
-                    {this.props.preset &&
-                        <div className='preset'>
-                            {this.props.presetOptions ?
-                                <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
-                                    {this.props.presetOptions.map(opt => (
-                                        <option value={opt} key={opt} disabled={opt === 'Manual'}>
-                                            {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
-                                        </option>
-                                    ))}
-                                </select> :
-                                this.props.preset}
-                        </div>
-                    }
-                </div>
+                {(this.props.preset || this.props.presetOptions) &&
+                    <div className='additional-info'>
+                        <Icon {...Thermostat.mapCurrentActivityToIcon(this.props.currentActivity)} />
+                        {this.props.preset &&
+                            <div className='preset'>
+                                {this.props.presetOptions ?
+                                    <select id='thermostat-preset' value={this.props.preset} onChange={this.onChangePreset}>
+                                        {this.props.presetOptions.map(opt => (
+                                            <option value={opt} key={opt} disabled={opt === 'Manual'}>
+                                                {opt[0].toUpperCase() + opt.slice(1).replace('way_indefinitely', 'way')}
+                                            </option>
+                                        ))}
+                                    </select> :
+                                    this.props.preset}
+                            </div>
+                        }
+                    </div>
+                }
             </div>
         );
     }
