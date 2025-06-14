@@ -11,6 +11,7 @@ import { HistoryGauge } from '../components/tiles/gauge/history-gauge';
 import { InversePercentGauge, NeedleGauge, PercentGauge } from '../components/tiles/gauge/needle-gauge';
 import { Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
+import { Thermostat } from '../components/tiles/thermostat/thermostat';
 import * as formatter from '../types/formatter';
 import * as haEntity from '../types/ha-entity';
 import './layout.css';
@@ -76,6 +77,12 @@ export const Layout = (props: Props) => {
                         </Room>
                         <Room title='Garage'>
                             {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
+                        </Room>
+                        <Room title='Office'>
+                            {getTile(Thermostat, 'climate.office_ac')}
+                        </Room>
+                        <Room title='Bedroom'>
+                            {getTile(Thermostat, 'climate.bedroom_ac')}
                         </Room>
                         <Room title='BMW'>
                             {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
