@@ -49,7 +49,7 @@ export class Gauge extends Component<Props, State> implements tile.MappableProps
         return {
             state: state,
             unit: entity.attributes['unit_of_measurement'],
-            formatter: options.formatter || formatter.NoOp,
+            formatter: options?.formatter || formatter.NoOp,
         };
     }
 
