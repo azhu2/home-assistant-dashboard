@@ -1,11 +1,12 @@
 import { MouseEvent, ReactElement, useContext, useEffect, useRef, useState } from 'react';
 import * as graph from '../../common/graph/graph';
+import * as time from '../../common/time/time';
 import * as authContext from '../../services/auth-context';
+import * as formatter from '../../types/formatter';
 import * as haEntity from '../../types/ha-entity';
 import * as base from '../base';
-import * as time from '../../common/time/time'
-import './graph.css';
 import { ZoomModal } from '../zoom-modal/zoom-modal';
+import './graph.css';
 
 const updateIntervalMs = 5000;
 
@@ -152,7 +153,7 @@ export function Graph(props: GraphProps) {
                         onClick={onClick(data.entityID)}
                     >
                         <div className={`legend-label label-${label.toLowerCase().replaceAll(' ', '_')}`}>{label}</div>
-                        <div className='legend-value'>{data.value}</div>
+                        <div className='legend-value'>{formatter.WithPrecision(1)(parseFloat(data.value))}</div>
                     </div>
                 ))
             }
