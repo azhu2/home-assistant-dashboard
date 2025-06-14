@@ -36,3 +36,24 @@
         }
     }
 }
+
+#section-climate .section-contents {
+    display: flex;
+    align-items: center;
+
+    #room-temperatures .room-contents {
+        padding: 0;
+
+        #temperature-graph {
+            height: 8em;
+            width: 25em;
+            position: relative;
+            border: none;
+        }
+    }
+}
+
+.flex-break {
+  flex-basis: 100%;
+  height: 0;
+}

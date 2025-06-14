@@ -1,6 +1,8 @@
 import { ComponentType } from 'react';
 import { Link } from 'react-router-dom';
+import * as time from '../common/time/time';
 import * as base from '../components/base';
+import { Graph } from '../components/graph/graph';
 import { Room } from '../components/room/room';
 import { Section } from '../components/section/section';
 import * as tile from '../components/tile/tile';
@@ -54,13 +56,6 @@ export const Layout = (props: Props) => {
 
     const homeEntity = getEntityForEntityID('zone.home');
     const timeEntity = getEntityForEntityID('sensor.time');
-    // const trashDayEntity = getEntityForEntityID('select.trash_day');
-    // const thermostatEntity = getEntityForEntityID('climate.ecobee_thermostat');
-    // const targetSeries = thermostatEntity?.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
-    //     [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_low' },  // Target low
-    //     { label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'target_temp_high' }]: // Target high
-    //     [{ label: 'Target', entityID: new haEntity.EntityID('climate.ecobee_thermostat_2'), attribute: 'temperature' }]
-
 
     return (
         <div id='dashboard'>
@@ -78,12 +73,6 @@ export const Layout = (props: Props) => {
                         <Room title='Garage'>
                             {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
                         </Room>
-                        <Room title='Office'>
-                            {getTile(Thermostat, 'climate.office_ac')}
-                        </Room>
-                        <Room title='Bedroom'>
-                            {getTile(Thermostat, 'climate.bedroom_ac')}
-                        </Room>
                         <Room title='BMW'>
                             {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
                             {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
@@ -93,6 +82,27 @@ export const Layout = (props: Props) => {
                             {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) } })}
                             {getTile(NeedleGauge, 'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
+                        </Room>
+                    </Section>
+                    <Section title='Climate'>
+                        <Room title='Office'>
+                            {getTile(Thermostat, 'climate.office_ac')}
+                        </Room>
+                        <Room title='Bedroom'>
+                            {getTile(Thermostat, 'climate.bedroom_ac')}
+                        </Room>
+                        <div className='flex-break'/>
+                        <Room title='Temperatures'>
+                            <div className={`tile tile-temperature-graph`} id='temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288} showLegend
+                                        series={[
+                                            { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
+                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') }
+                                        ]}
+                                    />
+                                </div>
+                            </div>
                         </Room>
                     </Section>
                     <Section title='System'>
