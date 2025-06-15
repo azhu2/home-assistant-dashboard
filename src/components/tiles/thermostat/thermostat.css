@@ -6,6 +6,10 @@
     display: flex;
 }
 
+.hvac-mode {
+    display: flex;
+}
+
 .temperature {
     display: flex;
     align-items: center;

@@ -70,7 +70,8 @@ const FanIcon: icon.Props = {
 }
 
 type Props = base.BaseEntityProps & {
-    mode: Mode,
+    modeOptions: Mode[],
+    modeIdx: number,
     targetTemperature: TargetTemperature,
     // TODO Pull temp unit from HA config
     unit: string,
@@ -98,6 +99,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     constructor(props: Props) {
         super(props);
         this.state = { ...initialState };
+        this.onClickMode = this.onClickMode.bind(this);
         this.onClickTemperatureArrow = this.onClickTemperatureArrow.bind(this);
         this.debouncedChangeTemperature = this.debouncedChangeTemperature.bind(this);
         this.onChangePreset = this.onChangePreset.bind(this);
@@ -105,8 +107,11 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
     }
 
     propsMapper(entity: haEntity.Entity, _options: tile.Options): tile.MappedProps<Props> {
+        const toMode = (val: string) => Object.values(Mode).includes(val as Mode) ? val as Mode : Mode.Unknown
+
         // String enums aren't reverse-mapped
-        const mode = Object.values(Mode).includes(entity.state as Mode) ? entity.state as Mode : Mode.Unknown;
+        const mode = toMode(entity.state);
+        const modeOptions = entity.attributes['hvac_modes'].map(toMode);
         const hvacAction = entity.attributes['hvac_action'];
         const currentActivity = Object.values(CurrentActivity).includes(hvacAction as CurrentActivity) ? hvacAction as CurrentActivity : CurrentActivity.Unknown;
         const targetTemperature: TargetTemperature = mode === Mode.HeatCool ?
@@ -129,7 +134,8 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
 
         return {
             icon: Thermostat.mapModeToIcon(mode),
-            mode,
+            modeOptions,
+            modeIdx: modeOptions.indexOf(mode),
             targetTemperature,
             unit: '°F',
             preset: entity.attributes['preset_mode'] === 'temp' ? 'Manual' : entity.attributes['preset_mode'],
@@ -139,6 +145,12 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
             maxTemp: entity.attributes['max_temp'],
             tempStep: entity.attributes['target_temp_step'] || 1,
         };
+    }
+
+    onClickMode() {
+        const newModeIdx = (this.props.modeIdx + 1) % this.props.modeOptions.length;
+        const newMode = this.props.modeOptions[newModeIdx];
+        authContext.callWebsocketOrWarn(this.context, 'climate', 'set_hvac_mode', {hvac_mode: newMode}, this.props.entityID);
     }
 
     onClickTemperatureArrow(target: TempTargetType, operation: Operation) {
@@ -175,7 +187,9 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         return (
             <div className='thermostat'>
                 <div className='temperature'>
-                    {this.props.icon && icon.buildIcon(this.props.icon)}
+                    <div className='hvac-mode' onClick={this.onClickMode}>
+                        {this.props.icon && icon.buildIcon(this.props.icon)}
+                    </div>
                     {Object.keys(this.props.targetTemperature).map(key => key as TempTargetType).map(this.buildTempControl)}
                 </div>
                 {(this.props.preset || this.props.presetOptions) &&
