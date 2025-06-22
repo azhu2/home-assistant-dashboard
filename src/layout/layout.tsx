@@ -84,48 +84,6 @@ export const Layout = (props: Props) => {
                             {getTile(NeedleGauge, 'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
                         </Room>
                     </Section>
-                    <Section title='Climate'>
-                        <Room title='Office'>
-                            {getTile(Thermostat, 'climate.office_ac')}
-                            <div className={`tile tile-temperature-graph`} id='office-temperature-graph' >
-                                <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
-                                        series={[
-                                            { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
-                                        ]}
-                                        annotations={[
-                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.office_ac_heating') },
-                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.office_ac_cooling') },
-                                        ]}
-                                    />
-                                </div>
-                            </div>
-                            <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
-                            </div>
-                        </Room>
-                        <Room title='Bedroom'>
-                            {getTile(Thermostat, 'climate.bedroom_ac')}
-                            <div className={`tile tile-temperature-graph`} id='bedroom-temperature-graph' >
-                                <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
-                                        series={[
-                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') },
-                                        ]}
-                                        annotations={[
-                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_heating') },
-                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_cooling') },
-                                        ]}
-                                    />
-                                </div>
-                            </div>
-                            <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
-                            </div>
-                        </Room>
-                    </Section>
                     <Section title='System'>
                         <Room title='Network'>
                             {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
@@ -172,7 +130,49 @@ export const Layout = (props: Props) => {
                         </Room>
                     </Section>
                 </div>
-                <div>
+                <div className='section-row'>
+                    <Section title='Climate'>
+                        <Room title='Office'>
+                            {getTile(Thermostat, 'climate.office_ac')}
+                            <div className={`tile tile-temperature-graph`} id='office-temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
+                                        series={[
+                                            { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
+                                        ]}
+                                        annotations={[
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.office_ac_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.office_ac_cooling') },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                            <div className='gauges'>
+                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                            </div>
+                        </Room>
+                        <Room title='Bedroom'>
+                            {getTile(Thermostat, 'climate.bedroom_ac')}
+                            <div className={`tile tile-temperature-graph`} id='bedroom-temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
+                                        series={[
+                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') },
+                                        ]}
+                                        annotations={[
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_cooling') },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                            <div className='gauges'>
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                            </div>
+                        </Room>
+                    </Section>
                     <Room title='Cameras' wrappable>
                         {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
                         {getTile(Camera, 'camera.office_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.office_cam_recording'] })}
