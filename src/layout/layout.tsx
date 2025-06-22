@@ -87,21 +87,42 @@ export const Layout = (props: Props) => {
                     <Section title='Climate'>
                         <Room title='Office'>
                             {getTile(Thermostat, 'climate.office_ac')}
-                        </Room>
-                        <Room title='Bedroom'>
-                            {getTile(Thermostat, 'climate.bedroom_ac')}
-                        </Room>
-                        <div className='flex-break'/>
-                        <Room title='Temperatures'>
-                            <div className={`tile tile-temperature-graph`} id='temperature-graph' >
+                            <div className={`tile tile-temperature-graph`} id='office-temperature-graph' >
                                 <div className='content'>
-                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288} showLegend
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
                                             { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
-                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') }
+                                        ]}
+                                        annotations={[
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.office_ac_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.office_ac_cooling') },
                                         ]}
                                     />
                                 </div>
+                            </div>
+                            <div className='gauges'>
+                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                            </div>
+                        </Room>
+                        <Room title='Bedroom'>
+                            {getTile(Thermostat, 'climate.bedroom_ac')}
+                            <div className={`tile tile-temperature-graph`} id='bedroom-temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
+                                        series={[
+                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') },
+                                        ]}
+                                        annotations={[
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_cooling') },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                            <div className='gauges'>
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                     </Section>

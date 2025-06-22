@@ -74,5 +74,9 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.desktop_402nh5i_wmifan2': 'Side Intake',
     'sensor.desktop_402nh5i_wmifan3': 'Bottom Intake',
     'sensor.desktop_402nh5i_wmifan4': 'Rear Exhaust',
-    'sensor.desktop_402nh5i_wmigpufan1': 'GPU Fan'
+    'sensor.desktop_402nh5i_wmigpufan1': 'GPU Fan',
+    'sensor.office_remote_temperature': 'Temp',
+    'sensor.office_remote_humidity': 'Humidity',
+    'sensor.bedroom_remote_temperature': 'Temp',
+    'sensor.bedroom_remote_humidity': 'Humidity'
 };
