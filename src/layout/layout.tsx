@@ -137,7 +137,7 @@ export const Layout = (props: Props) => {
                 <div className='section-row'>
                     <Section title='Climate'>
                         <Room title='Office'>
-                            {getTile(Thermostat, 'climate.office_ac')}
+                            {getTile(Thermostat, 'climate.office_ac_ha')}
                             <div className={`tile tile-temperature-graph`} id='office-temperature-graph' >
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
@@ -157,7 +157,7 @@ export const Layout = (props: Props) => {
                             </div>
                         </Room>
                         <Room title='Bedroom'>
-                            {getTile(Thermostat, 'climate.bedroom_ac')}
+                            {getTile(Thermostat, 'climate.bedroom_ac_ha')}
                             <div className={`tile tile-temperature-graph`} id='bedroom-temperature-graph' >
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
