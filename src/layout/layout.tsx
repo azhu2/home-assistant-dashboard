@@ -67,7 +67,7 @@ export const Layout = (props: Props) => {
                     <Section title='Controls'>
                         <Room title='Lights'>
                             {getTile(Light, 'switch.marble_lamp', { tileOptions: { icon: 'table-lights' } })}
-                            {getTile(Light, 'light.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
+                            {getTile(Light, 'switch.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                         </Room>
                         <Room title='Garage'>
