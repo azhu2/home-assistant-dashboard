@@ -63,7 +63,7 @@ export const renamedEntityMap: {[key: string]: string} = {
     'sensor.m440i_xdrive_remaining_fuel_percent': 'Fuel',
     'sensor.2025_chevrolet_corvette_e_ray_odometer': 'Mileage',
     'sensor.2025_chevrolet_corvette_e_ray_fuel_level': 'Fuel',
-    'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp': 'Coolant',
+    'sensor.2025_chevrolet_corvette_e_ray_oil_life': 'Oil',
     'humidifier.living_room': 'Humidifier',
     'sensor.desktop_402nh5i_cpuload': 'CPU',
     'sensor.desktop_402nh5i_wmicputemp': 'CPU',

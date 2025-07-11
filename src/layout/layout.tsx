@@ -81,7 +81,7 @@ export const Layout = (props: Props) => {
                         <Room title='Corvette'>
                             {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) } })}
-                            {getTile(NeedleGauge, 'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
+                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_oil_life', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
                         </Room>
                     </Section>
                     <Section title='System'>

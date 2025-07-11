@@ -122,7 +122,7 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'device_tracker.m440i_xdrive': EntityType.Gauge,
     'sensor.2025_chevrolet_corvette_e_ray_odometer': EntityType.Gauge,
     'sensor.2025_chevrolet_corvette_e_ray_fuel_level': EntityType.Gauge,
-    'sensor.2025_chevrolet_corvette_e_ray_engine_coolant_temp': EntityType.Gauge,
+    'sensor.2025_chevrolet_corvette_e_ray_oil_life': EntityType.Gauge,
     'humidifier.living_room': EntityType.Humidifier,
     'sensor.desktop_402nh5i_cpuload': EntityType.Gauge,
     'sensor.desktop_402nh5i_wmicputemp': EntityType.Gauge,
