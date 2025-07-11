@@ -4,7 +4,6 @@ import * as entityMapper from '../mappers/renamed-entities';
 /** Internal representation of a Home Assistant entity, with some attributes mapped more nicely. */
 export type Entity = {
     entityID: EntityID,
-    type: EntityType,
     state: string,
     friendlyName?: string,
     attributes: {[key: string]: any},
@@ -33,23 +32,10 @@ export class EntityID {
     }
 }
 
-/** Internal representation of a Home Assistant entity type. */
-export enum EntityType {
-    Camera = 'camera',
-    Garage = 'garage',
-    Gauge = 'gauge',
-    Light = 'light',
-    Select = 'select',
-    Switch = 'switch',
-    Thermostat = 'thermostat',
-    Humidifier = 'humidifier',
-}
-
 /** Converts from built-in HassEntity type to our HaEntity type. */
-export function fromHassEntity(e: haWebsocket.HassEntity, t: EntityType): Entity {
+export function fromHassEntity(e: haWebsocket.HassEntity): Entity {
     return {
         entityID: new EntityID(e.entity_id),
-        type: t,
         state: e.state,
         friendlyName: entityMapper.renamedEntityMap[e.entity_id] || e.attributes.friendly_name,
         attributes: e.attributes,

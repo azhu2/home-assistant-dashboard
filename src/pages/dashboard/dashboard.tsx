@@ -3,7 +3,7 @@ import { Component } from 'react';
 import { Navigate } from 'react-router-dom';
 import * as haEntity from '../../types/ha-entity';
 import { Layout } from '../../layout/layout';
-import * as entityTypeMapper from '../../mappers/entity-types';
+import * as subscribedEntities from '../../mappers/subscribed-entities';
 import * as authContext from '../../services/auth-context';
 import { AuthContextConsumer } from '../../services/auth-context';
 import * as websocket from '../../services/websocket/websocket';
@@ -62,12 +62,9 @@ export class Dashboard extends Component<{}, State> {
         haWebsocket.subscribeEntities(connection, (entities) => {
             const newEntities = new Map(this.state.entityMap);
 
-            Object.entries(entities).forEach(entry => {
-                const [entityID, entity] = entry;
-
-                const type = entityTypeMapper.entityTypeMap[entityID]
-                if (type) {
-                    newEntities.set(entityID, haEntity.fromHassEntity(entity, type));
+            Object.entries(entities).forEach(([entityID, entity]) => {
+                if (subscribedEntities.subscribedEntities.has(entityID)) {
+                    newEntities.set(entityID, haEntity.fromHassEntity(entity));
                 }
             })
 
