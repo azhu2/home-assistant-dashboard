@@ -5,6 +5,8 @@ export const entityTypeMap: {[key: string]: EntityType} = {
     'switch.marble_lamp': EntityType.Light,
     'switch.pendant_lamp': EntityType.Light,
     'switch.standing_lamp': EntityType.Light,
+    'switch.bedroom_grow_lights': EntityType.Light,
+    'switch.living_room_grow_lights': EntityType.Light,
     'sensor.synology_nas_cpu_utilization_total': EntityType.Gauge,
     'sensor.synology_nas_memory_usage_real': EntityType.Gauge,
     'sensor.udr_cpu_utilization': EntityType.Gauge,

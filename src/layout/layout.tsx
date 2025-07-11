@@ -70,6 +70,10 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                         </Room>
+                        <Room title='Grow Lights'>
+                            {getTile(Light, 'switch.bedroom_grow_lights', { tileOptions: { icon: 'curtain-light' } })}
+                            {getTile(Light, 'switch.living_room_grow_lights', { tileOptions: { icon: 'curtain-light' } })}
+                        </Room>
                         <Room title='Garage'>
                             {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
                         </Room>
