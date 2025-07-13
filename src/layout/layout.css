@@ -38,7 +38,7 @@
 }
 
 #section-climate {
-    flex: 0 1 25em;
+    flex: 1 1 24em;
 
     .section-contents {
         display: flex;
