@@ -121,12 +121,12 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
             } :
             { [TempTargetType.Single]: parseFloat(entity.attributes['temperature']) }
 
-        // Fix preset modes. Away is not supported as of HA 2023.4, and Manual isn't returned by ecobee
         const presetOptions = entity.attributes['preset_modes'];
         if (presetOptions) {
-            if (presetOptions.includes('away')) {
-                presetOptions.splice(presetOptions.indexOf('away'), 1)
+            if (presetOptions.includes('none')) {
+                presetOptions.splice(presetOptions.indexOf('none'), 1)
             }
+            // Ecobee has manual mode but doesn't get returned by integration
             if (!presetOptions.includes('Manual')) {
                 presetOptions.push('Manual');
             }
@@ -218,7 +218,7 @@ export class Thermostat extends Component<Props, State> implements tile.Mappable
         return (
             <React.Fragment key={targetType}>
                 <div className='value-container'>
-                    {this.state.pendingTargetTemperature?.[targetType] || this.props.targetTemperature?.[targetType]}
+                    {this.state.pendingTargetTemperature?.[targetType] || this.props.targetTemperature?.[targetType] || 'off'}
                     <span className='unit'>{this.props.unit}</span>
                 </div>
                 <div className='ctrl-buttons'>
