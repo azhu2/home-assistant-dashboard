@@ -57,6 +57,17 @@ export const Layout = (props: Props) => {
     const homeEntity = getEntityForEntityID('zone.home');
     const timeEntity = getEntityForEntityID('sensor.time');
 
+    const getThermostatTargetSeries = (entityID: string) => {
+        const thermostatEntity = getEntityForEntityID(entityID);
+        if (!thermostatEntity) {
+            return [];
+        }
+        return thermostatEntity.attributes['target_temp_low'] && thermostatEntity.attributes['target_temp_high'] ?
+            [{ label: 'Target', entityID: thermostatEntity.entityID, attribute: 'target_temp_low' },  // Target low
+            { label: 'Target', entityID: thermostatEntity.entityID, attribute: 'target_temp_high' }]: // Target high
+            [{ label: 'Target', entityID: thermostatEntity.entityID, attribute: 'temperature' }]
+    }
+
     return (
         <div id='dashboard'>
             <div className='title'>{homeEntity?.attributes['friendly_name'] || 'Home'}</div>
@@ -142,6 +153,7 @@ export const Layout = (props: Props) => {
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
+                                            ...getThermostatTargetSeries('climate.office_ac_ha'),
                                             { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
                                         ]}
                                         annotations={[
@@ -162,6 +174,7 @@ export const Layout = (props: Props) => {
                                 <div className='content'>
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
+                                            ...getThermostatTargetSeries('climate.bedroom_ac_ha'),
                                             { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') },
                                         ]}
                                         annotations={[
