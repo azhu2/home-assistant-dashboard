@@ -3,6 +3,7 @@ export interface RestAPI {
     healthCheck: () => Promise<boolean>;
 };
 
+// TODO Deprecate? This isn't actually used anywhere - just the /api/ base URL for camera snapshots/video, but those are working without auth
 class RestAPIImpl implements RestAPI {
     baseURL: string;
     authToken: string;
@@ -26,7 +27,8 @@ class RestAPIImpl implements RestAPI {
     }
 
     async healthCheck() {
-        await fetch(new Request(`${this.baseURL}/api/`, { headers: this.authHeaders }));
+        // This was falsely always returning true before. No use now except to spam logs on failure.
+        // await fetch(new Request(`${this.baseURL}/api/`, { headers: this.authHeaders }));
         return true;
     };
 };
