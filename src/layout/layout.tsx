@@ -230,6 +230,7 @@ export const Layout = (props: Props) => {
             <div>
                 <p><Link to='/settings'>Settings</Link></p>
                 <p>TODO Footer: <a href='https://icons8.com/' target='_blank' rel='noreferrer'>Icons by Icons8</a></p>
+                <p><a href='https://github.com/azhu2/home-assistant-dashboard/'>Source</a></p>
             </div>
         </div>
     );
