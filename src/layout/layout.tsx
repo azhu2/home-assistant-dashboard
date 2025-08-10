@@ -91,10 +91,11 @@ export const Layout = (props: Props) => {
                         </Room>
                         <Room title='BMW'>
                             {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
-                            {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
-                            {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
+                            {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
+                            {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { name: 'Fuel' } })}
                             {getTile(TirePressure, 'device_tracker.m440i_xdrive', {
-                                secondaryEntityIDs: [    
+                                tileOptions: { name: 'Tires' },
+                                secondaryEntityIDs: [
                                     'sensor.m440i_xdrive_front_left_tire_pressure',
                                     'sensor.m440i_xdrive_front_right_tire_pressure',
                                     'sensor.m440i_xdrive_rear_left_tire_pressure',
@@ -107,11 +108,11 @@ export const Layout = (props: Props) => {
                             })}
                         </Room>
                         <Room title='Corvette'>
-                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
-                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) } })}
-                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_oil_life', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
-                            {/* TODO Add name but probably remove mapper and just define them here */}
+                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
+                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { name: 'Fuel', formatter: formatter.WithPrecision(0) } })}
+                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_oil_life', { tileOptions: { name: 'Oil' }, tileProps: { min: 80, max: 240 } })}
                             {getTile(TirePressure, 'binary_sensor.2025_chevrolet_corvette_e_ray_command_status_monitor_sensors_polling_status_successful', {
+                                tileOptions: { name: 'Tires' },
                                 secondaryEntityIDs: [
                                     'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_left_front',
                                     'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_right_front',
@@ -127,47 +128,47 @@ export const Layout = (props: Props) => {
                     </Section>
                     <Section title='System'>
                         <Room title='Network'>
-                            {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(NeedleGauge, 'sensor.udr_udr_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
-                            {getTile(Gauge, 'sensor.online_devices', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(PercentGauge, 'sensor.udr_cpu_utilization', { tileOptions: { name: 'CPU', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.udr_memory_utilization', { tileOptions: { name: 'RAM', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(NeedleGauge, 'sensor.udr_udr_cpu_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
+                            {getTile(Gauge, 'sensor.online_devices', { tileOptions: { name: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_rx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_5_tx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
                         <Room title='NVR'>
-                            {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 65 } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_2_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_2_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(Gauge, 'sensor.unifi_oldest_recording', { tileOptions: {showName: true, formatter: formatter.AbbreviateDuration }})}
+                            {getTile(PercentGauge, 'sensor.uck_g2_plus_cpu_utilization', { tileOptions: { name: 'CPU', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.uck_g2_plus_memory_utilization', { tileOptions: { name: 'RAM', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(NeedleGauge, 'sensor.uck_g2_plus_cpu_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 65 } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_2_tx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_2_rx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(Gauge, 'sensor.unifi_oldest_recording', { tileOptions: {name: true, formatter: formatter.AbbreviateDuration }})}
                         </Room>
                         <Room title='NAS'>
-                            {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_1_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_1_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_cpu_utilization_total', { tileOptions: { name: 'CPU', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { name: 'RAM', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { name: 'Storage', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_1_tx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.udr_port_1_rx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
                         <Room title='DNS'>
-                            {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { showName: true } })}
-                            {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { showName: true }, tileProps: { min: 0, max: 100 } })}
-                            {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { showName: true, icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
+                            {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { name: 'Blocked Ratio' } })}
+                            {getTile(NeedleGauge, 'sensor.adguard_home_average_processing_speed', { tileOptions: { name: 'Latency (24h)' }, tileProps: { min: 0, max: 100 } })}
+                            {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { name: 'Active', icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
                         </Room>
                         <Room title='PC'>
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_cpuload', { tileOptions: { showName: true } })}
-                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmicputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpuload', { tileOptions: { showName: true } })}
-                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmigputemp', { tileOptions: { showName: true }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan1', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan2', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan3', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan4', { tileOptions: { showName: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpufan1', { tileOptions: { showName: true } })}
-                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_tx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_rx', { tileOptions: { showName: true, formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_cpuload', { tileOptions: { name: true } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmicputemp', { tileOptions: { name: true }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpuload', { tileOptions: { name: true } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmigputemp', { tileOptions: { name: true }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { name: true, formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan1', { tileOptions: { name: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan2', { tileOptions: { name: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan3', { tileOptions: { name: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan4', { tileOptions: { name: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpufan1', { tileOptions: { name: true } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_tx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_rx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
                     </Section>
                 </div>
@@ -190,8 +191,8 @@ export const Layout = (props: Props) => {
                                 </div>
                             </div>
                             <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                         <Room title='Bedroom'>
@@ -211,18 +212,18 @@ export const Layout = (props: Props) => {
                                 </div>
                             </div>
                             <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { showName: true, formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                     </Section>
                     <Room title='Cameras' wrappable>
-                        {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
-                        {getTile(Camera, 'camera.office_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.office_cam_recording'] })}
-                        {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
-                        {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
-                        {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                        {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { showName: true }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
+                        {getTile(Camera, 'camera.family_room_cam_high', { tileOptions: { name: 'Family Room' }, secondaryEntityIDs: ['switch.family_room_cam_recording'] })}
+                        {getTile(Camera, 'camera.office_cam_high', { tileOptions: { name: 'Office' }, secondaryEntityIDs: ['switch.office_cam_recording'] })}
+                        {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { name: 'Living Room' }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
+                        {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { name: 'Kitchen' }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
+                        {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { name: 'Garage' }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
+                        {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { name: 'Backyard' }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
                     </Room>
                 </div>
             </div>

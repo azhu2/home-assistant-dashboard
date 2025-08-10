@@ -10,7 +10,8 @@ import './tile.css';
 /** Additional options for tile customzation. */
 export type Options = {
     icon?: string | icon.Props,
-    showName?: boolean,
+    /** true to use default friendly name or string to override */
+    name?: string | boolean,
     /** Secondary entities to provide to a tile props mapper */
     secondaryEntities?: haEntity.Entity[],
     secondaryIcons?: (string | icon.Props)[],
@@ -58,7 +59,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
         }
         return (
             <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor: '#aaaaaa' }}>
-                {options?.showName && <div className='name'>{entity.friendlyName}</div>}
+                {options?.name && <div className='name'>{typeof options.name == 'boolean' ? entity.friendlyName : options.name}</div>}
                 <div className='content'>
                     {icon}
                     <div className='entity-unavailable'>
@@ -96,7 +97,7 @@ export const wrapTile = (entity: haEntity.Entity, options?: Options, tileProps?:
         // and React will unmount + remount the whole component every update since we're recreated a whole NEW object.
         // Returning a raw JSX.Element doesn't trigger this and the WrappedTile inside only updates its props, never unmounting the whole component.
         <div className={`tile tile-${tileType} tile-${entityID}`} style={{ backgroundColor }}>
-            {options?.showName && <div className='name'>{entity.friendlyName}</div>}
+            {options?.name && <div className='name'>{typeof options.name == 'boolean' ? entity.friendlyName : options.name}</div>}
             <div className='content'>
                 <WrappedTile
                     {...props as P}

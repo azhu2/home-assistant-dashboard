@@ -1,12 +1,12 @@
 import * as haWebsocket from 'home-assistant-js-websocket';
 import { Component } from 'react';
 import { Navigate } from 'react-router-dom';
-import * as haEntity from '../../types/ha-entity';
 import { Layout } from '../../layout/layout';
-import * as subscribedEntities from '../../mappers/subscribed-entities';
 import * as authContext from '../../services/auth-context';
 import { AuthContextConsumer } from '../../services/auth-context';
 import * as websocket from '../../services/websocket/websocket';
+import * as haEntity from '../../types/ha-entity';
+import * as subscribedEntities from '../../types/subscribed-entities';
 
 type State = {
     entityMap: Map<string, haEntity.Entity>,
