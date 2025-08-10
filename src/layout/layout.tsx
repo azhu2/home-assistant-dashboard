@@ -14,6 +14,7 @@ import { InversePercentGauge, NeedleGauge, PercentGauge } from '../components/ti
 import { Light } from '../components/tiles/light/light';
 import { Switch } from '../components/tiles/switch/switch';
 import { Thermostat } from '../components/tiles/thermostat/thermostat';
+import { TirePressure } from '../components/tiles/tire-pressure/tire-pressure';
 import * as formatter from '../types/formatter';
 import * as haEntity from '../types/ha-entity';
 import './layout.css';
@@ -92,11 +93,36 @@ export const Layout = (props: Props) => {
                             {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
                             {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { showName: true } })}
+                            {getTile(TirePressure, 'device_tracker.m440i_xdrive', {
+                                secondaryEntityIDs: [    
+                                    'sensor.m440i_xdrive_front_left_tire_pressure',
+                                    'sensor.m440i_xdrive_front_right_tire_pressure',
+                                    'sensor.m440i_xdrive_rear_left_tire_pressure',
+                                    'sensor.m440i_xdrive_rear_right_tire_pressure',
+                                    'sensor.m440i_xdrive_front_left_target_pressure',
+                                    'sensor.m440i_xdrive_front_right_target_pressure',
+                                    'sensor.m440i_xdrive_rear_left_target_pressure',
+                                    'sensor.m440i_xdrive_rear_right_target_pressure',
+                                ]
+                            })}
                         </Room>
                         <Room title='Corvette'>
                             {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { showName: true, formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { showName: true, formatter: formatter.WithPrecision(0) } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_oil_life', { tileOptions: { showName: true }, tileProps: { min: 80, max: 240 } })}
+                            {/* TODO Add name but probably remove mapper and just define them here */}
+                            {getTile(TirePressure, 'binary_sensor.2025_chevrolet_corvette_e_ray_command_status_monitor_sensors_polling_status_successful', {
+                                secondaryEntityIDs: [
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_left_front',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_right_front',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_left_rear',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_right_rear',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_front_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_front_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_rear_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_rear_psi',
+                                ]
+                            })}
                         </Room>
                     </Section>
                     <Section title='System'>

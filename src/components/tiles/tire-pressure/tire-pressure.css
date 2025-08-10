@@ -1,0 +1,20 @@
+.tire {
+    stroke: #6644aa;
+    stroke-width: 0.01;
+    
+    &.left-front {
+        transform: translate(25%, 10%);
+    }
+
+    &.right-front {
+        transform: translate(60%, 10%);
+    }
+
+    &.left-rear {
+        transform: translate(25%, 60%);
+    }
+
+    &.right-rear {
+        transform: translate(60%, 60%);
+    }
+}
