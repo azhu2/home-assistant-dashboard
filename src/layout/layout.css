@@ -55,7 +55,7 @@
 }
 
 #section-climate {
-    flex: 1 1 24em;
+    flex: 0 1 35em;
 
     .section-contents {
         display: flex;
@@ -81,12 +81,12 @@
                 }
 
                 .tile-temperature-graph {
-                    flex: 6 0 15em;
+                    flex: 6 1 15em;
                     height: 5em;
                 }
 
                 .gauges {
-                    flex: 2 1 4em;
+                    flex: 0 1 4em;
 
                     display: flex;
                     flex-direction: column;
