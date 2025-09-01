@@ -174,6 +174,27 @@ export const Layout = (props: Props) => {
                 </div>
                 <div className='section-row'>
                     <Section title='Climate'>
+                        <Room title='Downstairs'>
+                            {getTile(Thermostat, 'climate.downstairs_ac_ha')}
+                            <div className={`tile tile-temperature-graph`} id='downstairs-temperature-graph' >
+                                <div className='content'>
+                                    <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
+                                        series={[
+                                            ...getThermostatTargetSeries('climate.downstairs_ac_ha'),
+                                            { label: 'Downstairs', entityID: new haEntity.EntityID('sensor.downstairs_remote_temperature') },
+                                        ]}
+                                        annotations={[
+                                            { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.downstairs_ac_heating') },
+                                            { label: 'Cooling', entityID: new haEntity.EntityID('binary_sensor.downstairs_ac_cooling') },
+                                        ]}
+                                    />
+                                </div>
+                            </div>
+                            <div className='gauges'>
+                                {getTile(NeedleGauge, 'sensor.downstairs_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.downstairs_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                            </div>
+                        </Room>
                         <Room title='Office'>
                             {getTile(Thermostat, 'climate.office_ac_ha')}
                             <div className={`tile tile-temperature-graph`} id='office-temperature-graph' >
