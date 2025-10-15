@@ -108,20 +108,20 @@ export const Layout = (props: Props) => {
                             })}
                         </Room>
                         <Room title='Corvette'>
-                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odometer', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
+                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odo_read', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { name: 'Fuel', formatter: formatter.WithPrecision(0) } })}
-                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_oil_life', { tileOptions: { name: 'Oil' }, tileProps: { min: 80, max: 240 } })}
+                            {getTile(PercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_eol_read', { tileOptions: { name: 'Oil', formatter: formatter.WithPrecision(0) } })}
                             {getTile(TirePressure, 'binary_sensor.2025_chevrolet_corvette_e_ray_command_status_monitor_sensors_polling_status_successful', {
                                 tileOptions: { name: 'Tires' },
                                 secondaryEntityIDs: [
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_left_front',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_right_front',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_left_rear',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_right_rear',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_front_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_front_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_rear_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_tire_pressure_placard_rear_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_left_front_tire_pressure_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_right_front_tire_pressure_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_left_rear_tire_pressure_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_right_rear_tire_pressure_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_front_placard_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_front_placard_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_rear_placard_psi',
+                                    'sensor.2025_chevrolet_corvette_e_ray_rear_placard_psi',
                                 ]
                             })}
                         </Room>
