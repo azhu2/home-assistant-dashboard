@@ -81,12 +81,13 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
         }
         acc[label] = {
             ...seriesData,
+            seriesID: seriesData.seriesID,
             label,
             paths: [seriesData.seriesPath]
         };
         return acc;
     }
-        , {} as { [key: string]: { label: string, paths: string[], focused?: boolean, filled?: boolean } }
+        , {} as { [key: string]: { label: string, seriesID: string, paths: string[], focused?: boolean, filled?: boolean } }
     ));
 
     return <>
@@ -127,7 +128,7 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                         case 2:
                             return (
                                 <React.Fragment key={s.label}>
-                                    <mask id={`mask-${s.label}`}>
+                                    <mask id={`mask-${s.seriesID}-${s.label}`}>
                                         <rect x={0} y={baseline} width={options.numBuckets} height={overall.max - baseline} fill='white' />
                                         <path
                                             key={s.label}
@@ -142,7 +143,7 @@ export const buildHistoryGraph = (series: SeriesData[], annotations: AnnotationD
                                         }
                                         d={s.paths[1]}
                                         vectorEffect='non-scaling-stroke'
-                                        mask={`url(#mask-${s.label})`}
+                                        mask={`url(#mask-${s.seriesID}-${s.label})`}
                                     />
                                 </React.Fragment>
                             );
