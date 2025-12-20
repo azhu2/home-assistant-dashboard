@@ -5,6 +5,8 @@ export const subscribedEntities: Set<string> = new Set([
     'switch.standing_lamp',
     'switch.bedroom_grow_lights',
     'switch.living_room_grow_lights',
+    'switch.office_grow_light_1',
+    'switch.office_grow_light_2',
     'sensor.synology_nas_cpu_utilization_total',
     'sensor.synology_nas_memory_usage_real',
     'sensor.udr_cpu_utilization',
