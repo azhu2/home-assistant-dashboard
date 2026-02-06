@@ -159,18 +159,18 @@ export const Layout = (props: Props) => {
                             {getTile(Switch, 'switch.adguard_home_protection', { tileOptions: { name: 'Active', icon: { name: 'protect', color: '#55aa55' }, secondaryIcons: [{ name: 'delete-shield', filled: true, color: '#ff0000' }] }, tileProps: { onClick: { domain: 'script', action: 'adguard_home_off_30_min' } } })}
                         </Room>
                         <Room title='PC'>
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_cpuload', { tileOptions: { name: true } })}
-                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmicputemp', { tileOptions: { name: true }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpuload', { tileOptions: { name: true } })}
-                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_wmigputemp', { tileOptions: { name: true }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_memoryusage', { tileOptions: { name: true, formatter: formatter.WithPrecision(1) } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan1', { tileOptions: { name: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan2', { tileOptions: { name: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan3', { tileOptions: { name: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmifan4', { tileOptions: { name: true } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_wmigpufan1', { tileOptions: { name: true } })}
-                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_tx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_rx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_cpu_cpu_total_load', { tileOptions: { name: 'CPU' } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_cpu_core_tctl_tdie_temperature', { tileOptions: { name: 'CPU (Tctl/Tdie)' }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_gpu_gpu_core_load', { tileOptions: { name: 'GPU' } })}
+                            {getTile(NeedleGauge, 'sensor.desktop_402nh5i_gpu_gpu_core_temperature', { tileOptions: { name: 'GPU Temp' }, tileProps: { min: 35, max: 95 } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_total_memory_memory_load', { tileOptions: { name: 'Memoory', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_1_control', { tileOptions: { name: 'Radiator' } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_2_control', { tileOptions: { name: 'Side Intake' } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_3_control', { tileOptions: { name: 'Bottom Intake' } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_4_control', { tileOptions: { name: 'Rear Exhaust' } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_gpu_gpu_fan_1_control', { tileOptions: { name: 'GPU Fan' } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_wi_fi_download_speed_throughput_mbps', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.desktop_402nh5i_wi_fi_upload_speed_throughput_mbps', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
                     </Section>
                 </div>
