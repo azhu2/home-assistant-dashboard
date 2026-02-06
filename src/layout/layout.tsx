@@ -85,6 +85,7 @@ export const Layout = (props: Props) => {
                         <Room title='Grow Lights'>
                             {getTile(Light, 'switch.bedroom_grow_lights', { tileOptions: { icon: 'curtain-light' } })}
                             {getTile(Light, 'switch.living_room_grow_lights', { tileOptions: { icon: 'ceiling-light' } })}
+                            {getTile(Light, 'switch.office_grow_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.office_grow_light_1', { tileOptions: { icon: 'led-bulb' } })}
                             {getTile(Light, 'switch.office_grow_light_2', { tileOptions: { icon: 'led-bulb' } })}
                         </Room>
