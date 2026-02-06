@@ -92,24 +92,6 @@ export const Layout = (props: Props) => {
                         <Room title='Garage'>
                             {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
                         </Room>
-                        <Room title='BMW'>
-                            {getTile(Switch, 'switch.m440i_xdrive_unlocked', { tileOptions: { icon: { name: 'door-ajar', color: '6644aa', filled: true }, secondaryIcons: ['door-lock'] } })}
-                            {getTile(Gauge, 'sensor.m440i_xdrive_mileage', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
-                            {getTile(InversePercentGauge, 'sensor.m440i_xdrive_remaining_fuel_percent', { tileOptions: { name: 'Fuel' } })}
-                            {getTile(TirePressure, 'device_tracker.m440i_xdrive', {
-                                tileOptions: { name: 'Tires' },
-                                secondaryEntityIDs: [
-                                    'sensor.m440i_xdrive_front_left_tire_pressure',
-                                    'sensor.m440i_xdrive_front_right_tire_pressure',
-                                    'sensor.m440i_xdrive_rear_left_tire_pressure',
-                                    'sensor.m440i_xdrive_rear_right_tire_pressure',
-                                    'sensor.m440i_xdrive_front_left_target_pressure',
-                                    'sensor.m440i_xdrive_front_right_target_pressure',
-                                    'sensor.m440i_xdrive_rear_left_target_pressure',
-                                    'sensor.m440i_xdrive_rear_right_target_pressure',
-                                ]
-                            })}
-                        </Room>
                         <Room title='Corvette'>
                             {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odo_read', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { name: 'Fuel', formatter: formatter.WithPrecision(0) } })}
