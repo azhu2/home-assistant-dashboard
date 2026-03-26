@@ -95,7 +95,7 @@ export const Layout = (props: Props) => {
                         <Room title='Corvette'>
                             {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odo_read', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
                             {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { name: 'Fuel', formatter: formatter.WithPrecision(0) } })}
-                            {getTile(PercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_eol_read', { tileOptions: { name: 'Oil', formatter: formatter.WithPrecision(0) } })}
+                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_eol_read', { tileOptions: { name: 'Oil', formatter: formatter.WithPrecision(0) } })}
                             {getTile(TirePressure, 'binary_sensor.2025_chevrolet_corvette_e_ray_command_status_monitor_sensors_polling_status_successful', {
                                 tileOptions: { name: 'Tires' },
                                 secondaryEntityIDs: [
