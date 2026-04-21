@@ -14,6 +14,8 @@ export const subscribedEntities: Set<string> = new Set([
     'sensor.udr_memory_utilization',
     'sensor.udr_udr_cpu_temperature',
     'sensor.synology_nas_volume_1_volume_used',
+    'sensor.synology_nas_download_throughput',
+    'sensor.synology_nas_upload_throughput',
     'sensor.online_devices',
     'sensor.1m_download_max',
     'sensor.1m_upload_max',

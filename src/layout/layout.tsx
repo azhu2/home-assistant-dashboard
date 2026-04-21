@@ -133,8 +133,8 @@ export const Layout = (props: Props) => {
                             {getTile(PercentGauge, 'sensor.synology_nas_memory_usage_real', { tileOptions: { name: 'RAM', formatter: formatter.WithPrecision(1) } })}
                             {getTile(PercentGauge, 'sensor.synology_nas_volume_1_volume_used', { tileOptions: { name: 'Storage', formatter: formatter.WithPrecision(1) } })}
                             {getTile(NeedleGauge, 'sensor.processor_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 35, max: 90 } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_1_tx', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
-                            {getTile(HistoryGauge, 'sensor.udr_port_1_rx', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.synology_nas_download_throughput', { tileOptions: { name: 'Download', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
+                            {getTile(HistoryGauge, 'sensor.synology_nas_upload_throughput', { tileOptions: { name: 'Upload', formatter: formatter.WithPrecision(2) }, tileProps: { setBaselineToZero: true } })}
                         </Room>
                         <Room title='DNS'>
                             {getTile(PercentGauge, 'sensor.adguard_home_dns_queries_blocked_ratio', { tileOptions: { name: 'Blocked Ratio' } })}
