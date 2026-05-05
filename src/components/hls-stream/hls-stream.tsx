@@ -98,9 +98,11 @@ export class HlsStream extends Component<Props, State> {
                     hls.destroy();
                     this.loadVideo();
                 }, 10000);
-            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && data.details != Hls.ErrorDetails.BUFFER_APPEND_ERROR) {
+            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
                 console.error(`Stream media error for ${this.props.src} - ${data.details}. Will try to recover.`)
-                this.setState({ ...this.state, status: Status.Error, err: 'Media error' });
+                if (data.details != Hls.ErrorDetails.BUFFER_APPEND_ERROR) {
+                    this.setState({ ...this.state, status: Status.Error, err: 'Media error' });
+                }
                 hls.recoverMediaError();
             } else {
                 console.error(`Other stream error for ${this.props.src} - ${data.details}`)
