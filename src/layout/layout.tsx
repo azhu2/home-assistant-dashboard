@@ -85,6 +85,7 @@ export const Layout = (props: Props) => {
                         <Room title='Grow Lights'>
                             {getTile(Light, 'switch.bedroom_grow_lights', { tileOptions: { icon: 'curtain-light' } })}
                             {getTile(Light, 'switch.living_room_grow_lights', { tileOptions: { icon: 'ceiling-light' } })}
+                            {getTile(Light, 'switch.back_door_grow_lights', { tileOptions: { icon: 'ceiling-light' } })}
                             {getTile(Light, 'switch.office_grow_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.office_grow_light_1', { tileOptions: { icon: 'led-bulb' } })}
                             {getTile(Light, 'switch.office_grow_light_2', { tileOptions: { icon: 'led-bulb' } })}
@@ -229,7 +230,7 @@ export const Layout = (props: Props) => {
                         {getTile(Camera, 'camera.living_room_cam_high_2', { tileOptions: { name: 'Living Room' }, secondaryEntityIDs: ['switch.living_room_cam_recording'] })}
                         {getTile(Camera, 'camera.kitchen_cam_high', { tileOptions: { name: 'Kitchen' }, secondaryEntityIDs: ['switch.kitchen_cam_recording'] })}
                         {getTile(Camera, 'camera.garage_cam_high', { tileOptions: { name: 'Garage' }, secondaryEntityIDs: ['switch.garage_cam_recording'] })}
-                        {getTile(Camera, 'camera.backyard_cam_high', { tileOptions: { name: 'Backyard' }, secondaryEntityIDs: ['switch.backyard_cam_recording'] })}
+                        {getTile(Camera, 'camera.bedroom_cam_high_resolution_channel', { tileOptions: { name: 'Bedroom' }, secondaryEntityIDs: ['switch.bedroom_cam_recording'] })}
                     </Room>
                 </div>
             </div>
