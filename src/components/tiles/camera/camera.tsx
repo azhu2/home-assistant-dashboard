@@ -18,10 +18,13 @@ type Props = base.BaseEntityProps & {
 
 type State = {
     streamURL: string | Error,
+    /** Random; used to re-seed HlsStream key prop to restart it */
+    key: number,
 };
 
 const initialState: State = {
     streamURL: new Error('initializing...'),
+    key: Math.random(),
 };
 
 export class Camera extends Component<Props, State> implements tile.MappableProps<Props>{
@@ -35,6 +38,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         this.state = { ...initialState };
         this.setupStream = this.setupStream.bind(this);
         this.onToggleRecording = this.onToggleRecording.bind(this);
+        this.onReload = this.onReload.bind(this);
     }
 
     propsMapper(entity: haEntity.Entity, options: tile.Options): tile.MappedProps<Props> {
@@ -69,6 +73,13 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
         authContext.callWebsocketOrWarn(this.context, 'switch', 'toggle', {}, this.props.recordingSwitch?.entityID);
     }
 
+    onReload() {
+        this.setState({
+            ...this.state,
+            key: Math.random(),
+        })
+    }
+
     render() {
         return (
             <div className='camera' id={this.props.entityID.getCanonicalized()}>
@@ -77,6 +88,9 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                         <Icon name='record' color={this.props.recordingSwitch.state === 'on' ? 'ff0000' : 'dddddd'} />
                     </button>
                 }
+                <button className='reload' onClick={this.onReload}>
+                    <Icon name='reload' color='cccccc' />
+                </button>
                 <ZoomModal>
                     <AuthContextConsumer>
                         {auth => {
@@ -89,6 +103,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                                 if (typeof this.state.streamURL === 'string') {
                                     return (
                                         <HlsStream
+                                            key={this.state.key}
                                             src={`${restAPI.getBaseURL()}${this.state.streamURL}`}
                                             poster={`${restAPI.getBaseURL()}${this.props.snapshotURL}`}
                                             reloadElementCallback={this.setupStream}
