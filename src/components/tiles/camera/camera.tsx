@@ -89,7 +89,7 @@ export class Camera extends Component<Props, State> implements tile.MappableProp
                     </button>
                 }
                 <button className='reload' onClick={this.onReload}>
-                    <Icon name='reload' color='cccccc' />
+                    <Icon name='reload' color='6020a0' />
                 </button>
                 <ZoomModal>
                     <AuthContextConsumer>
