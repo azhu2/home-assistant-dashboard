@@ -147,7 +147,7 @@ export const Layout = (props: Props) => {
                             {getTile(NeedleGauge, 'sensor.desktop_402nh5i_cpu_core_tctl_tdie_temperature', { tileOptions: { name: 'CPU (Tctl/Tdie)' }, tileProps: { min: 35, max: 95 } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_gpu_gpu_core_load', { tileOptions: { name: 'GPU' } })}
                             {getTile(NeedleGauge, 'sensor.desktop_402nh5i_gpu_gpu_core_temperature', { tileOptions: { name: 'GPU Temp' }, tileProps: { min: 35, max: 95 } })}
-                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_total_memory_memory_load', { tileOptions: { name: 'Memoory', formatter: formatter.WithPrecision(1) } })}
+                            {getTile(PercentGauge, 'sensor.desktop_402nh5i_total_memory_memory_load', { tileOptions: { name: 'Memory', formatter: formatter.WithPrecision(1) } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_1_control', { tileOptions: { name: 'Radiator' } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_2_control', { tileOptions: { name: 'Side Intake' } })}
                             {getTile(PercentGauge, 'sensor.desktop_402nh5i_motherboard_fan_3_control', { tileOptions: { name: 'Bottom Intake' } })}
