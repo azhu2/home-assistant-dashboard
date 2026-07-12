@@ -100,7 +100,7 @@ export class HlsStream extends Component<Props, State> {
                 }, 10000);
             } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
                 console.error(`Stream media error for ${this.props.src} - ${data.details}. Will try to recover.`)
-                if (data.details != Hls.ErrorDetails.BUFFER_APPEND_ERROR) {
+                if (data.details !== Hls.ErrorDetails.BUFFER_APPEND_ERROR) {
                     this.setState({ ...this.state, status: Status.Error, err: 'Media error' });
                 }
                 hls.recoverMediaError();
