@@ -82,6 +82,9 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.standing_lamp', { tileOptions: { icon: 'table-lights' } })}
                             {getTile(Light, 'switch.pendant_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                         </Room>
+                        <Room title='Garage'>
+                            {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
+                        </Room>
                         <Room title='Grow Lights'>
                             {getTile(Light, 'switch.bedroom_grow_lights', { tileOptions: { icon: 'curtain-light' } })}
                             {getTile(Light, 'switch.living_room_grow_lights', { tileOptions: { icon: 'ceiling-light' } })}
@@ -89,27 +92,6 @@ export const Layout = (props: Props) => {
                             {getTile(Light, 'switch.office_grow_lamp', { tileOptions: { icon: 'desk-lamp' } })}
                             {getTile(Light, 'switch.office_grow_light_1', { tileOptions: { icon: 'led-bulb' } })}
                             {getTile(Light, 'switch.office_grow_light_2', { tileOptions: { icon: 'led-bulb' } })}
-                        </Room>
-                        <Room title='Garage'>
-                            {getTile(Garage, 'cover.garage_door_ratgdo', { tileOptions: { icon: 'garage-closed' } })}
-                        </Room>
-                        <Room title='Corvette'>
-                            {getTile(Gauge, 'sensor.2025_chevrolet_corvette_e_ray_odo_read', { tileOptions: { name: 'Odometer', formatter: formatter.ToThousands } })}
-                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_fuel_level', { tileOptions: { name: 'Fuel', formatter: formatter.WithPrecision(0) } })}
-                            {getTile(InversePercentGauge, 'sensor.2025_chevrolet_corvette_e_ray_eol_read', { tileOptions: { name: 'Oil', formatter: formatter.WithPrecision(0) } })}
-                            {getTile(TirePressure, 'binary_sensor.2025_chevrolet_corvette_e_ray_command_status_monitor_sensors_polling_status_successful', {
-                                tileOptions: { name: 'Tires' },
-                                secondaryEntityIDs: [
-                                    'sensor.2025_chevrolet_corvette_e_ray_left_front_tire_pressure_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_right_front_tire_pressure_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_left_rear_tire_pressure_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_right_rear_tire_pressure_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_front_placard_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_front_placard_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_rear_placard_psi',
-                                    'sensor.2025_chevrolet_corvette_e_ray_rear_placard_psi',
-                                ]
-                            })}
                         </Room>
                     </Section>
                     <Section title='System'>
