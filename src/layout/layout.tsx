@@ -148,7 +148,7 @@ export const Layout = (props: Props) => {
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
                                             ...getThermostatTargetSeries('climate.downstairs_ac_ha'),
-                                            { label: 'Downstairs', entityID: new haEntity.EntityID('sensor.downstairs_remote_temperature') },
+                                            { label: 'Downstairs', entityID: new haEntity.EntityID('sensor.bedroom_alpstuga_temperature') },
                                         ]}
                                         annotations={[
                                             { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.downstairs_ac_heating') },
@@ -158,8 +158,10 @@ export const Layout = (props: Props) => {
                                 </div>
                             </div>
                             <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.downstairs_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.downstairs_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.downstairs_alpstuga_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.downstairs_alpstuga_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.downstairs_alpstuga_carbon_dioxide', { tileOptions: { name: 'CO2', formatter: formatter.WithPrecision(0) }, tileProps: { min: 400, max: 1000 } })}
+                                {getTile(NeedleGauge, 'sensor.downstairs_alpstuga_pm2_5', { tileOptions: { name: 'PM2.5', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                         <Room title='Office'>
@@ -169,7 +171,7 @@ export const Layout = (props: Props) => {
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
                                             ...getThermostatTargetSeries('climate.office_ac_ha'),
-                                            { label: 'Office', entityID: new haEntity.EntityID('sensor.office_remote_temperature') },
+                                            { label: 'Office', entityID: new haEntity.EntityID('sensor.office_alpstuga_temperature') },
                                         ]}
                                         annotations={[
                                             { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.office_ac_heating') },
@@ -179,8 +181,10 @@ export const Layout = (props: Props) => {
                                 </div>
                             </div>
                             <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.office_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.office_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.office_alpstuga_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.office_alpstuga_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.office_alpstuga_carbon_dioxide', { tileOptions: { name: 'CO₂', formatter: formatter.WithPrecision(0) }, tileProps: { min: 400, max: 1000 } })}
+                                {getTile(NeedleGauge, 'sensor.office_alpstuga_pm2_5', { tileOptions: { name: 'PM2.5', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                         <Room title='Bedroom'>
@@ -190,7 +194,7 @@ export const Layout = (props: Props) => {
                                     <Graph yAxisGridIncrement={5} xAxisGridIncrement={4 * time.Hour} numBuckets={288}
                                         series={[
                                             ...getThermostatTargetSeries('climate.bedroom_ac_ha'),
-                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_remote_temperature') },
+                                            { label: 'Bedroom', entityID: new haEntity.EntityID('sensor.bedroom_alpstuga_temperature') },
                                         ]}
                                         annotations={[
                                             { label: 'Heating', entityID: new haEntity.EntityID('binary_sensor.bedroom_ac_heating') },
@@ -200,8 +204,10 @@ export const Layout = (props: Props) => {
                                 </div>
                             </div>
                             <div className='gauges'>
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
-                                {getTile(NeedleGauge, 'sensor.bedroom_remote_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_alpstuga_temperature', { tileOptions: { name: 'Temp', formatter: formatter.WithPrecision(1) }, tileProps: { min: 60, max: 90 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_alpstuga_humidity', { tileOptions: { name: 'Humidity', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_alpstuga_carbon_dioxide', { tileOptions: { name: 'CO₂', formatter: formatter.WithPrecision(0) }, tileProps: { min: 400, max: 1000 } })}
+                                {getTile(NeedleGauge, 'sensor.bedroom_alpstuga_pm2_5', { tileOptions: { name: 'PM2.5', formatter: formatter.WithPrecision(0) }, tileProps: { min: 0, max: 100 } })}
                             </div>
                         </Room>
                     </Section>

@@ -133,5 +133,17 @@ export const subscribedEntities: Set<string> = new Set([
     'sensor.desktop_402nh5i_motherboard_fan_5_control',
     'sensor.desktop_402nh5i_motherboard_fan_6_control',
     'sensor.desktop_402nh5i_wi_fi_download_speed_throughput_mbps',
-    'sensor.desktop_402nh5i_wi_fi_upload_speed_throughput_mbps'
+    'sensor.desktop_402nh5i_wi_fi_upload_speed_throughput_mbps',
+    'sensor.bedroom_alpstuga_carbon_dioxide',
+    'sensor.bedroom_alpstuga_humidity',
+    'sensor.bedroom_alpstuga_temperature',
+    'sensor.bedroom_alpstuga_pm2_5',
+    'sensor.downstairs_alpstuga_carbon_dioxide',
+    'sensor.downstairs_alpstuga_humidity',
+    'sensor.downstairs_alpstuga_temperature',
+    'sensor.downstairs_alpstuga_pm2_5',
+    'sensor.office_alpstuga_carbon_dioxide',
+    'sensor.office_alpstuga_humidity',
+    'sensor.office_alpstuga_temperature',
+    'sensor.office_alpstuga_pm2_5',
 ]);
